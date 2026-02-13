@@ -1,0 +1,73 @@
+Tone 1 | 99 | Sunday Resurrectional Apolitikia
+Tone 2 | 103 | Sunday Resurrectional Apolitikia
+Tone 3 | 107 | Sunday Resurrectional Apolitikia
+Tone 4 | 111 | Sunday Resurrectional Apolitikia
+Tone 5 | 115 | Sunday Resurrectional Apolitikia
+Tone 6 | 119 | Sunday Resurrectional Apolitikia
+Tone 7 | 123 | Sunday Resurrectional Apolitikia
+Tone 8 | 127 | Sunday Resurrectional Apolitikia
+
+First Sunday of Lent — Sunday of Orthodoxy | 129 | Apolitikia from the Triodion
+Second Sunday of Lent — St. Gregory Palamas | 133 | Apolitikia from the Triodion
+Third Sunday of Lent — as on September 14 | 181 | Apolitikia from the Triodion
+Fourth Sunday of Lent — St. John of The Ladder | 137 | Apolitikia from the Triodion
+Fifth Sunday of Lent — St. Mary of Egypt | 141 | Apolitikia from the Triodion
+Lazarus Saturday and Palm Sunday | 145 | Apolitikia from the Triodion
+Palm Sunday | 149 | Apolitikia from the Triodion
+
+Pascha | 153 | Apolitikia from the Pentecostarion
+Sunday of Thomas | 155 | Apolitikia from the Pentecostarion
+Sunday of the Myrrh-bearing Women | 159 | Apolitikia from the Pentecostarion
+Sunday of the Myrrh-bearing Women: another apolitikion | 163 | Apolitikia from the Pentecostarion
+Mid-Pentecost / Sunday of the Samaritan Woman | 167 | Apolitikia from the Pentecostarion
+The Ascension of the Lord | 169 | Apolitikia from the Pentecostarion
+Sunday of the Holy Fathers | 171 | Apolitikia from the Pentecostarion
+Pentecost | 173 | Apolitikia from the Pentecostarion
+Sunday of All Saints | 175 | Apolitikia from the Pentecostarion
+
+September 8 — The Birth of the Theotokos | 177 | Apolitikia from the Menaion
+September 14 — The Elevation of the Holy Cross | 181 | Apolitikia from the Menaion
+November 21 — The Entry of the Theotokos into the Temple | 183 | Apolitikia from the Menaion
+Sunday of the Holy Ancestors of Christ | 187 | Apolitikia from the Menaion
+Preparation of the Nativity of the Lord | 191 | Apolitikia from the Menaion
+Sunday before the Nativity of the Lord | 195 | Apolitikia from the Menaion
+December 25 — The Nativity of the Lord | 199 | Apolitikia from the Menaion
+Sunday after the Nativity of the Lord | 203 | Apolitikia from the Menaion
+Preparation of Theophany | 205 | Apolitikia from the Menaion
+January 6 — Theophany | 210 | Apolitikia from the Menaion
+February 2 — The Presentation of the Lord in the Temple | 213 | Apolitikia from the Menaion
+March 25 — Annunciation | 217 | Apolitikia from the Menaion
+August 6 — The Transfiguration of the Lord | 221 | Apolitikia from the Menaion
+August 15 — The Dormition of the Theotokos | 223 | Apolitikia from the Menaion
+
+Ordinary Kontakion | 225 | Kontakia
+September 8 — The Birth of the Theotokos | 229 | Kontakia
+September 14 — The Exaltation of the Holy Cross | 233 | Kontakia
+November 21 — The Entry of the Theotokos into the Temple | 237 | Kontakia
+The Season before the Nativity of the Lord | 241 | Kontakia
+December 25 — The Nativity of the Lord | 245 | Kontakia
+January 6 — Theophany | 249 | Kontakia
+February 2 — The Presentation of the Lord in the Temple | 251 | Kontakia
+Sunday of the Publican and the Pharisee | 255 | Kontakia
+Sunday of the Prodigal Son | 257 | Kontakia
+Sunday of the Last Judgement | 261 | Kontakia
+Sunday of Forgiveness | 265 | Kontakia
+March 25 — Annunciation | 269 | Kontakia
+Palm Sunday | 273 | Kontakia
+Pascha | 275 | Kontakia
+The Ascension of the Lord | 279 | Kontakia
+Pentecost | 281 | Kontakia
+Sunday of All Saints | 283 | Kontakia
+August 6 — The Transfiguration of the Lord | 285 | Kontakia
+August 15 — The Dormition of the Theotokos | 289 | Kontakia
+
+September 14 and The Third Sunday of Lent (Ton stavron su) | 291 | Hymns sung instead of the Trisagion
+Pascha, Pentecost, Nativity of the Lord, Baptisms (Osi is Hriston) | 293 | Hymns sung instead of the Trisagion
+Alternate Cherubic Hymn | 295 | Hymns sung instead of the Trisagion
+
+At the Liturgy of St. Basil | 299 | Megalynaria
+Palm Sunday | 303 | Megalynaria
+Pascha | 305 | Megalynaria
+Sunday of Thomas | 309 | Megalynaria
+Pentecost | 311 | Megalynaria
+The Nativity of the Lord | 313 | Megalynaria

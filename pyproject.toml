@@ -1,0 +1,15 @@
+[project]
+name = "goarch-web-scraper"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "aiofiles>=25.1.0",
+    "httpx>=0.28.1",
+    "ipython>=9.7.0",
+    "lxml>=6.0.2",
+    "pillow>=12.0.0",
+    "pyyaml>=6.0.3",
+    "selectolax>=0.4.4",
+]

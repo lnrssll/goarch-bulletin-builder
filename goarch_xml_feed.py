@@ -63,7 +63,7 @@ async def identify_icon(
             # synaxarion = tree.xpath('/saintfeast/readings/translations[@lang="en"]/body/text()')[0]
             return str(title)
 
-    return None
+    return ""
 
 
 def process_epistle_page(tree: etree._Element) -> EpistlePageData:

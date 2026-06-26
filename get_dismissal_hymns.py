@@ -28,9 +28,10 @@ def get_dismissal_hymns(sections: Dict[str, List[RowItem]]) -> List[DismissalHym
                 case "source":
                     hymn_data["source"] = to_alphanumeric(row.text).removeprefix("From").strip()
                 case "mode":
-                    mode_number = re.search(r"\d", row.text).group()
                     prefix = "Plagal " if "pl" in row.text else ""
-                    hymn_data["mode"] = prefix + mode_number
+                    match = re.search(r"\d", row.text)
+                    number = match.group() if match else ""
+                    hymn_data["mode"] = prefix + number
                 case "hymn":
                     hymn_data["text"] = row.node.css_first("span").text()
 

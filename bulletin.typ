@@ -2,7 +2,7 @@
 
 #set page(
   paper: "a6",
-  margin: (x: 1.0cm, y: 1.2cm),
+  margin: (x: 1.0cm, y: 1.0cm),
 )
 
 #let manual_data = yaml(build_path + "manual.yaml")
@@ -38,7 +38,7 @@
 #align(bottom + center)[
   === Hymns of the Day
 
-  #text(size: size - 1.5pt)[
+  #text(size: 8pt)[
     #table(
       columns: 3,
       ..manual_data.dismissal_hymns.map(it => (it.title, emph[Mode #it.mode], emph(it.page))).flatten()

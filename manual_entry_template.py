@@ -30,5 +30,3 @@ async def run(run_date: date, out_dir: Path) -> None:
         ]
     }
     await write_yaml(data, out_path)
-
-    print(f"edit manual entry data at: {out_path}")

@@ -1,6 +1,6 @@
 from pathlib import Path
 import asyncio
-from datetime import date
+from datetime import date, timedelta
 
 from cli import build_parser
 
@@ -44,6 +44,17 @@ async def main() -> int:
     # )
 
     # print("bulletin ready at", output)
+
+    last_run_date = run_date - timedelta(days=7)
+    last_out_dir = BUILD_DIR / last_run_date.isoformat()
+
+    print(f"last build at: {last_out_dir}")
+    print(f"new build at: {out_dir}")
+
+    print("To compile bulletin from build data, run:")
+    print(f'"{run_date.isoformat()}" | typst watch --input date=($in) bulletin.typ out/($in).pdf')
+
+    print(f"PDF output at out/{run_date.isoformat()}.pdf")
 
     return 0
 

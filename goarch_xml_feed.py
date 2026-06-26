@@ -125,6 +125,34 @@ def process_saint_feast_page(tree: etree._Element) -> List[SaintFeastHymnData]:
     return data
 
 
+def compute_text_size_and_page_breaks(gospel_page_data: GospelPageData, epistle_page_data: EpistlePageData):
+        text_size_factor_decimal = math.sqrt(
+            (gospel_page_data.text_size_factor / 100.0)
+            * (epistle_page_data.text_size_factor / 100.0)
+        )
+        text_size_factor = 100 * round(text_size_factor_decimal, 2)
+
+        epistle_text_area_units = (
+            epistle_page_data.text_char_count * text_size_factor_decimal**2
+        )
+        gospel_text_area_units = (
+            gospel_page_data.text_char_count * text_size_factor_decimal**2
+        )
+
+        alleluia_page_break = (
+            max(gospel_text_area_units, epistle_text_area_units) < 1_200
+        )
+        alleluia_fits_on_epistle_page = epistle_text_area_units < 1_000
+        gospel_reading_fits_on_gospel_page = gospel_text_area_units < 1_400
+        gospel_page_break = (
+            alleluia_fits_on_epistle_page
+            and gospel_reading_fits_on_gospel_page
+            and not alleluia_page_break
+        )
+
+        return text_size_factor, alleluia_page_break, gospel_page_break
+
+
 async def pipeline(
     client: httpx.AsyncClient,
     url: str,
@@ -173,16 +201,10 @@ async def run(run_date: date, out_dir: Path) -> None:
             icon_title if icon_title != feed_data.lectionary_title else ""
         )
 
-        text_size_factor_decimal = math.sqrt(
-            (gospel_page_data.text_size_factor / 100.0)
-            * (epistle_page_data.text_size_factor / 100.0)
-        )
-        feed_data.text_size_factor = 100 * round(text_size_factor_decimal, 2)
-        gospel_text_area_units = (
-            gospel_page_data.text_char_count * text_size_factor_decimal**2
-        )
-        feed_data.alleluia_page_break = gospel_text_area_units < 1_200
-        feed_data.gospel_page_break = (
-            gospel_text_area_units < 1_400 and not feed_data.alleluia_page_break
-        )
+        text_size_factor, alleluia_page_break, gospel_page_break = compute_text_size_and_page_breaks(gospel_page_data, epistle_page_data)
+
+        feed_data.text_size_factor = text_size_factor
+        feed_data.alleluia_page_break = alleluia_page_break
+        feed_data.gospel_page_break = gospel_page_break
+
         await write_yaml(asdict(feed_data), out_dir / "feed.yaml")

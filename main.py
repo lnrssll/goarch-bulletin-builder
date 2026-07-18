@@ -52,7 +52,7 @@ async def main() -> int:
     print(f"new build at: {out_dir}")
 
     print("To compile bulletin from build data, run:")
-    print(f'"{run_date.isoformat()}" | typst watch --input date=($in) bulletin.typ out/($in).pdf')
+    print(f'"{run_date.isoformat()}" | typst watch --input date=($in) booklet.typ out/($in).pdf')
 
     print(f"PDF output at out/{run_date.isoformat()}.pdf")
 

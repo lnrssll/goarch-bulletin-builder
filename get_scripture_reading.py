@@ -61,8 +61,10 @@ def get_epistle(rows: List[RowItem]) -> ScriptureReading:
 
 def get_alleluia(rows: List[RowItem]) -> List[str]:
     title_row = rows[0]
-    mode = next(n for n in title_row.node.css("span") if n.text().startswith("Mode"))
-    _mode_number = re.search(r"\d", mode.text()).group()
+    mode = next(n for n in title_row.node.css("span > span") if "Mode" in n.text())
+    mode_number_search = re.search(r"\d", mode.text())
+    grave_mode = 7 if "Grave" in mode.text() else None
+    _mode_number = mode_number_search.group() if mode_number_search else grave_mode
     _source = title_row.node.css("span")[-1].text().rstrip(".")
 
     verse_rows: List[RowItem] = [

@@ -22,7 +22,7 @@
 #let front_page = [
   #set text(size: size)
 
-  #align(top + center)[
+  #align(center + horizon)[
     #title[#(feed_data.lectionary_title)]
     #if feed_data.icon_title.len() > 0 [
       #text(size: size)[_On #feed_data.formatted_date, we commemorate_ \ #feed_data.icon_title]
@@ -31,9 +31,10 @@
     ]
   ]
 
-  #align(center + horizon)[
-    #image(image_path, height: 50%)
-  ]
+  // removed images on 08-02-2026
+  // #align(center + horizon)[
+  //   #image(image_path, height: 50%)
+  // ]
 
   #set table(
     stroke: none,

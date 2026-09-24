@@ -1,4 +1,4 @@
-# Constants for text_sizing.py (see tasks/001-text-sizing.md). Lengths are in
+# Constants for text_sizing.py (see docs/text_sizing.md). Lengths are in
 # em of the reading font size. Spacings and leading come from layout.yaml.
 # Checked by eye against rendered PDFs; if pages come out consistently
 # underfilled or overflowing, adjust glyph_advance_em first.

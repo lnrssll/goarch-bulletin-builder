@@ -1,52 +1,54 @@
+import asyncio
 import re
+from collections.abc import Callable
+from dataclasses import asdict
+from datetime import date
 from pathlib import Path
 from urllib.parse import urlparse
-from dataclasses import asdict
-from selectolax.parser import HTMLParser
-import httpx
-import asyncio
-from datetime import date
-from lxml import etree
-from typing import List, Callable, TypeVar
 
-from utils import download_image, fetch_xml, write_yaml
+import httpx
+from lxml import etree
+from selectolax.parser import HTMLParser
+
 from classes import (
     DailyFeedPageData,
     EpistlePageData,
     GospelPageData,
     SaintFeastHymnData,
 )
+from utils import download_image, fetch_xml, http_client, write_yaml, xpath_text
 
-DISMISSAL_HYMN_CHAR_LIMIT = 45
-T = TypeVar("T")
+
+def paragraphs(body_html: str) -> list[str]:
+    return [p.text() for p in HTMLParser(body_html).css("p")]
 
 
 def process_daily_feed_page(tree: etree._Element) -> DailyFeedPageData:
     data = DailyFeedPageData()
 
-    data.lectionary_title = str(tree.xpath("/onlinechapel/lectionarytitle/text()")[0])
-    data.formatted_date = " ".join(
-        str(tree.xpath("/onlinechapel/formatteddate/text()")[0]).split(" ")[1:]
+    data.lectionary_title = xpath_text(tree, "/onlinechapel/lectionarytitle/text()")
+    _weekday, _, data.formatted_date = xpath_text(
+        tree, "/onlinechapel/formatteddate/text()"
+    ).partition(" ")
+    data.epistle_page_url = xpath_text(
+        tree, '/onlinechapel/readings/reading[type="E"]/url/text()'
     )
-    data.epistle_page_url = str(
-        tree.xpath('/onlinechapel/readings/reading[type="E"]/url/text()')[0]
-    )
-    data.gospel_page_url = str(
-        tree.xpath('/onlinechapel/readings/reading[type="G"]/url/text()')[0]
+    data.gospel_page_url = xpath_text(
+        tree, '/onlinechapel/readings/reading[type="G"]/url/text()'
     )
     data.saint_and_feast_urls = [
         str(url)
         for url in tree.xpath("/onlinechapel/saintsfeasts/saintfeast/url/text()")
     ]
-    data.icon_src = str(tree.xpath("/onlinechapel/icon/text()")[0])
+    data.icon_src = xpath_text(tree, "/onlinechapel/icon/text()")
     data.icon_filename = Path(urlparse(data.icon_src).path).name
 
     return data
 
 
 async def identify_icon(
-    client: httpx.AsyncClient, icon_src: str, commemoration_urls: List[str]
-):
+    client: httpx.AsyncClient, icon_src: str, commemoration_urls: list[str]
+) -> str:
     tasks = [asyncio.create_task(fetch_xml(client, url)) for url in commemoration_urls]
     for coro in asyncio.as_completed(tasks):
         try:
@@ -54,13 +56,10 @@ async def identify_icon(
         except Exception:
             continue
 
-        if tree.xpath("/saintfeast/icons/icon/url/text()")[0] == icon_src:
+        if xpath_text(tree, "/saintfeast/icons/icon/url/text()") == icon_src:
             for t in tasks:
                 t.cancel()
-
-            title = tree.xpath("/saintfeast/title/text()")[0]
-            # synaxarion = tree.xpath('/saintfeast/readings/translations[@lang="en"]/body/text()')[0]
-            return str(title)
+            return xpath_text(tree, "/saintfeast/title/text()")
 
     return ""
 
@@ -70,16 +69,15 @@ def process_epistle_page(tree: etree._Element) -> EpistlePageData:
 
     tree = tree.xpath('/onlinechapel/translation[@xml:lang="en"]')[0]
 
-    title = str(tree.xpath("title/text()")[0])
-    split_char = re.search(r"\d", title)
-    data.book = title[: split_char.start()].rstrip()
-    data.chapverse = title[split_char.start() :].lstrip()
+    title = xpath_text(tree, "title/text()")
+    first_digit = re.search(r"\d", title).start()
+    data.book = title[:first_digit].rstrip()
+    data.chapverse = title[first_digit:].lstrip()
 
-    data.prokeimenon = str(tree.xpath("prokprokeimenon/text()")[0])
-    data.verse = str(tree.xpath("prokverse/text()")[0]).lstrip("Verse: ")
-    data.mode = int(tree.xpath("prokmode/text()")[0])
-    body_html = str(tree.xpath("body/text()")[0])
-    data.text = [x.text() for x in HTMLParser(body_html).css("p")]
+    data.prokeimenon = xpath_text(tree, "prokprokeimenon/text()")
+    data.verse = xpath_text(tree, "prokverse/text()").removeprefix("Verse: ")
+    data.mode = int(xpath_text(tree, "prokmode/text()"))
+    data.text = paragraphs(xpath_text(tree, "body/text()"))
 
     return data
 
@@ -89,67 +87,54 @@ def process_gospel_page(tree: etree._Element) -> GospelPageData:
 
     tree = tree.xpath('/onlinechapel/translation[@xml:lang="en"]')[0]
 
-    author, _, data.chapverse = str(tree.xpath("title/text()")[0]).partition(" ")
+    author, _, data.chapverse = xpath_text(tree, "title/text()").partition(" ")
     data.book = "The Holy Gospel According to St. " + author
-    body_html = str(tree.xpath("body/text()")[0])
-    data.text = [x.text() for x in HTMLParser(body_html).css("p")]
+    data.text = paragraphs(xpath_text(tree, "body/text()"))
 
     return data
 
 
-def process_saint_feast_page(tree: etree._Element) -> List[SaintFeastHymnData]:
-    data: List[SaintFeastHymnData] = []
-
-    hymns = tree.xpath("/saintfeast/hymns/hymn")
-
-    for tree in hymns:
-        hymn_data = SaintFeastHymnData()
-
-        hymn_data.title = str(tree.xpath("title/text()")[0])
-        hymn_data.short_title = str(tree.xpath("shorttitle/text()")[0])
-        hymn_data.tone = str(tree.xpath("tone/text()")[0])
-        hymn_data.type = str(tree.xpath("type/text()")[0])
-        hymn_data.body = str(tree.xpath('translation[@lang="en"]/body/text()')[0])
-
-        data.push(hymn_data)
-
-    return data
+def process_saint_feast_page(tree: etree._Element) -> list[SaintFeastHymnData]:
+    return [
+        SaintFeastHymnData(
+            title=xpath_text(hymn, "title/text()"),
+            short_title=xpath_text(hymn, "shorttitle/text()"),
+            tone=xpath_text(hymn, "tone/text()"),
+            type=xpath_text(hymn, "type/text()"),
+            body=xpath_text(hymn, 'translation[@lang="en"]/body/text()'),
+        )
+        for hymn in tree.xpath("/saintfeast/hymns/hymn")
+    ]
 
 
-async def pipeline(
+async def fetch_and_write[T](
     client: httpx.AsyncClient,
     url: str,
     out_path: Path,
     process: Callable[[etree._Element], T],
-) -> None:
-    tree = await fetch_xml(client, url)
-    data = process(tree)
-    if out_path:
-        await write_yaml(asdict(data), out_path)
+) -> T:
+    data = process(await fetch_xml(client, url))
+    await write_yaml(asdict(data), out_path)
     return data
 
 
 async def run(run_date: date, out_dir: Path) -> None:
-    base_url = "https://onlinechapel.goarch.org/daily"
-    params = f"date={run_date.month}/{run_date.day}/{run_date.year}"
-    index_page_url = f"{base_url}?{params}"
+    index_page_url = (
+        "https://onlinechapel.goarch.org/daily"
+        f"?date={run_date.month}/{run_date.day}/{run_date.year}"
+    )
 
-    timeout = httpx.Timeout(20.0, connect=10.0)
-    headers = {}
-
-    async with httpx.AsyncClient(timeout=timeout, headers=headers) as client:
-        feed_data: DailyFeedPageData = await pipeline(
-            client, index_page_url, None, process_daily_feed_page
-        )
-        icon_title, _, _, _ = await asyncio.gather(
+    async with http_client() as client:
+        feed_data = process_daily_feed_page(await fetch_xml(client, index_page_url))
+        icon_title, *_ = await asyncio.gather(
             identify_icon(client, feed_data.icon_src, feed_data.saint_and_feast_urls),
-            pipeline(
+            fetch_and_write(
                 client,
                 feed_data.epistle_page_url,
                 out_dir / "epistle.yaml",
                 process_epistle_page,
             ),
-            pipeline(
+            fetch_and_write(
                 client,
                 feed_data.gospel_page_url,
                 out_dir / "gospel.yaml",

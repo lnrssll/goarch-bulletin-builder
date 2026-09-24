@@ -1,52 +1,52 @@
 from dataclasses import dataclass
-from typing import List, Dict
-from selectolax.parser import HTMLParser
+
+from selectolax.parser import Node
 
 
 @dataclass
 class RowItem:
     kind: str
     text: str
-    node: HTMLParser
+    node: Node
+
+
+type DcsSections = dict[str, list[RowItem]]
 
 
 @dataclass
 class DismissalHymnData:
-    title: str
-    mode: str
-    source: str
-    text: str
+    title: str | None = None
+    mode: str | None = None
+    source: str | None = None
+    text: str | None = None
 
 
 @dataclass
 class DcsScriptureReadingSections:
-    epistle_section: List[RowItem] | None = None
-    alleluia_section: List[RowItem] | None = None
-    gospel_section: List[RowItem] | None = None
+    epistle_section: list[RowItem] | None = None
+    alleluia_section: list[RowItem] | None = None
+    gospel_section: list[RowItem] | None = None
 
 
 @dataclass
 class ScriptureReading:
     author: str
     chapverse: str
-    text: List[str]
+    reading: str
 
 
 @dataclass
 class ScriptureReadingData:
-    prokeimenon: List[str] | None = None
+    prokeimenon: list[str] | None = None
     epistle: ScriptureReading | None = None
-    alleluia: List[str] | None = None
+    alleluia: list[str] | None = None
     gospel: ScriptureReading | None = None
-
-
-type DcsSections = Dict[str, List[RowItem]]
 
 
 @dataclass
 class LiturgyVariablesPageData:
-    dismissal_hymns: List[DismissalHymnData] | None = None
-    alleluia: List[str] | None = None
+    dismissal_hymns: list[DismissalHymnData] | None = None
+    alleluia: list[str] | None = None
 
 
 @dataclass
@@ -58,13 +58,13 @@ class DailyFeedPageData:
     icon_title: str | None = None
     epistle_page_url: str | None = None
     gospel_page_url: str | None = None
-    saint_and_feast_urls: List[str] | None = None
+    saint_and_feast_urls: list[str] | None = None
     text_size_factor: float | None = None
     alleluia_page_break: bool | None = None
     gospel_page_break: bool | None = None
     font_size_pt: float | None = None
     layout: str | None = None
-    page_fill: List[float] | None = None
+    page_fill: list[float] | None = None
 
 
 @dataclass
@@ -74,14 +74,14 @@ class EpistlePageData:
     prokeimenon: str | None = None
     verse: str | None = None
     mode: int | None = None
-    text: List[str] | None = None
+    text: list[str] | None = None
 
 
 @dataclass
 class GospelPageData:
     book: str | None = None
     chapverse: str | None = None
-    text: List[str] | None = None
+    text: list[str] | None = None
 
 
 @dataclass

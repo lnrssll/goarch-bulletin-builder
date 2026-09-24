@@ -4,3 +4,8 @@
 
 See if we can improve the robustness of the DCS parsing to start actually using the parsed data in the document, to reduce the burden of the `manual.yaml`
 
+## Known state (2026-09-24)
+
+- `get_prokeimenon` no longer matches the live DCS markup (no rows start with "Prokeimenon"), so `get_scripture_reading_data` raises. `get_reading` and `get_alleluia_mode` still work.
+- Task 003 step 1 (offline fixture tests) should land first, so parsing changes here can be checked without hitting the network.
+

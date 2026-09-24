@@ -1,4 +1,4 @@
-#import "build_path.typ": date, build_path
+#import "build_path.typ": build_path
 
 #let manual_data = yaml(build_path + "manual.yaml")
 
@@ -10,8 +10,6 @@
 #let layout = yaml("data/layout.yaml")
 
 #let size = layout.text.base_size_pt * 1pt * (feed_data.text_size_factor / 100)
-
-#let image_path = build_path + feed_data.icon_filename
 
 ////////////////////////////////////////////////////////////////////////////////
 // PAGE CONTENT
@@ -37,11 +35,6 @@
     ]
   ]
 
-  // removed images on 08-02-2026
-  // #align(center + horizon)[
-  //   #image(image_path, height: 50%)
-  // ]
-
   #set table(
     stroke: none,
     align: left
@@ -63,15 +56,13 @@
   === The Reading is from #(data.book)
   #emph(data.chapverse)
 
-  #text(size: size)[
-    #set par(
-      first-line-indent: layout.text.indent_em * 1em,
-      spacing: layout.text.para_spacing_em * 1em,
-    )
+  #set par(
+    first-line-indent: layout.text.indent_em * 1em,
+    spacing: layout.text.para_spacing_em * 1em,
+  )
 
-    #for paragraph in data.text [
-      #paragraph #parbreak()
-    ]
+  #for paragraph in data.text [
+    #paragraph #parbreak()
   ]
 ]
 
@@ -94,12 +85,13 @@
 #let alleluia_section = [
   === The Alleluia
 
-  #for stichoi in dcs_data.alleluia [
-    #set par(
-      hanging-indent: layout.text.indent_em * 1em,
-      spacing: layout.text.verse_spacing_em * 1em
-    )
-    #stichoi
+  #set par(
+    hanging-indent: layout.text.indent_em * 1em,
+    spacing: layout.text.verse_spacing_em * 1em
+  )
+
+  #for verse in dcs_data.alleluia [
+    #verse #parbreak()
   ]
 ]
 

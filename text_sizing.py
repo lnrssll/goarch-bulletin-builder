@@ -3,7 +3,6 @@ import math
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 import yaml
 
@@ -17,6 +16,7 @@ SIZE_STEP_PT = 0.1
 LAYOUT_TIE_TOLERANCE_PT = 0.0  # accept a smaller size (in pt) to keep a preferred layout
 SMALL_SIZE_NOTICE_PT = 7.0
 VERSE_LABEL = "Verse: "
+READING_HEADING = "The Reading is from "
 
 # in order of preference
 LAYOUTS = ("split_before_alleluia", "split_before_gospel", "flow")
@@ -49,7 +49,7 @@ class TextMetrics:
 @dataclass
 class Block:
     name: str
-    paragraphs: List[int]
+    paragraphs: list[int]
     fixed_em: float
     spacing_em: float
     heading_chars: int = 0  # a heading's first line is part of fixed_em; wrapped lines are not
@@ -57,7 +57,7 @@ class Block:
 
 @dataclass
 class PageConstraint:
-    blocks: List[Block]
+    blocks: list[Block]
     height: float
 
 
@@ -67,8 +67,15 @@ class SizingResult:
     layout: str
     alleluia_page_break: bool
     gospel_page_break: bool
-    page_fill: Tuple[float, float]
-    candidates: Dict[str, float] = field(default_factory=dict)
+    page_fill: tuple[float, float]
+    candidates: dict[str, float] = field(default_factory=dict)
+
+
+@dataclass
+class Model:
+    box: PageBox
+    metrics: TextMetrics
+    base_size_pt: float
 
 
 class MissingBuildData(Exception):
@@ -102,7 +109,7 @@ def block_height(block: Block, s: float, box: PageBox, metrics: TextMetrics) -> 
     )
 
 
-def blocks_height(blocks: List[Block], s: float, box: PageBox, metrics: TextMetrics) -> float:
+def blocks_height(blocks: list[Block], s: float, box: PageBox, metrics: TextMetrics) -> float:
     return sum(block_height(b, s, box, metrics) for b in blocks)
 
 
@@ -167,7 +174,7 @@ def max_size_one(
 
 
 def max_size_for(
-    page_constraints: List[PageConstraint],
+    page_constraints: list[PageConstraint],
     box: PageBox,
     metrics: TextMetrics,
     s_max: float,
@@ -175,54 +182,60 @@ def max_size_for(
     return min(max_size_one(c, box, metrics, s_max) for c in page_constraints)
 
 
-def layout_constraints(
+def layout_pages(
     layout: str,
-    epistle: List[Block],
-    alleluia: List[Block],
-    gospel: List[Block],
-    box: PageBox,
+    epistle: list[Block],
+    alleluia: list[Block],
+    gospel: list[Block],
     metrics: TextMetrics,
-) -> List[PageConstraint]:
-    H = box.height * (1 - metrics.safety_margin)
-
+) -> list[list[Block]]:
     if layout == "split_before_alleluia":
-        return [PageConstraint(epistle, H), PageConstraint(alleluia + gospel, H)]
+        return [epistle, alleluia + gospel]
     if layout == "split_before_gospel":
-        return [PageConstraint(epistle + alleluia, H), PageConstraint(gospel, H)]
+        return [epistle + alleluia, gospel]
     if layout == "flow":
         slack = Block("flow_slack", [], metrics.flow_slack_em, 0.0)
-        return [PageConstraint(epistle + alleluia + gospel + [slack], 2 * H)]
+        return [epistle + alleluia + gospel + [slack]]
 
     raise ValueError(f"unknown layout {layout}")
+
+
+def layout_constraints(
+    layout: str,
+    epistle: list[Block],
+    alleluia: list[Block],
+    gospel: list[Block],
+    box: PageBox,
+    metrics: TextMetrics,
+) -> list[PageConstraint]:
+    pages = layout_pages(layout, epistle, alleluia, gospel, metrics)
+    both_pages_height = 2 * box.height * (1 - metrics.safety_margin)
+    return [PageConstraint(blocks, both_pages_height / len(pages)) for blocks in pages]
 
 
 def page_fill(
     layout: str,
     s: float,
-    epistle: List[Block],
-    alleluia: List[Block],
-    gospel: List[Block],
+    epistle: list[Block],
+    alleluia: list[Block],
+    gospel: list[Block],
     box: PageBox,
     metrics: TextMetrics,
-) -> Tuple[float, float]:
-    def h(blocks: List[Block]) -> float:
-        return blocks_height(blocks, s, box, metrics)
+) -> tuple[float, float]:
+    pages = layout_pages(layout, epistle, alleluia, gospel, metrics)
+    heights = [blocks_height(blocks, s, box, metrics) for blocks in pages]
+    if len(heights) == 1:
+        total = heights[0]
+        heights = [min(total, box.height), max(total - box.height, 0.0)]
 
-    if layout == "split_before_alleluia":
-        pages = (h(epistle), h(alleluia + gospel))
-    elif layout == "split_before_gospel":
-        pages = (h(epistle + alleluia), h(gospel))
-    else:
-        total = h(epistle + alleluia + gospel) + s * metrics.flow_slack_em
-        pages = (min(total, box.height), max(total - box.height, 0.0))
-
-    return (round(pages[0] / box.height, 3), round(pages[1] / box.height, 3))
+    first, second = (round(h / box.height, 3) for h in heights)
+    return first, second
 
 
 def choose_layout(
-    epistle: List[Block],
-    alleluia: List[Block],
-    gospel: List[Block],
+    epistle: list[Block],
+    alleluia: list[Block],
+    gospel: list[Block],
     box: PageBox,
     metrics: TextMetrics,
     s_max: float,
@@ -257,14 +270,11 @@ def choose_layout(
 ################################################################################
 
 
-READING_HEADING = "The Reading is from "
-
-
 def indent_chars(metrics: TextMetrics) -> int:
     return round(metrics.indent_em / metrics.glyph_advance_em)
 
 
-def epistle_blocks(epistle: dict, metrics: TextMetrics) -> List[Block]:
+def epistle_blocks(epistle: dict, metrics: TextMetrics) -> list[Block]:
     extra = indent_chars(metrics)
     verses = [epistle["prokeimenon"], VERSE_LABEL + epistle["verse"]]
     return [
@@ -284,7 +294,7 @@ def epistle_blocks(epistle: dict, metrics: TextMetrics) -> List[Block]:
     ]
 
 
-def alleluia_blocks(verses: List[str], metrics: TextMetrics) -> List[Block]:
+def alleluia_blocks(verses: list[str], metrics: TextMetrics) -> list[Block]:
     extra = indent_chars(metrics)
     return [
         Block(
@@ -296,7 +306,7 @@ def alleluia_blocks(verses: List[str], metrics: TextMetrics) -> List[Block]:
     ]
 
 
-def gospel_blocks(gospel: dict, metrics: TextMetrics) -> List[Block]:
+def gospel_blocks(gospel: dict, metrics: TextMetrics) -> list[Block]:
     extra = indent_chars(metrics)
     return [
         Block(
@@ -349,7 +359,12 @@ def load_metrics(layout: dict, path: Path = METRICS_PATH) -> TextMetrics:
     )
 
 
-def load_build(out_dir: Path) -> Dict[str, dict]:
+def load_model() -> Model:
+    layout = load_layout()
+    return Model(page_box(layout), load_metrics(layout), layout["text"]["base_size_pt"])
+
+
+def load_build(out_dir: Path) -> dict[str, dict]:
     missing = [name for name in REQUIRED_FILES if not (out_dir / name).exists()]
     if missing:
         raise MissingBuildData(f"{out_dir} is missing {', '.join(missing)}")
@@ -357,8 +372,8 @@ def load_build(out_dir: Path) -> Dict[str, dict]:
 
 
 def build_blocks(
-    data: Dict[str, dict], metrics: TextMetrics
-) -> Tuple[List[Block], List[Block], List[Block]]:
+    data: dict[str, dict], metrics: TextMetrics
+) -> tuple[list[Block], list[Block], list[Block]]:
     return (
         epistle_blocks(data["epistle.yaml"], metrics),
         alleluia_blocks(data["digital_chant_stand.yaml"]["alleluia"] or [], metrics),
@@ -366,22 +381,21 @@ def build_blocks(
     )
 
 
-def size_build(out_dir: Path) -> Tuple[SizingResult, Dict[str, dict], tuple]:
-    layout = load_layout()
-    metrics = load_metrics(layout)
-    box = page_box(layout)
+def size_build(
+    out_dir: Path, model: Model
+) -> tuple[SizingResult, dict[str, dict], tuple[list[Block], list[Block], list[Block]]]:
     data = load_build(out_dir)
-    blocks = build_blocks(data, metrics)
-    result = choose_layout(*blocks, box, metrics, layout["text"]["base_size_pt"])
+    blocks = build_blocks(data, model.metrics)
+    result = choose_layout(*blocks, model.box, model.metrics, model.base_size_pt)
     return result, data, blocks
 
 
 def run(out_dir: Path) -> SizingResult:
-    result, data, _ = size_build(out_dir)
-    base_size = load_layout()["text"]["base_size_pt"]
+    model = load_model()
+    result, data, _ = size_build(out_dir, model)
 
     feed = data["feed.yaml"]
-    feed["text_size_factor"] = round(100 * result.font_size_pt / base_size, 1)
+    feed["text_size_factor"] = round(100 * result.font_size_pt / model.base_size_pt, 1)
     feed["alleluia_page_break"] = result.alleluia_page_break
     feed["gospel_page_break"] = result.gospel_page_break
     feed["font_size_pt"] = result.font_size_pt
@@ -404,9 +418,9 @@ def run(out_dir: Path) -> SizingResult:
 ################################################################################
 
 
-def legacy_sizing(epistle_text: List[str], gospel_text: List[str]) -> Tuple[float, bool, bool]:
+def legacy_sizing(epistle_text: list[str], gospel_text: list[str]) -> tuple[float, bool, bool]:
     # verbatim copy of the pre-text_sizing formula, used only by --report
-    def factor(text: List[str]) -> int:
+    def factor(text: list[str]) -> int:
         n = len(" ".join(text))
         return min(round(100.0 * (1 - (1 - 1000.0 / n) ** 2)), 100)
 
@@ -442,22 +456,21 @@ def breaks_label(alleluia_page_break: bool, gospel_page_break: bool) -> str:
 
 
 def explain(out_dir: Path) -> None:
-    layout = load_layout()
-    metrics = load_metrics(layout)
-    box = page_box(layout)
-    result, _, blocks = size_build(out_dir)
+    model = load_model()
+    box, metrics, base_size = model.box, model.metrics, model.base_size_pt
+    result, _, blocks = size_build(out_dir, model)
     s = result.font_size_pt
 
     print(f"{out_dir}")
     print(f"box: {box.width:.1f} x {box.height:.1f}pt, safety margin {metrics.safety_margin:.0%}")
     print(f"chars/line at {s}pt: {chars_per_line(s, box, metrics):.1f}")
     print()
-    print(f"{'block':<12} {'chars':>6} {'paras':>6} {'height@' + str(s):>12} {'@' + str(layout['text']['base_size_pt']):>8}")
+    print(f"{'block':<12} {'chars':>6} {'paras':>6} {'height@' + str(s):>12} {'@' + str(base_size):>8}")
     for block in [b for section in blocks for b in section]:
         print(
             f"{block.name:<12} {sum(block.paragraphs):>6} {len(block.paragraphs):>6} "
             f"{block_height(block, s, box, metrics):>12.1f} "
-            f"{block_height(block, layout['text']['base_size_pt'], box, metrics):>8.1f}"
+            f"{block_height(block, base_size, box, metrics):>8.1f}"
         )
     print()
     for name, size in result.candidates.items():
@@ -468,8 +481,8 @@ def explain(out_dir: Path) -> None:
 
 
 def report(build_dir: Path = BUILD_DIR) -> None:
-    layout = load_layout()
-    base_size = layout["text"]["base_size_pt"]
+    model = load_model()
+    base_size = model.base_size_pt
 
     print(
         f"{'date':<11} {'E chars':>7} {'P':>2} {'G chars':>7} {'P':>2} "
@@ -477,7 +490,7 @@ def report(build_dir: Path = BUILD_DIR) -> None:
     )
     for out_dir in sorted(p for p in build_dir.iterdir() if p.is_dir()):
         try:
-            result, data, _ = size_build(out_dir)
+            result, data, _ = size_build(out_dir, model)
         except MissingBuildData as e:
             print(f"{out_dir.name:<11} skipped: {e}")
             continue

@@ -1,4 +1,4 @@
-#import "build_path.typ": date, build_path
+#import "build_path.typ": build_path
 
 #set text(size: 9pt)
 

@@ -1,13 +1,15 @@
-from pathlib import Path
-import yaml
-from typing import Dict
-from selectolax.parser import HTMLParser
-from lxml import etree
-import httpx
 import re
-import aiofiles
+from pathlib import Path
 
-verbose = True
+import aiofiles
+import httpx
+import yaml
+from lxml import etree
+from selectolax.parser import HTMLParser
+
+
+def http_client() -> httpx.AsyncClient:
+    return httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0))
 
 
 def to_alphanumeric(s: str) -> str:
@@ -18,6 +20,10 @@ def to_alpha(s: str | None) -> str:
     if s is None:
         return ""
     return re.sub(r"[^A-Za-z ]", "", s)
+
+
+def xpath_text(tree: etree._Element, path: str) -> str:
+    return str(tree.xpath(path)[0])
 
 
 async def fetch_html(client: httpx.AsyncClient, url: str) -> HTMLParser:
@@ -43,11 +49,7 @@ async def download_image(client: httpx.AsyncClient, src: str, out_path: Path) ->
             async for chunk in r.aiter_bytes():
                 await f.write(chunk)
 
-    return None
 
-
-async def write_yaml(data: Dict, out_path: Path) -> None:
+async def write_yaml(data: dict, out_path: Path) -> None:
     async with aiofiles.open(out_path, "w", encoding="utf-8") as f:
         await f.write(yaml.safe_dump(data) + "\n")
-
-    return None

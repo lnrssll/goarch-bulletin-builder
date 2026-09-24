@@ -1,118 +1,72 @@
-from typing import Dict, List
 import re
 
 from classes import (
-    RowItem,
     DcsScriptureReadingSections,
-    ScriptureReadingData,
-    ScriptureReading,
     DcsSections,
+    RowItem,
+    ScriptureReading,
+    ScriptureReadingData,
 )
 
 
-def get_reading_rows(rows: List[RowItem]) -> Dict:
-    author_row = next(row for row in rows if row.kind == "dialog")
-    chapverse_row = next(row for row in rows if row.kind == "chapverse")
-    reading_row = next(row for row in rows if row.kind == "reading")
-
-    return {
-        "author": author_row,
-        "chapverse": chapverse_row,
-        "reading": reading_row,
-    }
-
-
-def get_prokeimenon(rows: List[RowItem]) -> List[str]:
+def get_prokeimenon(rows: list[RowItem]) -> list[str]:
     found = False
-    prokeimenon_rows: List[RowItem] = []
+    prokeimenon_rows: list[RowItem] = []
     for row in rows:
         if row.kind == "dialog":
             break
-        if not found and row.text.startswith("Prokeimenon"):
-            found = True
+        found = found or row.text.startswith("Prokeimenon")
         if found:
             prokeimenon_rows.append(row)
-    title_row, prokeimenon_row, verse_row = prokeimenon_rows
-
-    mode = next(n for n in title_row.node.css("span") if n.text().startswith("Mode"))
-    _mode_number = re.search(r"\d", mode.text()).group()
-    _source = title_row.node.css("span")[-1].text().rstrip(".")
+    _title_row, prokeimenon_row, verse_row = prokeimenon_rows
 
     prokeimenon = prokeimenon_row.node.css_first("span").text()
     verse = verse_row.node.css_first('[data-key*="prokeimenon"]').text()
     return [prokeimenon, verse]
 
 
-def get_epistle(rows: List[RowItem]) -> ScriptureReading:
-    rows = get_reading_rows(rows)
-    author_row, chapverse_row, reading_row = (
-        rows["author"],
-        rows["chapverse"],
-        rows["reading"],
+def get_reading(rows: list[RowItem], data_key: str) -> ScriptureReading:
+    def first(kind: str) -> RowItem:
+        return next(row for row in rows if row.kind == kind)
+
+    selector = f'[data-key*="{data_key}"]'
+    return ScriptureReading(
+        author=first("dialog").text.rstrip("."),
+        chapverse=first("chapverse").node.css_first(selector).text(),
+        reading=first("reading").node.css_first(selector).text(),
     )
 
-    author = author_row.text.rstrip(".")
-    chapverse = chapverse_row.node.css_first('[data-key*="Epistle"]').text()
-    reading = reading_row.node.css_first('[data-key*="Epistle"]').text()
-    _translation = reading_row.node.css_first(".versiondesignation").text()
 
-    return {"author": author, "chapverse": chapverse, "reading": reading}
+def get_alleluia_mode(rows: list[RowItem]) -> int | None:
+    mode = next(n for n in rows[0].node.css("span > span") if "Mode" in n.text())
+    if "Grave" in mode.text():
+        return 7
+    number = re.search(r"\d", mode.text())
+    return int(number.group()) if number else None
 
 
-def get_alleluia(rows: List[RowItem]) -> List[str]:
-    title_row = rows[0]
-    mode = next(n for n in title_row.node.css("span > span") if "Mode" in n.text())
-    mode_number_search = re.search(r"\d", mode.text())
-    grave_mode = 7 if "Grave" in mode.text() else None
-    _mode_number = mode_number_search.group() if mode_number_search else grave_mode
-    _source = title_row.node.css("span")[-1].text().rstrip(".")
-
-    verse_rows: List[RowItem] = [
+def get_alleluia(rows: list[RowItem]) -> list[str]:
+    return [
         row.node.css_first('[data-key*="alleluia"]').text()
         for row in rows
         if row.kind == "verse"
     ]
-    return verse_rows
 
 
-def get_gospel(rows: List[RowItem]) -> ScriptureReading:
-    rows = get_reading_rows(rows)
-    author_row, chapverse_row, reading_row = (
-        rows["author"],
-        rows["chapverse"],
-        rows["reading"],
-    )
+def get_scripture_reading_sections(sections: DcsSections) -> DcsScriptureReadingSections:
+    data = DcsScriptureReadingSections(gospel_section=[])
 
-    author = author_row.text.rstrip(".")
-    chapverse = chapverse_row.node.css_first('[data-key*="Gospel"]').text()
-    reading = reading_row.node.css_first('[data-key*="Gospel"]').text()
-    _translation = reading_row.node.css_first(".versiondesignation").text()
-
-    return {"author": author, "chapverse": chapverse, "reading": reading}
-
-
-def get_scripture_reading_sections(
-    sections: DcsSections,
-) -> DcsScriptureReadingSections:
-    data = DcsScriptureReadingSections()
-
-    gospel_sections: List[List[RowItem]] = []
     found_gospel = False
     for section_title, rows in sections.items():
         if section_title == "The Epistle":
             data.epistle_section = rows
         if section_title.startswith("Alleluia"):
             data.alleluia_section = rows
-        if section_title == "The Gospel":
-            found_gospel = True
-            gospel_sections.append(rows)
-            continue
+        found_gospel = found_gospel or section_title == "The Gospel"
         if found_gospel:
-            gospel_sections.append(rows)
+            data.gospel_section.extend(rows)
         if section_title == "Hymn to the Theotokos.":
             break
-
-    data.gospel_section = sum(gospel_sections, [])
 
     return data
 
@@ -120,11 +74,9 @@ def get_scripture_reading_sections(
 def get_scripture_reading_data(
     sections: DcsScriptureReadingSections,
 ) -> ScriptureReadingData:
-    data = ScriptureReadingData()
-
-    data.prokeimenon = get_prokeimenon(sections.epistle_section)
-    data.epistle = get_epistle(sections.epistle_section)
-    data.alleluia = get_alleluia(sections.alleluia_section)
-    data.gospel = get_gospel(sections.gospel_section)
-
-    return data
+    return ScriptureReadingData(
+        prokeimenon=get_prokeimenon(sections.epistle_section),
+        epistle=get_reading(sections.epistle_section, "Epistle"),
+        alleluia=get_alleluia(sections.alleluia_section),
+        gospel=get_reading(sections.gospel_section, "Gospel"),
+    )

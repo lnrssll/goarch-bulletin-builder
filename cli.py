@@ -1,6 +1,9 @@
 import argparse
 from datetime import date, timedelta
 
+SUNDAY = 6
+
+
 def parse_day(value: str) -> int:
     day = int(value)
     if not 1 <= day <= 31:
@@ -22,24 +25,30 @@ def parse_year(value: str) -> int:
 
     current_year = date.today().year
     if year < current_year:
-        raise argparse.ArgumentTypeError(
-            f"YEAR must be >= {current_year}"
-        )
+        raise argparse.ArgumentTypeError(f"YEAR must be >= {current_year}")
 
     return year
 
 
-def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description="Run the scraper for a specific date"
-    )
+def next_sunday(today: date) -> date:
+    return today + timedelta(days=(SUNDAY - today.weekday()) or 7)
 
-    today = date.today()
-    sunday_weekday_index = 6
-    next_sunday = today + timedelta(days=((sunday_weekday_index - today.weekday()) or 7))
 
-    parser.add_argument("day",   type=parse_day,   nargs="?", metavar="DAY",   default=next_sunday.day)
-    parser.add_argument("month", type=parse_month, nargs="?", metavar="MONTH", default=next_sunday.month)
-    parser.add_argument("year",  type=parse_year,  nargs="?", metavar="YEAR",  default=next_sunday.year)
+def parse_run_date() -> date:
+    parser = argparse.ArgumentParser(description="Run the scraper for a specific date")
 
-    return parser
+    default = next_sunday(date.today())
+    parser.add_argument("day",   type=parse_day,   nargs="?", metavar="DAY",   default=default.day)
+    parser.add_argument("month", type=parse_month, nargs="?", metavar="MONTH", default=default.month)
+    parser.add_argument("year",  type=parse_year,  nargs="?", metavar="YEAR",  default=default.year)
+    args = parser.parse_args()
+
+    try:
+        run_date = date(args.year, args.month, args.day)
+    except ValueError as e:
+        parser.error(str(e))
+
+    if run_date.weekday() != SUNDAY:
+        parser.error(f"{run_date.isoformat()} is not a Sunday")
+
+    return run_date

@@ -4,6 +4,7 @@ font_size_pt: 10
 formatted_date: September 27, 2026
 gospel_page_break: false
 gospel_page_url: http://onlinechapel.goarch.org/lectionary.asp?type=G&code=169&event=1038&date=09/27/2026
+icon_filename: johntheo.jpg
 icon_src: http://onlinechapel.goarch.org/images/small/johntheo.jpg
 icon_title: ''
 layout: flow

@@ -6,9 +6,16 @@ Guidance for coding agents working in this repository.
 
 A generator for a weekly Sunday Divine Liturgy bulletin (Lake Havasu Orthodox Church mission). A Python scraper collects the liturgical variables for a given Sunday from two Greek Orthodox Archdiocese (GOARCH) sources and writes them as YAML. Typst templates then read that YAML and render a printable PDF.
 
+### Parish context
+
+Lake Havasu is a mission with no resident priest. A visiting priest serves the Divine Liturgy on **Saturdays**, using the hymns and readings of the *following Sunday*. So:
+- Everything is keyed by the Sunday's date (`main.py` requires a Sunday, and `build/`/`archive/` dirs use it). That is the liturgical day, even though the bulletin is handed out the day before.
+- In `manual.yaml`, `upcoming_services` dates are Saturdays. The template's next service is `run_date + 6` days on purpose: the Saturday before the next Sunday.
+- The visiting priests' contact details in `bulletin_back.typ` are real (see Known quirks).
+
 ```
 main.py -+-> digital_chant_stand.py ---> build/<date>/digital_chant_stand.yaml
-         +-> goarch_xml_feed.py -------> build/<date>/{feed,epistle,gospel}.yaml
+         +-> goarch_xml_feed.py -------> build/<date>/{feed,epistle,gospel}.yaml + icon image
          |     (both fetch through utils.SourceArchive -> archive/<date>/, committed)
          +-> manual_entry_template.py -> build/<date>/manual.yaml   (hand-edited)
          +-> text_sizing.py -----------> font size + page breaks into build/<date>/feed.yaml
@@ -52,7 +59,7 @@ Notes:
 
 ## Data sources
 
-Every fetch goes through `utils.SourceArchive(root, client, refresh)`, which caches the raw XML and HTML under `archive/<date>/` (`chapel.xml`, `epistle.xml`, `gospel.xml`, `saints/<contentid>.xml`, `dcs.html`). An archived source is never downloaded again unless `--refresh` is given. New downloads are held in memory and written by `archive.save()` only after both scrapes succeed, so an error page or a Cloudflare challenge never gets archived. With `client=None` the archive is offline and raises `NotArchived` for anything missing; the tests work this way. `archive/` is committed: commit each new Sunday's sources along with any code change.
+Every fetch goes through `utils.SourceArchive(root, client, refresh)`, which caches the raw XML and HTML under `archive/<date>/` (`chapel.xml`, `epistle.xml`, `gospel.xml`, `saints/<contentid>.xml`, `icon/<file>.jpg`, `dcs.html`). An archived source is never downloaded again unless `--refresh` is given. New downloads are held in memory and written by `archive.save()` only after both scrapes succeed, so an error page or a Cloudflare challenge never gets archived. With `client=None` the archive is offline and raises `NotArchived` for anything missing; the tests work this way. `archive/` is committed: commit each new Sunday's sources along with any code change.
 
 Each source module has `async scrape(run_date, archive)`, which returns dataclasses, and `async run(run_date, out_dir, archive)`, which writes the YAML. A page that doesn't parse raises `utils.ScrapeError`, naming the source, the URL and what was missing. `main.py` reports it and exits 1 without archiving anything.
 
@@ -61,6 +68,7 @@ Each source module has `async scrape(run_date, archive)`, which returns dataclas
 - The epistle and gospel URLs return XML. The English text is under `translation[@xml:lang="en"]`, and the body is an HTML string parsed with selectolax.
 - `identify_icon` fetches every saint/feast XML at the same time (all of them are archived) and returns the title of whichever one uses the day's icon. That title becomes `icon_title`, or `''` if it matches the lectionary title.
 - XML is parsed with `recover=True` because the feed is sometimes malformed.
+- The icon of the day (`icon_src`) is downloaded, archived, and copied into the build dir as `icon_filename`. It is deliberately **not** printed in the bulletin: an icon is holy and must be burned or buried rather than thrown away, and bulletins get thrown away. It's kept so an icon can someday be printed separately. Don't remove the icon code. A failed icon download only warns.
 
 ### Digital Chant Stand (`digital_chant_stand.py`)
 - URL: `https://dcs.goarch.org/goa/dcs/h/s/YYYY/MM/DD/li2/en/`, the Divine Liturgy service HTML.
@@ -85,6 +93,7 @@ The Python side writes these files and the Typst side reads them. Keep field nam
 | `gospel.yaml` | `GospelPageData` | `book`, `chapverse`, `text[]` |
 | `digital_chant_stand.yaml` | `LiturgyVariablesPageData` | `alleluia[]` (`dismissal_hymns` is scraped but not rendered) |
 | `manual.yaml` | `manual_entry_template.run` | `dismissal_hymns[] {title, mode, page}`, `upcoming_services[] {date, priest}` |
+| `<icon_filename>` (jpg) | `goarch_xml_feed.run` | not printed on purpose (see the icon note above). `feed.yaml` has `icon_filename` and `icon_title` |
 
 **`manual.yaml` is hand-edited, and its contents can't be regenerated.** `manual_entry_template.run` writes a placeholder only if the file doesn't exist. Never overwrite or delete an existing one. The user fills in the "Hymns of the Day" list (title, mode, and page in their hymnal) and the upcoming-services list. `data/table-of-contents.txt` is a reference index of hymnal page numbers (`title | page | section`) for filling in `page`. No code reads it.
 
@@ -109,6 +118,6 @@ Re-running `main.py` for a date overwrites every other file in that date's build
 
 ## Known quirks / rough edges
 
-- Several scraped fields and helpers aren't rendered yet: saint/feast hymns (`process_saint_feast_page`), DCS readings and prokeimenon, `EpistlePageData.mode`, and `icon_src`/`saint_and_feast_urls` apart from `icon_title`. Task 002 decides whether to wire them in or delete them.
+- Several scraped fields and helpers aren't rendered yet: saint/feast hymns (`process_saint_feast_page`), DCS readings and prokeimenon, and `EpistlePageData.mode`. Task 002 decides whether to wire them in or delete them. The icon is different: it's unrendered on purpose and stays.
 - `ipdb`/`ipython` are in the dev dependency group for debugging.
 - Contact info and parish details in `bulletin_back.typ` are real and specific to this parish. Change them only when asked.

@@ -1,11 +1,13 @@
 import asyncio
 import re
+import sys
 from collections.abc import Callable
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 from datetime import date
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
+import httpx
 from lxml import etree
 from selectolax.parser import HTMLParser
 
@@ -15,7 +17,7 @@ from classes import (
     GospelPageData,
     SaintFeastHymnData,
 )
-from utils import ScrapeError, SourceArchive, xpath_text
+from utils import NotArchived, ScrapeError, SourceArchive, xpath_text
 from yaml_io import write_yaml
 
 
@@ -41,6 +43,7 @@ def process_daily_feed_page(tree: etree._Element) -> DailyFeedPageData:
         for url in tree.xpath("/onlinechapel/saintsfeasts/saintfeast/url/text()")
     ]
     data.icon_src = xpath_text(tree, "/onlinechapel/icon/text()")
+    data.icon_filename = Path(urlparse(data.icon_src).path).name
 
     return data
 
@@ -109,6 +112,14 @@ def process_saint_feast_page(tree: etree._Element) -> list[SaintFeastHymnData]:
     ]
 
 
+async def fetch_icon(archive: SourceArchive, feed: DailyFeedPageData) -> bytes | None:
+    try:
+        return await archive.fetch(feed.icon_src, f"icon/{feed.icon_filename}")
+    except (httpx.HTTPError, NotArchived) as e:
+        print(f"warning: icon not downloaded: {e!r}", file=sys.stderr)
+        return None
+
+
 async def fetch_and_process[T](
     archive: SourceArchive,
     url: str,
@@ -122,9 +133,15 @@ async def fetch_and_process[T](
         raise ScrapeError(f"Online Chapel {name} {url}: {e!r}") from e
 
 
-async def scrape(
-    run_date: date, archive: SourceArchive
-) -> tuple[DailyFeedPageData, EpistlePageData, GospelPageData]:
+@dataclass
+class ChapelData:
+    feed: DailyFeedPageData
+    epistle: EpistlePageData
+    gospel: GospelPageData
+    icon: bytes | None
+
+
+async def scrape(run_date: date, archive: SourceArchive) -> ChapelData:
     index_page_url = (
         "https://onlinechapel.goarch.org/daily"
         f"?date={run_date.month}/{run_date.day}/{run_date.year}"
@@ -132,7 +149,7 @@ async def scrape(
     feed = await fetch_and_process(
         archive, index_page_url, "chapel.xml", process_daily_feed_page
     )
-    icon_title, epistle, gospel = await asyncio.gather(
+    icon_title, epistle, gospel, icon = await asyncio.gather(
         identify_icon(archive, feed.icon_src, feed.saint_and_feast_urls),
         fetch_and_process(
             archive, feed.epistle_page_url, "epistle.xml", process_epistle_page
@@ -140,14 +157,17 @@ async def scrape(
         fetch_and_process(
             archive, feed.gospel_page_url, "gospel.xml", process_gospel_page
         ),
+        fetch_icon(archive, feed),
     )
     feed.icon_title = icon_title if icon_title != feed.lectionary_title else ""
 
-    return feed, epistle, gospel
+    return ChapelData(feed, epistle, gospel, icon)
 
 
 async def run(run_date: date, out_dir: Path, archive: SourceArchive) -> None:
-    feed, epistle, gospel = await scrape(run_date, archive)
-    write_yaml(asdict(feed), out_dir / "feed.yaml")
-    write_yaml(asdict(epistle), out_dir / "epistle.yaml")
-    write_yaml(asdict(gospel), out_dir / "gospel.yaml")
+    data = await scrape(run_date, archive)
+    write_yaml(asdict(data.feed), out_dir / "feed.yaml")
+    write_yaml(asdict(data.epistle), out_dir / "epistle.yaml")
+    write_yaml(asdict(data.gospel), out_dir / "gospel.yaml")
+    if data.icon:
+        (out_dir / data.feed.icon_filename).write_bytes(data.icon)

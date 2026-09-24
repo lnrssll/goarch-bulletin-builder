@@ -4,6 +4,7 @@ font_size_pt: 10
 formatted_date: September 20, 2026
 gospel_page_break: false
 gospel_page_url: http://onlinechapel.goarch.org/lectionary.asp?type=G&code=324&event=1162&date=09/20/2026
+icon_filename: exaltation.jpg
 icon_src: http://onlinechapel.goarch.org/images/clark/exaltation.jpg
 icon_title: ''
 layout: split_before_alleluia

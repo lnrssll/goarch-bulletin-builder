@@ -37,6 +37,7 @@ def test_build_matches_snapshot(run_date, tmp_path, monkeypatch):
     asyncio.run(digital_chant_stand.run(day, tmp_path, offline(run_date)))
     asyncio.run(goarch_xml_feed.run(day, tmp_path, offline(run_date)))
     text_sizing.run(tmp_path)
+    assert (tmp_path / read_yaml(tmp_path / "feed.yaml")["icon_filename"]).exists()
 
     snapshot_dir = SNAPSHOTS / run_date
     if os.environ.get("UPDATE_SNAPSHOTS"):
@@ -51,11 +52,14 @@ def test_build_matches_snapshot(run_date, tmp_path, monkeypatch):
 
 
 def test_feed_fields():
-    feed, epistle, gospel = scrape_feed("2026-09-27")
+    data = scrape_feed("2026-09-27")
+    feed, epistle, gospel = data.feed, data.epistle, data.gospel
 
     assert feed.lectionary_title == "1st Sunday of Luke"
     assert feed.formatted_date == "September 27, 2026"
     assert feed.icon_title == ""
+    assert feed.icon_filename == "johntheo.jpg"
+    assert data.icon.startswith(b"\xff\xd8")
     assert epistle.book == "St. Paul's Second Letter to the Corinthians"
     assert epistle.chapverse == "6:16-18; 7:1"
     assert epistle.verse == "God is known in Judah; his name is great in Israel."
@@ -66,7 +70,8 @@ def test_feed_fields():
 
 @pytest.mark.parametrize("run_date", ARCHIVED_DATES)
 def test_readings_are_complete(run_date):
-    _, epistle, gospel = scrape_feed(run_date)
+    data = scrape_feed(run_date)
+    epistle, gospel = data.epistle, data.gospel
     liturgy = scrape_dcs(run_date)
 
     assert epistle.prokeimenon and epistle.verse

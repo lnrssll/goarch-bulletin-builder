@@ -20,6 +20,7 @@ class DailyFeedPageData:
     formatted_date: str | None = None
     lectionary_title: str | None = None
     icon_src: str | None = None
+    icon_filename: str | None = None
     icon_title: str | None = None
     epistle_page_url: str | None = None
     gospel_page_url: str | None = None

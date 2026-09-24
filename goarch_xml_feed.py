@@ -164,8 +164,7 @@ async def scrape(run_date: date, archive: SourceArchive) -> ChapelData:
     return ChapelData(feed, epistle, gospel, icon)
 
 
-async def run(run_date: date, out_dir: Path, archive: SourceArchive) -> None:
-    data = await scrape(run_date, archive)
+def write(data: ChapelData, out_dir: Path) -> None:
     write_yaml(asdict(data.feed), out_dir / "feed.yaml")
     write_yaml(asdict(data.epistle), out_dir / "epistle.yaml")
     write_yaml(asdict(data.gospel), out_dir / "gospel.yaml")

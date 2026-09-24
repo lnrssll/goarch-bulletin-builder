@@ -46,7 +46,11 @@
     #text(size: 8pt)[
       #table(
         columns: 3,
-        ..manual_data.dismissal_hymns.map(it => (it.title, emph[Mode #it.mode], emph(it.page))).flatten()
+        ..manual_data.dismissal_hymns.map(it => (
+          it.title,
+          if it.mode != none { emph[Mode #it.mode] },
+          emph(it.page),
+        )).flatten()
       )
     ]
   ]

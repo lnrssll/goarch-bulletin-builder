@@ -8,7 +8,7 @@ from selectolax.parser import HTMLParser
 
 import digital_chant_stand
 import goarch_xml_feed
-import text_sizing
+import sunday
 from utils import ScrapeError, SourceArchive
 from yaml_io import read_yaml
 
@@ -33,19 +33,21 @@ def scrape_dcs(run_date: str):
 @pytest.mark.parametrize("run_date", ARCHIVED_DATES)
 def test_build_matches_snapshot(run_date, tmp_path, monkeypatch):
     monkeypatch.chdir(ROOT)
-    day = date.fromisoformat(run_date)
-    asyncio.run(digital_chant_stand.run(day, tmp_path, offline(run_date)))
-    asyncio.run(goarch_xml_feed.run(day, tmp_path, offline(run_date)))
-    text_sizing.run(tmp_path)
-    assert (tmp_path / read_yaml(tmp_path / "feed.yaml")["icon_filename"]).exists()
+    out_dir = tmp_path / run_date
+    fetched = asyncio.run(
+        sunday.fetch_readings(date.fromisoformat(run_date), out_dir, ARCHIVE / run_date)
+    )
+    assert fetched.failures == {}
+    assert (out_dir / read_yaml(out_dir / "feed.yaml")["icon_filename"]).exists()
 
     snapshot_dir = SNAPSHOTS / run_date
+    scraped = [out_dir / name for source in sunday.SOURCES for name in source.files]
     if os.environ.get("UPDATE_SNAPSHOTS"):
         snapshot_dir.mkdir(parents=True, exist_ok=True)
-        for built in tmp_path.glob("*.yaml"):
+        for built in scraped:
             (snapshot_dir / built.name).write_text(built.read_text())
 
-    for built in sorted(tmp_path.glob("*.yaml")):
+    for built in scraped:
         snapshot = snapshot_dir / built.name
         assert snapshot.exists(), f"no snapshot for {run_date}; run with UPDATE_SNAPSHOTS=1"
         assert read_yaml(built) == read_yaml(snapshot), built.name

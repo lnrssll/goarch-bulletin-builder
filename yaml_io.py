@@ -9,5 +9,7 @@ def read_yaml(path: Path) -> dict:
 
 
 def write_yaml(data: dict, path: Path) -> None:
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(yaml.safe_dump(data) + "\n")
+    # write then rename, so a crash mid-write never leaves a truncated file
+    partial = path.with_name(path.name + ".partial")
+    partial.write_text(yaml.safe_dump(data) + "\n", encoding="utf-8")
+    partial.replace(path)

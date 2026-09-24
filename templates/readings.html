@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Readings for {{ day | long_date }}{% endblock %}
+{% block content %}
+<p class="breadcrumb"><a href="{{ url }}">← {{ day | long_date }}</a></p>
+<h1>Readings</h1>
+<p class="lede">Correct anything that came out wrong, or type the readings in when the download from goarch.org doesn't work. Saving here changes only the readings; the hymns and services stay as they are.</p>
+
+<form class="readings" method="post" action="{{ url }}/readings" data-warn-unsaved>
+  <fieldset>
+    <legend>Front page</legend>
+    <label>Name of the Sunday
+      <input name="lectionary_title" value="{{ readings.lectionary_title }}" placeholder="1st Sunday of Luke">
+    </label>
+    <label>Date, as printed
+      <input name="formatted_date" value="{{ readings.formatted_date }}" placeholder="September 27, 2026">
+    </label>
+    <label>Commemoration <small>optional</small>
+      <input name="icon_title" value="{{ readings.icon_title }}">
+    </label>
+    <p class="hint">With a commemoration, the front page reads “On {{ readings.formatted_date or "the date" }}, we commemorate …”. Without one, it shows just the date.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Epistle</legend>
+    <label>Prokeimenon
+      <textarea name="prokeimenon" rows="2">{{ readings.prokeimenon }}</textarea>
+    </label>
+    <label>Verse
+      <textarea name="verse" rows="2">{{ readings.verse }}</textarea>
+    </label>
+    <label>The reading is from
+      <input name="epistle_book" value="{{ readings.epistle_book }}" placeholder="St. Paul's Letter to the Galatians">
+    </label>
+    <label>Chapter and verses
+      <input name="epistle_chapverse" value="{{ readings.epistle_chapverse }}" placeholder="6:11-18">
+    </label>
+    <label>Text
+      <textarea name="epistle_text" rows="14">{{ readings.epistle_text | paragraphs }}</textarea>
+    </label>
+    <p class="hint">Leave an empty line between paragraphs.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Alleluia</legend>
+    <label>Verses
+      <textarea name="alleluia" rows="5">{{ readings.alleluia | paragraphs }}</textarea>
+    </label>
+    <p class="hint">Leave an empty line between verses.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Gospel</legend>
+    <label>The reading is from
+      <input name="gospel_book" value="{{ readings.gospel_book }}" placeholder="The Holy Gospel According to St. Luke">
+    </label>
+    <label>Chapter and verses
+      <input name="gospel_chapverse" value="{{ readings.gospel_chapverse }}" placeholder="5:1-11">
+    </label>
+    <label>Text
+      <textarea name="gospel_text" rows="14">{{ readings.gospel_text | paragraphs }}</textarea>
+    </label>
+    <p class="hint">Leave an empty line between paragraphs.</p>
+  </fieldset>
+
+  <div class="actions">
+    <button data-busy="Saving…">Save the readings</button>
+    <a href="{{ url }}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

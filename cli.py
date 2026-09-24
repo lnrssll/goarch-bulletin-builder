@@ -1,8 +1,8 @@
 import argparse
 from dataclasses import dataclass
-from datetime import date, timedelta
+from datetime import date
 
-SUNDAY = 6
+from sunday import SUNDAY, next_sunday
 
 
 def parse_day(value: str) -> int:
@@ -29,10 +29,6 @@ def parse_year(value: str) -> int:
         raise argparse.ArgumentTypeError(f"YEAR must be >= {current_year}")
 
     return year
-
-
-def next_sunday(today: date) -> date:
-    return today + timedelta(days=(SUNDAY - today.weekday()) or 7)
 
 
 @dataclass

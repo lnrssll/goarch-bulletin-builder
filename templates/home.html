@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Sundays{% endblock %}
+{% block content %}
+<h1>Sunday bulletins</h1>
+
+<section class="card">
+  <p class="eyebrow">Next Sunday</p>
+  <h2><a href="{{ upcoming.url }}">{{ upcoming.day | long_date }}</a></h2>
+  {% if upcoming.title %}<p>{{ upcoming.title }}</p>{% endif %}
+  <p class="status">{{ upcoming.status }}</p>
+  <a class="button" href="{{ upcoming.url }}">Open this Sunday</a>
+</section>
+
+<form class="pick-date" method="get" action="/sundays">
+  <label for="date">Another Sunday</label>
+  <input id="date" name="date" type="date" required>
+  <button class="secondary">Open</button>
+  <p class="hint">Any Sunday, past or future. Picking the Saturday of a service opens the Sunday after it.</p>
+</form>
+
+{% if sundays %}
+<h2>Recent Sundays</h2>
+<table class="sundays">
+  <thead>
+    <tr><th>Date</th><th>Sunday</th><th>Status</th></tr>
+  </thead>
+  <tbody>
+    {% for item in sundays %}
+    <tr>
+      <td><a href="{{ item.url }}">{{ item.day.isoformat() }}</a></td>
+      <td>{{ item.title }}</td>
+      <td>{{ item.status }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

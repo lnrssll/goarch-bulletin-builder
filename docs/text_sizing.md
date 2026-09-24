@@ -69,7 +69,7 @@ uv run text_sizing.py --report              # sizing for all of build/ (read-onl
 uv run pytest                               # unit tests
 ```
 
-`main.py` runs it automatically after scraping.
+`sunday.fetch_readings` (used by `main.py` and the web UI) runs it after scraping, and the web UI's readings editor runs it after every save.
 
 ## Tuning
 

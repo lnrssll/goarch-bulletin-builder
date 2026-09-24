@@ -1,4 +1,23 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+
+
+@dataclass
+class ManualHymnData:
+    title: str = ""
+    mode: int | None = None
+    page: str = ""
+
+
+@dataclass
+class UpcomingServiceData:
+    date: str = ""
+    priest: str = ""
+
+
+@dataclass
+class ManualData:
+    dismissal_hymns: list[ManualHymnData] = field(default_factory=list)
+    upcoming_services: list[UpcomingServiceData] = field(default_factory=list)
 
 
 @dataclass

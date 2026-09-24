@@ -243,6 +243,5 @@ async def scrape(run_date: date, archive: SourceArchive) -> LiturgyVariablesPage
         raise ScrapeError(f"Digital Chant Stand {url}: {e}") from e
 
 
-async def run(run_date: date, out_dir: Path, archive: SourceArchive) -> None:
-    data = await scrape(run_date, archive)
+def write(data: LiturgyVariablesPageData, out_dir: Path) -> None:
     write_yaml(asdict(data), out_dir / "digital_chant_stand.yaml")

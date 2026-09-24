@@ -1,44 +1,26 @@
 import asyncio
 import sys
 from datetime import timedelta
-from pathlib import Path
 
-import httpx
-
-import digital_chant_stand
-import goarch_xml_feed
-import manual_entry_template
-import text_sizing
+import sunday
 from cli import parse_run_options
-from utils import ARCHIVE_DIR, ScrapeError, SourceArchive, http_client
-
-BUILD_DIR = Path("build")
+from utils import ARCHIVE_DIR
 
 
 async def main() -> int:
     options = parse_run_options()
     run_date = options.run_date
+    out_dir = sunday.build_dir(run_date)
 
-    out_dir = BUILD_DIR / run_date.isoformat()
-    out_dir.mkdir(parents=True, exist_ok=True)
+    fetched = await sunday.download_readings(run_date, options.refresh)
+    for source, error in fetched.failures.items():
+        print(f"{source.name} failed, nothing written for it: {error}", file=sys.stderr)
+    if fetched.failures:
+        return 1
 
-    async with http_client() as client:
-        archive = SourceArchive(ARCHIVE_DIR / run_date.isoformat(), client, options.refresh)
-        try:
-            await asyncio.gather(
-                digital_chant_stand.run(run_date, out_dir, archive),
-                goarch_xml_feed.run(run_date, out_dir, archive),
-            )
-        except (ScrapeError, httpx.HTTPError) as e:
-            print(f"scrape failed, nothing archived: {e}", file=sys.stderr)
-            return 1
-    archive.save()
-    manual_entry_template.run(run_date, out_dir)
-    text_sizing.run(out_dir)
-
-    print(f"last build at: {BUILD_DIR / (run_date - timedelta(days=7)).isoformat()}")
+    print(f"last build at: {sunday.build_dir(run_date - timedelta(days=7))}")
     print(f"new build at: {out_dir}")
-    print(f"sources archived at: {archive.root}")
+    print(f"sources archived at: {ARCHIVE_DIR / run_date.isoformat()}")
     print("To compile bulletin from build data, run:")
     print(f'"{run_date.isoformat()}" | typst watch --input date=($in) booklet.typ out/($in).pdf')
     print(f"PDF output at out/{run_date.isoformat()}.pdf")

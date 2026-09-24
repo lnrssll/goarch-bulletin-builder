@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}{{ day | long_date }}{% endblock %}
+{% block content %}
+<p class="breadcrumb"><a href="/">← Sundays</a></p>
+<h1>{{ day | long_date }}</h1>
+<p class="lede">
+  {% if readings.lectionary_title %}{{ readings.lectionary_title }} · {% endif %}
+  Divine Liturgy on {{ service_day | long_date }}
+</p>
+
+<section class="step" id="readings">
+  <h2><span class="step-number">1</span> Readings</h2>
+  {% if missing %}
+    {% if not nothing_fetched %}
+    <p class="notice warning">Still missing: {{ missing | map(attribute="provides") | join(" and ") }}.</p>
+    {% endif %}
+    <p>The title of the Sunday, the epistle, the Alleluia and the gospel come from goarch.org.</p>
+    <div class="actions">
+      <form method="post" action="{{ url }}/fetch">
+        <button data-busy="Downloading… this can take up to a minute">Download the readings</button>
+      </form>
+      <a href="{{ url }}/readings">{% if nothing_fetched %}or type them in yourself{% else %}or type in the missing part yourself{% endif %}</a>
+    </div>
+  {% else %}
+    <dl class="summary">
+      <dt>Sunday</dt>
+      <dd>{{ readings.lectionary_title }}</dd>
+      {% if readings.icon_title %}
+      <dt>Commemoration</dt>
+      <dd>{{ readings.icon_title }}</dd>
+      {% endif %}
+      <dt>Prokeimenon</dt>
+      <dd>{{ readings.prokeimenon }}</dd>
+      <dt>Epistle</dt>
+      <dd>{{ readings.epistle_book }} {{ readings.epistle_chapverse }}</dd>
+      <dt>Alleluia</dt>
+      <dd>{{ readings.alleluia | length }} verses</dd>
+      <dt>Gospel</dt>
+      <dd>{{ readings.gospel_book }} {{ readings.gospel_chapverse }}</dd>
+      {% if font_size_pt %}
+      <dt>Text size</dt>
+      <dd>{{ font_size_pt }} pt; {{ layout }}</dd>
+      {% endif %}
+    </dl>
+    <div class="actions">
+      <a class="button secondary" href="{{ url }}/readings">Edit the readings</a>
+      <form method="post" action="{{ url }}/fetch"
+            data-confirm="Download the readings again from goarch.org? This replaces any changes made under “Edit the readings”. The hymns and services are kept.">
+        <input type="hidden" name="refresh" value="yes">
+        <button class="link" data-busy="Downloading…">Download them again</button>
+      </form>
+    </div>
+  {% endif %}
+</section>
+
+<section class="step" id="details">
+  <h2><span class="step-number">2</span> Hymns and services</h2>
+  {% for note in unfinished %}
+  <p class="notice warning">{{ note }}</p>
+  {% endfor %}
+  {% if not details_saved %}
+  <p class="notice">Not saved yet. The services below are suggestions based on last week; check them and save.</p>
+  {% endif %}
+
+  <form method="post" action="{{ url }}/details" data-warn-unsaved>
+    <h3>Hymns of the Day <small>front page</small></h3>
+    <table class="rows">
+      <thead>
+        <tr><th>Title</th><th>Mode</th><th>Page</th></tr>
+      </thead>
+      <tbody>
+        {% for hymn in hymn_rows %}
+        <tr>
+          <td><input name="hymn_title" value="{{ hymn.title }}" list="hymn-titles" aria-label="Hymn {{ loop.index }} title"></td>
+          <td>
+            <select name="hymn_mode" aria-label="Hymn {{ loop.index }} mode">
+              <option value=""></option>
+              {% for mode in modes %}
+              <option{% if hymn.mode == mode %} selected{% endif %}>{{ mode }}</option>
+              {% endfor %}
+            </select>
+          </td>
+          <td><input name="hymn_page" value="{{ hymn.page }}" size="8" aria-label="Hymn {{ loop.index }} page"></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="hint">A page number like 127 prints as “p. 127”; you can also write “Choir” or “Handout”. To remove a hymn, clear its title.</p>
+
+    <h3>Upcoming services <small>back page</small></h3>
+    <table class="rows services">
+      <thead>
+        <tr><th>Date</th><th>Priest</th></tr>
+      </thead>
+      <tbody>
+        {% for service in service_rows %}
+        <tr>
+          <td><input name="service_date" value="{{ service.date }}" placeholder="mm/dd/yyyy" aria-label="Service {{ loop.index }} date"></td>
+          <td><input name="service_priest" value="{{ service.priest }}" list="priests" aria-label="Service {{ loop.index }} priest"></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="hint">Write dates like {{ service_day.strftime("%m/%d/%Y") }}, or “Today”. To remove a service, clear both boxes.</p>
+
+    <button data-busy="Saving…">Save hymns and services</button>
+  </form>
+
+  <datalist id="hymn-titles">
+    {% for hymn in suggestions.hymns %}
+    <option value="{{ hymn.title }}">{% if hymn.mode %}Mode {{ hymn.mode }}, {% endif %}{{ hymn.page }}</option>
+    {% endfor %}
+  </datalist>
+  <datalist id="priests">
+    {% for priest in suggestions.priests %}
+    <option value="{{ priest }}"></option>
+    {% endfor %}
+  </datalist>
+
+  <details class="hymnal">
+    <summary>Page numbers in the hymnal</summary>
+    {% for section, entries in hymnal.items() %}
+    <h4>{{ section }}</h4>
+    <table>
+      {% for title, page_number in entries %}
+      <tr><td>{{ title }}</td><td>p. {{ page_number }}</td></tr>
+      {% endfor %}
+    </table>
+    {% endfor %}
+  </details>
+</section>
+
+<section class="step" id="print">
+  <h2><span class="step-number">3</span> Print</h2>
+  {% if missing %}
+  <p>The bulletin is made once the readings are in (step 1).</p>
+  {% elif not details_saved %}
+  <p>Save the hymns and services (step 2) to make the bulletin.</p>
+  {% elif render_error %}
+  <div class="notice error">
+    <p>The bulletin couldn't be made. This is a problem in the program, not something you did.</p>
+    <details>
+      <summary>Technical details</summary>
+      <pre>{{ render_error }}</pre>
+    </details>
+  </div>
+  {% else %}
+    {% if unfinished %}
+    <p class="notice warning">Not ready to print yet: finish step 2 first.</p>
+    {% endif %}
+    {% if pages > expected_pages %}
+    <p class="notice warning">The readings didn't fit: the booklet has {{ pages }} pages instead of {{ expected_pages }}. Print it anyway, or let whoever looks after this program know.</p>
+    {% endif %}
+    <div class="actions">
+      <a class="button" href="{{ url }}/booklet.pdf?download=1">Download the booklet</a>
+      <a href="{{ url }}/booklet.pdf" target="_blank" rel="noopener">Open it</a>
+      <a href="{{ url }}/bulletin.pdf?download=1">Single pages instead</a>
+    </div>
+    <p class="hint">The booklet is one sheet, printed on both sides and folded in half. The pictures below show the two sides.</p>
+    {% for src in previews %}
+    <figure class="preview">
+      <img src="{{ src }}" alt="Side {{ loop.index }} of the booklet">
+      <figcaption>
+        {% if loop.index == 1 %}Outside: back cover and front cover
+        {% elif loop.index == 2 %}Inside: the readings
+        {% else %}Extra page {{ loop.index }}
+        {% endif %}
+      </figcaption>
+    </figure>
+    {% endfor %}
+  {% endif %}
+</section>
+{% endblock %}

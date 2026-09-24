@@ -168,5 +168,5 @@ Conventions: wording on the pages is for a volunteer, not a developer (no "YAML"
 
 - Several scraped fields and helpers aren't rendered yet: saint/feast hymns (`process_saint_feast_page`), DCS readings and prokeimenon, and `EpistlePageData.mode`. Task 002 decides whether to wire them in or delete them. The icon is different: it's unrendered on purpose and stays.
 - `ipdb`/`ipython` are in the dev dependency group for debugging.
-- Contact info and parish details in `bulletin_back.typ` are real and specific to this parish. Change them only when asked. Because they live in a Typst file, changing them needs a code edit and a redeploy; task 004 lists moving them into editable data as a follow-up.
+- Contact info and parish details in `bulletin_back.typ` are real and specific to this parish. Change them only when asked. Because they live in a Typst file, changing them needs a code edit and a redeploy; task 005 plans moving them into settings editable from the web UI.
 - A server in a datacenter may get Cloudflare bot checks from goarch.org more often than a home connection. The web UI reports that plainly, and the readings editor is the fallback.

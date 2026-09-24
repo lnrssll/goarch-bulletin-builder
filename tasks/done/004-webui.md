@@ -68,6 +68,8 @@ The weekly flow on the Sunday page:
 
 ## Follow-ups (not done)
 
+These, and the first-deployment checks above, are planned in `tasks/005-settings-and-follow-ups.md`.
+
 - **Parish details as data.** The welcome text and the visiting priests' contact info are hard-coded in `bulletin_back.typ`. Over ten years they will change, and today that needs a code edit and a redeploy. Moving them into a YAML file in the data volume, with a settings page, would remove the last routine reason to call a developer.
 - **A text-size override.** If the sizing model ever misjudges a Sunday, the volunteer can only print the extra page. A size field in the readings editor that bypasses the solver would be the escape hatch. Not added because the model hasn't overflowed on any Sunday so far, and task 001 keeps the solver model-only.
 - **Hymns of the Day from DCS** (task 002): the form could be pre-filled with the scraped dismissal hymns once that parsing is reliable.

@@ -7,7 +7,9 @@
 #let feed_data = yaml(build_path + "feed.yaml")
 #let dcs_data = yaml(build_path + "digital_chant_stand.yaml")
 
-#let size = 10pt * (feed_data.text_size_factor / 100)
+#let layout = yaml("data/layout.yaml")
+
+#let size = layout.text.base_size_pt * 1pt * (feed_data.text_size_factor / 100)
 
 #let image_path = build_path + feed_data.icon_filename
 
@@ -20,12 +22,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #let front_page = [
-  #set text(size: size)
+  #set text(size: 10pt)
+
+  #align(center + top)[
+    #image("assets/logo.webp", width: 80%)
+  ]
 
   #align(center + horizon)[
     #title[#(feed_data.lectionary_title)]
     #if feed_data.icon_title.len() > 0 [
-      #text(size: size)[_On #feed_data.formatted_date, we commemorate_ \ #feed_data.icon_title]
+      #text[_On #feed_data.formatted_date, we commemorate_ \ #feed_data.icon_title]
     ] else [
       == #feed_data.formatted_date
     ]
@@ -59,8 +65,8 @@
 
   #text(size: size)[
     #set par(
-      first-line-indent: 1em,
-      spacing: 0.65em,
+      first-line-indent: layout.text.indent_em * 1em,
+      spacing: layout.text.para_spacing_em * 1em,
     )
 
     #for paragraph in data.text [
@@ -74,8 +80,8 @@
 
   #text[
     #set par(
-      hanging-indent: 1em,
-      spacing: .8em
+      hanging-indent: layout.text.indent_em * 1em,
+      spacing: layout.text.verse_spacing_em * 1em
     )
     #epistle_data.prokeimenon
 
@@ -90,8 +96,8 @@
 
   #for stichoi in dcs_data.alleluia [
     #set par(
-      hanging-indent: 1em,
-      spacing: .8em
+      hanging-indent: layout.text.indent_em * 1em,
+      spacing: layout.text.verse_spacing_em * 1em
     )
     #stichoi
   ]
@@ -105,6 +111,7 @@
 // out across columns instead of pages (see booklet.typ).
 #let readings(sep: pagebreak) = [
   #set text(size: size)
+  #set par(leading: layout.text.leading_em * 1em)
 
   #epistle_section
 
@@ -128,8 +135,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #set page(
-  paper: "a6",
-  margin: (x: 1.0cm, y: 1.0cm),
+  width: layout.page.width_mm * 1mm,
+  height: layout.page.height_mm * 1mm,
+  margin: layout.page.margin_mm * 1mm,
 )
 
 #front_page

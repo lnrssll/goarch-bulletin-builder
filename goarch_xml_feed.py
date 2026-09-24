@@ -1,5 +1,4 @@
 import re
-import math
 from pathlib import Path
 from urllib.parse import urlparse
 from dataclasses import asdict
@@ -81,10 +80,6 @@ def process_epistle_page(tree: etree._Element) -> EpistlePageData:
     data.mode = int(tree.xpath("prokmode/text()")[0])
     body_html = str(tree.xpath("body/text()")[0])
     data.text = [x.text() for x in HTMLParser(body_html).css("p")]
-    data.text_char_count = len(" ".join(data.text))
-    data.text_size_factor = min(
-        round(100.0 * (1 - (1 - 1000.0 / data.text_char_count) ** 2)), 100
-    )
 
     return data
 
@@ -98,10 +93,6 @@ def process_gospel_page(tree: etree._Element) -> GospelPageData:
     data.book = "The Holy Gospel According to St. " + author
     body_html = str(tree.xpath("body/text()")[0])
     data.text = [x.text() for x in HTMLParser(body_html).css("p")]
-    data.text_char_count = len(" ".join(data.text))
-    data.text_size_factor = min(
-        round(100.0 * (1 - (1 - 1000.0 / data.text_char_count) ** 2)), 100
-    )
 
     return data
 
@@ -123,34 +114,6 @@ def process_saint_feast_page(tree: etree._Element) -> List[SaintFeastHymnData]:
         data.push(hymn_data)
 
     return data
-
-
-def compute_text_size_and_page_breaks(gospel_page_data: GospelPageData, epistle_page_data: EpistlePageData):
-        text_size_factor_decimal = math.sqrt(
-            (gospel_page_data.text_size_factor / 100.0)
-            * (epistle_page_data.text_size_factor / 100.0)
-        )
-        text_size_factor = 100 * round(text_size_factor_decimal, 2)
-
-        epistle_text_area_units = (
-            epistle_page_data.text_char_count * text_size_factor_decimal**2
-        )
-        gospel_text_area_units = (
-            gospel_page_data.text_char_count * text_size_factor_decimal**2
-        )
-
-        alleluia_page_break = (
-            max(gospel_text_area_units, epistle_text_area_units) < 1_200
-        )
-        alleluia_fits_on_epistle_page = epistle_text_area_units < 1_000
-        gospel_reading_fits_on_gospel_page = gospel_text_area_units < 1_400
-        gospel_page_break = (
-            alleluia_fits_on_epistle_page
-            and gospel_reading_fits_on_gospel_page
-            and not alleluia_page_break
-        )
-
-        return text_size_factor, alleluia_page_break, gospel_page_break
 
 
 async def pipeline(
@@ -178,7 +141,7 @@ async def run(run_date: date, out_dir: Path) -> None:
         feed_data: DailyFeedPageData = await pipeline(
             client, index_page_url, None, process_daily_feed_page
         )
-        icon_title, epistle_page_data, gospel_page_data, _ = await asyncio.gather(
+        icon_title, _, _, _ = await asyncio.gather(
             identify_icon(client, feed_data.icon_src, feed_data.saint_and_feast_urls),
             pipeline(
                 client,
@@ -200,11 +163,5 @@ async def run(run_date: date, out_dir: Path) -> None:
         feed_data.icon_title = (
             icon_title if icon_title != feed_data.lectionary_title else ""
         )
-
-        text_size_factor, alleluia_page_break, gospel_page_break = compute_text_size_and_page_breaks(gospel_page_data, epistle_page_data)
-
-        feed_data.text_size_factor = text_size_factor
-        feed_data.alleluia_page_break = alleluia_page_break
-        feed_data.gospel_page_break = gospel_page_break
 
         await write_yaml(asdict(feed_data), out_dir / "feed.yaml")

@@ -8,6 +8,7 @@ from cli import build_parser
 import digital_chant_stand
 import goarch_xml_feed
 import manual_entry_template
+import text_sizing
 
 BUILD_DIR = Path("build")
 
@@ -31,6 +32,7 @@ async def main() -> int:
     await digital_chant_stand.run(run_date, out_dir)
     await goarch_xml_feed.run(run_date, out_dir)
     await manual_entry_template.run(run_date, out_dir)
+    text_sizing.run(out_dir)
 
     # subprocess.run(
     #     [

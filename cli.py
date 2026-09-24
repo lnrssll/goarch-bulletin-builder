@@ -4,14 +4,14 @@ from datetime import date, timedelta
 def parse_day(value: str) -> int:
     day = int(value)
     if not 1 <= day <= 31:
-        raise argparse.ArgumentTypeError("DAY must be in range 1–31")
+        raise argparse.ArgumentTypeError("DAY must be in range 1-31")
     return day
 
 
 def parse_month(value: str) -> int:
     month = int(value)
     if not 1 <= month <= 12:
-        raise argparse.ArgumentTypeError("MONTH must be in range 1–12")
+        raise argparse.ArgumentTypeError("MONTH must be in range 1-12")
     return month
 
 

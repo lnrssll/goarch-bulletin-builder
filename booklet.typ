@@ -14,15 +14,17 @@
 // the actual pages from bulletin.typ, so any future bulletin content
 // changes are picked up automatically.
 
-#import "bulletin.typ": front_page, back_page, readings
+#import "bulletin.typ": front_page, back_page, readings, layout
+
+#let gutter = layout.booklet.gutter_mm * 1mm
 
 #set page(
-  paper: "a5",
-  flipped: true,
-  margin: (x: 1.0cm, y: 1.0cm),
+  width: 2 * layout.page.width_mm * 1mm,
+  height: layout.page.height_mm * 1mm,
+  margin: layout.page.margin_mm * 1mm,
 )
 
-#let spread(left, right, gutter: 2cm) = columns(2, gutter: gutter)[
+#let spread(left, right) = columns(2, gutter: gutter)[
   #left
   #colbreak()
   #right
@@ -37,6 +39,6 @@
 // as they would flow across pages 2 and 3 of the standalone bulletin,
 // using colbreak() instead of pagebreak() wherever a forced break is
 // needed.
-#columns(2, gutter: 2cm)[
+#columns(2, gutter: gutter)[
   #readings(sep: colbreak)
 ]

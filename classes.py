@@ -59,9 +59,12 @@ class DailyFeedPageData:
     epistle_page_url: str | None = None
     gospel_page_url: str | None = None
     saint_and_feast_urls: List[str] | None = None
-    text_size_factor: int | None = None
+    text_size_factor: float | None = None
     alleluia_page_break: bool | None = None
     gospel_page_break: bool | None = None
+    font_size_pt: float | None = None
+    layout: str | None = None
+    page_fill: List[float] | None = None
 
 
 @dataclass
@@ -72,8 +75,6 @@ class EpistlePageData:
     verse: str | None = None
     mode: int | None = None
     text: List[str] | None = None
-    text_size_factor: int | None = None
-    text_char_count: int | None = None
 
 
 @dataclass
@@ -81,8 +82,6 @@ class GospelPageData:
     book: str | None = None
     chapverse: str | None = None
     text: List[str] | None = None
-    text_size_factor: int | None = None
-    text_char_count: int | None = None
 
 
 @dataclass

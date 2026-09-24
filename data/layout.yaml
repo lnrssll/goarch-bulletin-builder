@@ -1,0 +1,14 @@
+# Page geometry and body text settings, shared by bulletin.typ, booklet.typ
+# and text_sizing.py so the sizing model and the Typst layout can't drift.
+page:
+  width_mm: 105     # A6
+  height_mm: 148
+  margin_mm: 10
+booklet:
+  gutter_mm: 20     # between the two A6 halves of an A5-landscape sheet
+text:
+  base_size_pt: 10        # largest size the readings are set at
+  leading_em: 0.65        # between lines of a paragraph (readings)
+  para_spacing_em: 0.65   # reading bodies
+  verse_spacing_em: 0.8   # prokeimenon and alleluia verses
+  indent_em: 1            # first-line indent (bodies), hanging indent (verses)

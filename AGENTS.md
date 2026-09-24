@@ -8,7 +8,8 @@ A generator for a weekly Sunday Divine Liturgy bulletin (Lake Havasu Orthodox Ch
 
 ```
 main.py -+-> digital_chant_stand.py ---> build/<date>/digital_chant_stand.yaml
-         +-> goarch_xml_feed.py -------> build/<date>/{feed,epistle,gospel}.yaml + icon image
+         +-> goarch_xml_feed.py -------> build/<date>/{feed,epistle,gospel}.yaml
+         |     (both fetch through utils.SourceArchive -> archive/<date>/, committed)
          +-> manual_entry_template.py -> build/<date>/manual.yaml   (hand-edited)
          +-> text_sizing.py -----------> font size + page breaks into build/<date>/feed.yaml
 
@@ -23,11 +24,13 @@ Run everything from the repo root. Both the Python code and Typst use paths rela
 uv sync                                 # install deps (Python >= 3.13)
 uv run main.py                          # scrape data for the next upcoming Sunday
 uv run main.py 27 9 2026                # scrape a specific Sunday: DAY MONTH YEAR (YEAR may be 2-digit)
+uv run main.py 27 9 2026 --refresh      # re-download sources that are already in archive/
 
 uv run text_sizing.py 2026-09-27            # re-size an existing build dir (rewrites the sizing fields in feed.yaml)
 uv run text_sizing.py --explain 2026-09-27  # show the sizing model for one date (read-only, offline)
-uv run text_sizing.py --report              # old vs new sizing for every date in build/ (read-only, offline)
-uv run pytest                               # unit tests for text_sizing.py
+uv run text_sizing.py --report              # sizing for every date in build/ (read-only, offline)
+uv run pytest                               # all tests, offline
+UPDATE_SNAPSHOTS=1 uv run pytest            # regenerate tests/snapshots/ after an intended output change
 
 # render; the date input selects build/<date>/
 typst compile --input date=2026-09-27 booklet.typ out/2026-09-27.pdf    # 2-up A5 booklet for printing
@@ -38,26 +41,34 @@ typst watch   --input date=2026-09-27 booklet.typ out/2026-09-27.pdf    # live r
 `main.py` prints a ready-to-paste `typst watch` command at the end. It is written for nushell, the user's shell.
 
 Notes:
-- `cli.parse_run_date` rejects dates that aren't Sundays and years before the current year.
-- The only tests are for `text_sizing.py` (`tests/`). There's no linter config or CI. To check a scraper change, re-run the scraper for a known Sunday and compile the PDF. Real data lives in `build/`, which has many past dates to compare against.
+- `cli.parse_run_options` rejects dates that aren't Sundays and years before the current year.
+- Tests (`tests/`), no linter config or CI:
+  - `test_text_sizing.py`: synthetic tests of the sizing model.
+  - `test_scrapers.py`: replays every Sunday in `archive/` offline through the scrapers and `text_sizing`, then compares the YAML with `tests/snapshots/<date>/`. A snapshot diff after a scraper change is either a regression or an intended change; regenerate the snapshots only for the latter. To add a regression case, commit its `archive/<date>/` and generate its snapshot.
+  - `test_source_archive.py`: archive caching, using `httpx.MockTransport`.
+- Don't bulk-download past Sundays. GOARCH is behind Cloudflare and serves bot-check pages to scripted traffic, and older DCS pages are gone. Test against what's already in `archive/`.
 - The `Makefile` is stale: it references `webscraper/main.py` and is gitignored. Don't use it.
 - `build/` and `out/` are gitignored. Everything they hold is generated, except `manual.yaml` (see below).
 
 ## Data sources
 
+Every fetch goes through `utils.SourceArchive(root, client, refresh)`, which caches the raw XML and HTML under `archive/<date>/` (`chapel.xml`, `epistle.xml`, `gospel.xml`, `saints/<contentid>.xml`, `dcs.html`). An archived source is never downloaded again unless `--refresh` is given. New downloads are held in memory and written by `archive.save()` only after both scrapes succeed, so an error page or a Cloudflare challenge never gets archived. With `client=None` the archive is offline and raises `NotArchived` for anything missing; the tests work this way. `archive/` is committed: commit each new Sunday's sources along with any code change.
+
+Each source module has `async scrape(run_date, archive)`, which returns dataclasses, and `async run(run_date, out_dir, archive)`, which writes the YAML. A page that doesn't parse raises `utils.ScrapeError`, naming the source, the URL and what was missing. `main.py` reports it and exits 1 without archiving anything.
+
 ### GOARCH Online Chapel XML feed (`goarch_xml_feed.py`)
 - Index: `https://onlinechapel.goarch.org/daily?date=M/D/YYYY` returns an `<onlinechapel>` XML doc with the lectionary title, formatted date, reading URLs (`reading[type="E"|"G"]`), saint/feast URLs, and the icon URL.
 - The epistle and gospel URLs return XML. The English text is under `translation[@xml:lang="en"]`, and the body is an HTML string parsed with selectolax.
-- `identify_icon` fetches every saint/feast XML at the same time and returns the title of whichever one uses the day's icon. That title becomes `icon_title`, or `''` if it matches the lectionary title.
+- `identify_icon` fetches every saint/feast XML at the same time (all of them are archived) and returns the title of whichever one uses the day's icon. That title becomes `icon_title`, or `''` if it matches the lectionary title.
 - XML is parsed with `recover=True` because the feed is sometimes malformed.
 
-### Digital Chant Stand (`digital_chant_stand.py`, `get_dismissal_hymns.py`, `get_scripture_reading.py`)
+### Digital Chant Stand (`digital_chant_stand.py`)
 - URL: `https://dcs.goarch.org/goa/dcs/h/s/YYYY/MM/DD/li2/en/`, the Divine Liturgy service HTML.
 - `iter_row_items` flattens `tbody > tr > td > *` into `RowItem(kind, text, node)`. `kind` is the `<p>`'s CSS class with non-letters removed (e.g. `designation`, `source`, `mode`, `hymn`, `dialog`, `chapverse`, `reading`, `verse`, `mixed`), or `media`.
 - `group_by_sections` splits the rows into sections keyed by `designation` text or by a `mixed` row starting with "Alleluia". A `source` row comes *before* its title, so it is held back and attached to the next section.
-- Extraction depends on exact section titles from the page: `"Hymns after the Entrance."` ... `"Trisagios Hymn"` for dismissal hymns; `"The Epistle"`, `Alleluia*`, `"The Gospel"` ... `"Hymn to the Theotokos."` for readings. Also on `data-key*=` attribute selectors (`alleluia`, `Epistle`, `Gospel`, `prokeimenon`). If DCS changes its markup or wording, these break silently or with `StopIteration`/`IndexError`.
-- Only `alleluia` from DCS is actually rendered. Epistle and gospel text come from the XML feed. `get_scripture_reading_data`, `get_reading`, `get_prokeimenon` and `get_alleluia_mode` exist but aren't wired in, and `get_prokeimenon` no longer matches the live markup (see `tasks/002`, `tasks/003`).
-- Grave mode appears as "Grave" rather than a number. It maps to mode 7 (see `get_alleluia_mode`).
+- Extraction depends on exact section titles from the page: `"Hymns after the Entrance."` ... `"Trisagios Hymn"` for dismissal hymns; `"The Epistle"`, `Alleluia*`, `"The Gospel"` ... `"Hymn to the Theotokos."` for readings. Also on `data-key*=` attribute selectors (`alleluia`, `Epistle`, `Gospel`, `prokeimenon`). A missing Alleluia is a `ScrapeError`. A failure in the unrendered dismissal hymns only prints a warning.
+- Only `alleluia` from DCS is actually rendered. Epistle and gospel text come from the XML feed. `get_scripture_reading_data`, `get_reading`, `get_prokeimenon` and `get_alleluia_mode` exist but aren't wired in, and `get_prokeimenon` no longer matches the live markup (see `tasks/002`).
+- `get_alleluia_mode` numbers modes 1-8: "pl. N" is N+4, and "Grave" is 7.
 
 ### Not used
 - The GOARCH calendar site is blocked by Cloudflare bot protection, so there is no scraper for it.
@@ -69,12 +80,11 @@ The Python side writes these files and the Typst side reads them. Keep field nam
 
 | File | Written by | Key fields used in Typst |
 |---|---|---|
-| `feed.yaml` | `goarch_xml_feed.run` (`DailyFeedPageData`), then `text_sizing.run` fills in the sizing fields | `lectionary_title`, `formatted_date`, `icon_title`, `icon_filename`, `text_size_factor` (percent of `base_size_pt`), `alleluia_page_break`, `gospel_page_break`. Diagnostics only: `font_size_pt`, `layout`, `page_fill` |
+| `feed.yaml` | `goarch_xml_feed.run` (`DailyFeedPageData`), then `text_sizing.run` fills in the sizing fields | `lectionary_title`, `formatted_date`, `icon_title`, `text_size_factor` (percent of `base_size_pt`), `alleluia_page_break`, `gospel_page_break`. Diagnostics only: `font_size_pt`, `layout`, `page_fill` |
 | `epistle.yaml` | `EpistlePageData` | `book`, `chapverse`, `prokeimenon`, `verse`, `text[]` |
 | `gospel.yaml` | `GospelPageData` | `book`, `chapverse`, `text[]` |
 | `digital_chant_stand.yaml` | `LiturgyVariablesPageData` | `alleluia[]` (`dismissal_hymns` is scraped but not rendered) |
 | `manual.yaml` | `manual_entry_template.run` | `dismissal_hymns[] {title, mode, page}`, `upcoming_services[] {date, priest}` |
-| `<icon>.jpg` | `download_image` | not rendered right now (cover image removed) |
 
 **`manual.yaml` is hand-edited, and its contents can't be regenerated.** `manual_entry_template.run` writes a placeholder only if the file doesn't exist. Never overwrite or delete an existing one. The user fills in the "Hymns of the Day" list (title, mode, and page in their hymnal) and the upcoming-services list. `data/table-of-contents.txt` is a reference index of hymnal page numbers (`title | page | section`) for filling in `page`. No code reads it.
 
@@ -91,15 +101,14 @@ Re-running `main.py` for a date overwrites every other file in that date's build
 
 ## Code conventions
 
-- Async throughout with `httpx.AsyncClient` from `utils.http_client()` (20s timeout). Each source module exposes `async def run(run_date: date, out_dir: Path)`, and `main.py` calls them in order.
+- Async throughout with one `httpx.AsyncClient` from `utils.http_client()` (20s timeout), shared through the `SourceArchive`. `main.py` runs the two source modules concurrently.
 - Parsing: `lxml.etree` + XPath for XML (`utils.xpath_text` for the first text match), `selectolax` (`HTMLParser`, `.css`, `.css_first`, `.text()`) for HTML. Helpers are in `utils.py`.
 - Flat module layout with no package. Imports are plain `from utils import ...`.
-- Parsed data goes into `@dataclass`es in `classes.py` with `| None = None` defaults.
+- The YAML contract dataclasses live in `classes.py`, with `| None = None` defaults. Dataclasses used only inside one module (e.g. DCS `RowItem`) stay in that module. YAML is read and written through `yaml_io.py` (sync, no network dependencies, so `text_sizing` can use it).
 - Style: 4-space indent, type hints with built-in generics (`list[str]`, `X | None`, not `typing.List`/`Optional`), imports grouped stdlib / third-party / local. Code should read without comments: add one only when the *why* isn't obvious from names. Don't leave commented-out code. Git has the history.
 
 ## Known quirks / rough edges
 
-- Several scraped fields and helpers are unused (saint/feast hymns, DCS readings, `EpistlePageData.mode`, the icon download). `tasks/003-code-quality.md` lists them and the other open cleanups.
-- Scrape failures show up as bare `IndexError`/`StopIteration`/`ValueError`s with no source or field named (tasks/003 step 4).
+- Several scraped fields and helpers aren't rendered yet: saint/feast hymns (`process_saint_feast_page`), DCS readings and prokeimenon, `EpistlePageData.mode`, and `icon_src`/`saint_and_feast_urls` apart from `icon_title`. Task 002 decides whether to wire them in or delete them.
 - `ipdb`/`ipython` are in the dev dependency group for debugging.
 - Contact info and parish details in `bulletin_back.typ` are real and specific to this parish. Change them only when asked.

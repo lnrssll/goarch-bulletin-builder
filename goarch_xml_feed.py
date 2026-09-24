@@ -15,7 +15,7 @@ from classes import (
     GospelPageData,
     SaintFeastHymnData,
 )
-from utils import SourceArchive, xpath_text
+from utils import ScrapeError, SourceArchive, xpath_text
 from yaml_io import write_yaml
 
 
@@ -115,7 +115,11 @@ async def fetch_and_process[T](
     name: str,
     process: Callable[[etree._Element], T],
 ) -> T:
-    return process(await archive.fetch_xml(url, name))
+    tree = await archive.fetch_xml(url, name)
+    try:
+        return process(tree)
+    except (ScrapeError, AttributeError, IndexError, ValueError) as e:
+        raise ScrapeError(f"Online Chapel {name} {url}: {e!r}") from e
 
 
 async def scrape(

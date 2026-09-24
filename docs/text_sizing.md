@@ -65,7 +65,7 @@ The biggest size wins. On a tie the order is `split_before_alleluia` > `split_be
 ```sh
 uv run text_sizing.py 2026-09-27            # re-size one build dir (writes feed.yaml)
 uv run text_sizing.py --explain 2026-09-27  # per-block heights and each layout's size (read-only)
-uv run text_sizing.py --report              # old vs new for all of build/ (read-only)
+uv run text_sizing.py --report              # sizing for all of build/ (read-only)
 uv run pytest                               # unit tests
 ```
 

@@ -9,8 +9,7 @@ from selectolax.parser import HTMLParser
 import digital_chant_stand
 import goarch_xml_feed
 import text_sizing
-from get_scripture_reading import get_alleluia_mode, get_scripture_reading_sections
-from utils import SourceArchive
+from utils import ScrapeError, SourceArchive
 from yaml_io import read_yaml
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -82,6 +81,19 @@ def test_readings_are_complete(run_date):
 )
 def test_alleluia_mode(run_date, mode):
     tree = HTMLParser((ARCHIVE / run_date / "dcs.html").read_text())
-    sections = digital_chant_stand.group_by_sections(digital_chant_stand.iter_row_items(tree))
-    assert get_alleluia_mode(get_scripture_reading_sections(sections).alleluia_section) == mode
+    dcs = digital_chant_stand
+    sections = dcs.get_scripture_reading_sections(dcs.group_by_sections(dcs.iter_row_items(tree)))
+    assert dcs.get_alleluia_mode(sections.alleluia_section) == mode
 
+
+
+def test_bot_check_page_is_a_scrape_error(tmp_path):
+    (tmp_path / "dcs.html").write_text("<html><body>Just a moment...</body></html>")
+    with pytest.raises(ScrapeError, match="Alleluia"):
+        asyncio.run(digital_chant_stand.scrape(date(2026, 9, 27), SourceArchive(tmp_path)))
+
+
+def test_malformed_feed_is_a_scrape_error(tmp_path):
+    (tmp_path / "chapel.xml").write_text("<onlinechapel><formatteddate>x</formatteddate></onlinechapel>")
+    with pytest.raises(ScrapeError, match="chapel.xml"):
+        asyncio.run(goarch_xml_feed.scrape(date(2026, 9, 27), SourceArchive(tmp_path)))

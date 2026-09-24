@@ -1,17 +1,5 @@
 from dataclasses import dataclass
 
-from selectolax.parser import Node
-
-
-@dataclass
-class RowItem:
-    kind: str
-    text: str
-    node: Node
-
-
-type DcsSections = dict[str, list[RowItem]]
-
 
 @dataclass
 class DismissalHymnData:
@@ -19,28 +7,6 @@ class DismissalHymnData:
     mode: str | None = None
     source: str | None = None
     text: str | None = None
-
-
-@dataclass
-class DcsScriptureReadingSections:
-    epistle_section: list[RowItem] | None = None
-    alleluia_section: list[RowItem] | None = None
-    gospel_section: list[RowItem] | None = None
-
-
-@dataclass
-class ScriptureReading:
-    author: str
-    chapverse: str
-    reading: str
-
-
-@dataclass
-class ScriptureReadingData:
-    prokeimenon: list[str] | None = None
-    epistle: ScriptureReading | None = None
-    alleluia: list[str] | None = None
-    gospel: ScriptureReading | None = None
 
 
 @dataclass

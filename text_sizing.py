@@ -408,43 +408,6 @@ def run(out_dir: Path) -> SizingResult:
 ################################################################################
 
 
-def legacy_sizing(epistle_text: list[str], gospel_text: list[str]) -> tuple[float, bool, bool]:
-    # verbatim copy of the pre-text_sizing formula, used only by --report
-    def factor(text: list[str]) -> int:
-        n = len(" ".join(text))
-        return min(round(100.0 * (1 - (1 - 1000.0 / n) ** 2)), 100)
-
-    epistle_char_count = len(" ".join(epistle_text))
-    gospel_char_count = len(" ".join(gospel_text))
-    epistle_factor = factor(epistle_text)
-    gospel_factor = max(1, factor(gospel_text))
-
-    text_size_factor_decimal = math.sqrt((gospel_factor / 100.0) * (epistle_factor / 100.0))
-    text_size_factor = 100 * round(text_size_factor_decimal, 2)
-
-    epistle_text_area_units = epistle_char_count * text_size_factor_decimal**2
-    gospel_text_area_units = gospel_char_count * text_size_factor_decimal**2
-
-    alleluia_page_break = max(gospel_text_area_units, epistle_text_area_units) < 1_200
-    alleluia_fits_on_epistle_page = epistle_text_area_units < 1_000
-    gospel_reading_fits_on_gospel_page = gospel_text_area_units < 1_400
-    gospel_page_break = (
-        alleluia_fits_on_epistle_page
-        and gospel_reading_fits_on_gospel_page
-        and not alleluia_page_break
-    )
-
-    return text_size_factor, alleluia_page_break, gospel_page_break
-
-
-def breaks_label(alleluia_page_break: bool, gospel_page_break: bool) -> str:
-    if alleluia_page_break:
-        return "|A"
-    if gospel_page_break:
-        return "|G"
-    return "flow"
-
-
 def explain(out_dir: Path) -> None:
     model = load_model()
     box, metrics, base_size = model.box, model.metrics, model.base_size_pt
@@ -472,11 +435,10 @@ def explain(out_dir: Path) -> None:
 
 def report(build_dir: Path = BUILD_DIR) -> None:
     model = load_model()
-    base_size = model.base_size_pt
 
     print(
         f"{'date':<11} {'E chars':>7} {'P':>2} {'G chars':>7} {'P':>2} "
-        f"{'old pt':>6} {'old':>4}   {'new pt':>6} {'layout':<22} {'fill':>9}"
+        f"{'pt':>5} {'layout':<22} {'fill':>9}"
     )
     for out_dir in sorted(p for p in build_dir.iterdir() if p.is_dir()):
         try:
@@ -487,17 +449,11 @@ def report(build_dir: Path = BUILD_DIR) -> None:
 
         epistle_text = data["epistle.yaml"]["text"]
         gospel_text = data["gospel.yaml"]["text"]
-        try:
-            old_factor, old_alleluia, old_gospel = legacy_sizing(epistle_text, gospel_text)
-            old = f"{base_size * old_factor / 100:>6.1f} {breaks_label(old_alleluia, old_gospel):>4}"
-        except ValueError:
-            old = f"{'error':>6} {'':>4}"
-
         fill = f"{result.page_fill[0]:.0%}/{result.page_fill[1]:.0%}"
         print(
             f"{out_dir.name:<11} {len(' '.join(epistle_text)):>7} {len(epistle_text):>2} "
             f"{len(' '.join(gospel_text)):>7} {len(gospel_text):>2} "
-            f"{old}   {result.font_size_pt:>6.1f} {result.layout:<22} {fill:>9}"
+            f"{result.font_size_pt:>5.1f} {result.layout:<22} {fill:>9}"
         )
 
 

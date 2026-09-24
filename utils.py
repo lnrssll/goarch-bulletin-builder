@@ -13,6 +13,10 @@ def http_client() -> httpx.AsyncClient:
     return httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0))
 
 
+class ScrapeError(Exception):
+    pass
+
+
 class NotArchived(Exception):
     pass
 
@@ -62,4 +66,7 @@ def to_alpha(s: str | None) -> str:
 
 
 def xpath_text(tree: etree._Element, path: str) -> str:
-    return str(tree.xpath(path)[0])
+    matches = tree.xpath(path)
+    if not matches:
+        raise ScrapeError(f"nothing at {path}")
+    return str(matches[0])

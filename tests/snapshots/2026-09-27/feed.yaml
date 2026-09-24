@@ -1,0 +1,21 @@
+alleluia_page_break: false
+epistle_page_url: http://onlinechapel.goarch.org/lectionary.asp?type=E&code=328&event=2904&date=09/27/2026
+font_size_pt: 10
+formatted_date: September 27, 2026
+gospel_page_break: false
+gospel_page_url: http://onlinechapel.goarch.org/lectionary.asp?type=G&code=169&event=1038&date=09/27/2026
+icon_src: http://onlinechapel.goarch.org/images/small/johntheo.jpg
+icon_title: ''
+layout: flow
+lectionary_title: 1st Sunday of Luke
+page_fill:
+- 1.0
+- 0.88
+saint_and_feast_urls:
+- http://onlinechapel.goarch.org/saints.asp?contentid=1038&PCode=1LS&D=S&date=09/27/2026
+- http://onlinechapel.goarch.org/saints.asp?contentid=219
+- http://onlinechapel.goarch.org/saints.asp?contentid=735
+- http://onlinechapel.goarch.org/saints.asp?contentid=736
+- http://onlinechapel.goarch.org/saints.asp?contentid=2263
+text_size_factor: 100.0
+

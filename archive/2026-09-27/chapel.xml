@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlinechapel>
+	<feedtype>daily</feedtype>
+	<date>09/27/2026</date>
+	<formatteddate>Sunday, September 27, 2026</formatteddate>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<icon source='ths'>http://onlinechapel.goarch.org/images/small/johntheo.jpg</icon>
+	<fasting></fasting>
+	<tone>Plagal of the Fourth Tone</tone>
+	<eothinon>6</eothinon>
+	<readings>		<reading id="40">
+			<type>MG</type>
+			<typebb>mg</typebb>
+			<event>1902</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=MG&amp;code=40&amp;event=1902&amp;date=09/27/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=MG&amp;code=40&amp;event=1902&amp;date=09/27/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>Luke 24:36-53</title>
+				<shorttitle>Luke 24:36-53</shorttitle>
+				<clip>At that time, having risen from the dead, Jesus stood in the midst of his disciples and said to them</clip>
+				<body>Full Orthros Gospel Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="328">
+			<type>E</type>
+			<typebb>epistle</typebb>
+			<event>2904</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=E&amp;code=328&amp;event=2904&amp;date=09/27/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=E&amp;code=328&amp;event=2904&amp;date=09/27/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>St. Paul's Second Letter to the Corinthians 6:16-18; 7:1</title>
+				<shorttitle>St. Paul's Second Letter to the Corinthians 6:16-18; 7:1</shorttitle>
+				<clip>Brethren, you are the temple of the living God; as God said, "I will live in them and move among</clip>
+				<body>Epistle Full Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="169">
+			<type>G</type>
+			<typebb>gospel</typebb>
+			<event>1038</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=G&amp;code=169&amp;event=1038&amp;date=09/27/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=G&amp;code=169&amp;event=1038&amp;date=09/27/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>Luke 5:1-11</title>
+				<shorttitle>Luke 5:1-11</shorttitle>
+				<clip>At that time, as Jesus was standing by the lake of Gennesaret, he saw two boats by the lake; but the</clip>
+				<body>Gospel Full reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+</readings>
+	<lectionarytitle>1st Sunday of Luke</lectionarytitle>
+	<saintsfeasts>
+	<saintfeast>
+		<title>1st Sunday of Luke</title>
+		<id>1038</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=1038&amp;PCode=1LS&amp;D=S&amp;date=09/27/2026</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=1038&amp;PCode=1LS&amp;D=S&amp;date=09/27/2026</publicurl>
+		<classification>5</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Callistratus the Martyr &amp; his 49 Companions</title>
+		<id>219</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=219</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=219</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Mark, Aristarchos, and Zenon, Apostles of the 70</title>
+		<id>735</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=735</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=735</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Akylina the New Martyr of Thessaloniki</title>
+		<id>736</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=736</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=736</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Gideon the Righteous</title>
+		<id>2263</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=2263</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=2263</publicurl>
+		<classification>10</classification>
+		<moreinfo>0</moreinfo>
+	</saintfeast>
+	</saintsfeasts>
+</onlinechapel>

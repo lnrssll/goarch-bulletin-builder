@@ -5,7 +5,6 @@ description = "Weekly Divine Liturgy bulletin: GOARCH scraper and Typst layout"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "aiofiles>=25.1.0",
     "httpx>=0.28.1",
     "lxml>=6.0.2",
     "pyyaml>=6.0.3",

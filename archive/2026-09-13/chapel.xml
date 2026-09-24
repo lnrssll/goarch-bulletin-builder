@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlinechapel>
+	<feedtype>daily</feedtype>
+	<date>09/13/2026</date>
+	<formatteddate>Sunday, September 13, 2026</formatteddate>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<icon source='atc'>http://onlinechapel.goarch.org/images/clark/exaltation.jpg</icon>
+	<fasting></fasting>
+	<tone>Plagal of the Second Tone</tone>
+	<eothinon>4</eothinon>
+	<readings>		<reading id="340">
+			<type>MG</type>
+			<typebb>mg</typebb>
+			<event>1900</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=MG&amp;code=340&amp;event=1900&amp;date=09/13/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=MG&amp;code=340&amp;event=1900&amp;date=09/13/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>Luke 24:1-12</title>
+				<shorttitle>Luke 24:1-12</shorttitle>
+				<clip>On the first day of the week, at early dawn, the women went to the tomb, taking the spices which they had prepared</clip>
+				<body>Full Orthros Gospel Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="218">
+			<type>E</type>
+			<typebb>epistle</typebb>
+			<event>1165</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=E&amp;code=218&amp;event=1165&amp;date=09/13/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=E&amp;code=218&amp;event=1165&amp;date=09/13/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>St. Paul's Letter to the Galatians 6:11-18</title>
+				<shorttitle>St. Paul's Letter to the Galatians 6:11-18</shorttitle>
+				<clip>Brethren, see with what large letters I am writing to you with my own hand. It is those who want to make</clip>
+				<body>Epistle Full Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="336">
+			<type>G</type>
+			<typebb>gospel</typebb>
+			<event>1165</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=G&amp;code=336&amp;event=1165&amp;date=09/13/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=G&amp;code=336&amp;event=1165&amp;date=09/13/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>John 3:13-17</title>
+				<shorttitle>John 3:13-17</shorttitle>
+				<clip>The Lord said, "No one has ascended into heaven but he who descended from heaven, the Son of man.</clip>
+				<body>Gospel Full reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+</readings>
+	<lectionarytitle>Sunday before Holy Cross</lectionarytitle>
+	<saintsfeasts>
+	<saintfeast>
+		<title>Sunday before Holy Cross</title>
+		<id>1165</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=1165&amp;PCode=SBHC&amp;D=S&amp;date=09/13/2026</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=1165&amp;PCode=SBHC&amp;D=S&amp;date=09/13/2026</publicurl>
+		<classification>5</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>The Consecration of the Church of the Holy Resurrection (Holy Sepulchre)</title>
+		<id>596</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=596</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=596</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Forefeast of the Elevation of the Holy Cross</title>
+		<id>597</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=597</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=597</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Cornelius the Centurion &amp; Martyr</title>
+		<id>204</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=204</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=204</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Aristides the Philosopher</title>
+		<id>2452</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=2452</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=2452</publicurl>
+		<classification>10</classification>
+		<moreinfo>0</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Hierotheos the Righteous of Iveron Monastery, Mount Athos</title>
+		<id>2248</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=2248</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=2248</publicurl>
+		<classification>10</classification>
+		<moreinfo>0</moreinfo>
+	</saintfeast>
+	</saintsfeasts>
+</onlinechapel>

@@ -1,0 +1,22 @@
+alleluia_page_break: true
+epistle_page_url: http://onlinechapel.goarch.org/lectionary.asp?type=E&code=218&event=1165&date=09/13/2026
+font_size_pt: 10
+formatted_date: September 13, 2026
+gospel_page_break: false
+gospel_page_url: http://onlinechapel.goarch.org/lectionary.asp?type=G&code=336&event=1165&date=09/13/2026
+icon_src: http://onlinechapel.goarch.org/images/clark/exaltation.jpg
+icon_title: ''
+layout: split_before_alleluia
+lectionary_title: Sunday before Holy Cross
+page_fill:
+- 0.842
+- 0.644
+saint_and_feast_urls:
+- http://onlinechapel.goarch.org/saints.asp?contentid=1165&PCode=SBHC&D=S&date=09/13/2026
+- http://onlinechapel.goarch.org/saints.asp?contentid=596
+- http://onlinechapel.goarch.org/saints.asp?contentid=597
+- http://onlinechapel.goarch.org/saints.asp?contentid=204
+- http://onlinechapel.goarch.org/saints.asp?contentid=2452
+- http://onlinechapel.goarch.org/saints.asp?contentid=2248
+text_size_factor: 100.0
+

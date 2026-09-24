@@ -1,0 +1,24 @@
+alleluia:
+- I raised up a chosen one from My people.
+- For My hand shall support him.
+dismissal_hymns:
+- mode: '2'
+  source: null
+  text: O benevolent Lord, as an intercessor we present to You the life-giving Cross
+    of Your goodness, which we the unworthy have as a gift from You. Save our leaders
+    and our nation and keep them in peace, through the Theotokos.
+  title: For the Forefeast
+- mode: '4'
+  source: Menaion
+  text: You have made the earthly beauty of the holy tabernacle of Your glory to be
+    like the majesty of the firmament on high, O Lord. Make it strong forever and
+    ever, and accept our supplications that we unceasingly bring to You there, at
+    the intercession of the Theotokos. For You are the life and resurrection of all.
+  title: For the Consecration
+- mode: '4'
+  source: Menaion
+  text: 'Lord, Your Church appears to us * to be like heaven * full of light, and
+    guides with light * all who believe in You, O Christ. * And we who stand in it
+    cry to You: * Savior, establish forever this holy house.'
+  title: Kontakion
+

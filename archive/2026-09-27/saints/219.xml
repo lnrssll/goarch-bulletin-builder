@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>Kallistratos the Martyr &amp; his 49 Companions</title>
+	<contentid>219</contentid>
+	<displaydate>September 27</displaydate>
+	<date>9/27</date>
+	<month>9</month>
+	<day>27</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>10</classification>
+	<icons>
+		<icon id="1" source="x">
+			<filepath>small/allsaint.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/small/allsaint.jpg</url>
+			<copyright></copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	<lectionaryreading type="E">
+		<type>E</type>
+		<title>St. Paul's Letter to the Galatians 6:11-18</title>
+		<shorttitle>Galatians 6:11-18</shorttitle>
+		<id>218</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=epistle&amp;code=218&amp;event=219</url>
+	</lectionaryreading>
+	</lectionary>
+	<readings>
+		<translation xml:lang="en" lang="en" source="htm">
+			<title>Reading</title>
+			<shorttitle>Reading</shorttitle>
+			<body><![CDATA[<p> These Martyrs contested for the Faith during the reign of Diocletian, in the year 288.  Saint Callistratus was arrested as a Christian, and after being tormented, was enclosed in a sack and cast into the sea.  The sack burst, and the Saint came to dry land safe and sound.  Forty-nine soldiers, seeing this, also confessed Christ, and with him were cast into prison, then beheaded. </p>]]></body>
+			<copyright>Holy Transfiguration Monastery - Brookline, MA</copyright>
+		</translation>
+	</readings><hymns>		<hymn>
+			<type>apolytikion</type>
+			<title>Apolytikion of Martyr Callistratus &amp; his Companions in the Fourth Tone</title>
+			<shorttitle>Apolytikion of Martyr Callistratus &amp; his Companions</shorttitle>
+			<tone>Fourth Tone</tone>
+			<translation xml:lang="en" lang="en" source="htm">
+				<body>Thy Martyrs, O Lord, in their courageous contest for Thee received as the prize the crowns of incorruption and life from Thee, our immortal God. For since they possessed Thy strength, they cast down the tyrants and wholly destroyed the demons' strengthless presumption. O Christ God, by their prayers, save our souls, since Thou art merciful.</body>
+				<copyright>Holy Transfiguration Monastery</copyright>
+			</translation>
+		</hymn>
+		<hymn>
+			<type>kontakion</type>
+			<title>Kontakion of Martyr Callistratus &amp; his Companions in the Second Tone</title>
+			<shorttitle>Kontakion of Martyr Callistratus &amp; his Companions</shorttitle>
+			<tone>Second Tone</tone>
+			<translation xml:lang="en" lang="en" source="htm">
+				<body>O all-wise and godly Saints, today the whole Church, showing honour to you all, doth now in spirit sing your praise; for ye contested in her behalf, O right-victorious Martyrs of Christ our God.</body>
+				<copyright>Holy Transfiguration Monastery</copyright>
+			</translation>
+		</hymn>
+</hymns>
+</saintfeast>

@@ -1,10 +1,10 @@
 from datetime import date, timedelta
 from pathlib import Path
 
-from utils import write_yaml
+from yaml_io import write_yaml
 
 
-async def run(run_date: date, out_dir: Path) -> None:
+def run(run_date: date, out_dir: Path) -> None:
     out_path = out_dir / "manual.yaml"
     if out_path.exists():
         return
@@ -19,4 +19,4 @@ async def run(run_date: date, out_dir: Path) -> None:
             {"date": f"{next_service_date:%m/%d/%Y}", "priest": "Fr. X"},
         ],
     }
-    await write_yaml(data, out_path)
+    write_yaml(data, out_path)

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>Hierotheos the Righteous of Iveron Monastery, Mount Athos</title>
+	<contentid>2248</contentid>
+	<displaydate>September 13</displaydate>
+	<date>9/13</date>
+	<month>9</month>
+	<day>13</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>10</classification>
+	<icons>
+		<icon id="1" source="x">
+			<filepath>small/allsaint.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/small/allsaint.jpg</url>
+			<copyright></copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	</lectionary>
+	<readings></readings><hymns></hymns>
+</saintfeast>

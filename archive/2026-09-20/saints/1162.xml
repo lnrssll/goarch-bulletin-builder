@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>Sunday after Holy Cross</title>
+	<contentid>1162</contentid>
+	<displaydate>September 20</displaydate>
+	<date>09/20/2026</date>
+	<month>09</month>
+	<day>20</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>5</classification>
+	<icons>
+		<icon id="1" source="x">
+			<filepath>clark/exaltation.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/clark/exaltation.jpg</url>
+			<copyright>Athanasius Clark</copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	<lectionaryreading type="E">
+		<type>E</type>
+		<title>St. Paul's Letter to the Galatians 2:16-20</title>
+		<shorttitle>Galatians 2:16-20</shorttitle>
+		<id>206</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=epistle&amp;code=206&amp;event=1162</url>
+	</lectionaryreading>
+	<lectionaryreading type="G">
+		<type>G</type>
+		<title>Mark 8:34-38; 9:1</title>
+		<shorttitle>Mk. 8:34-38; 9:1</shorttitle>
+		<id>324</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=gospel&amp;code=324&amp;event=1162</url>
+	</lectionaryreading>
+	</lectionary>
+	<readings></readings><hymns>		<hymn>
+			<type>kontakion</type>
+			<title>Kontakion of Sun. after Holy Cross in the Fourth Tone</title>
+			<shorttitle>Kontakion of Sun. after Holy Cross</shorttitle>
+			<tone>Fourth Tone</tone>
+			<translation xml:lang="en" lang="en" source="npr">
+				<body>Lifted up on the Cross by Your free will, Christ God, grant mercies to the new commonwealth that bears Your name. Gladden our faithful rulers by Your power, giving them victories over their adversaries. May Your alliance be for them a weapon for peace, an invincible standard.</body>
+				<copyright>Narthex Press</copyright>
+			</translation>
+		</hymn>
+</hymns>
+</saintfeast>

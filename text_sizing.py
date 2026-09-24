@@ -4,7 +4,7 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-import yaml
+from yaml_io import read_yaml, write_yaml
 
 BUILD_DIR = Path("build")
 LAYOUT_PATH = Path("data/layout.yaml")
@@ -322,16 +322,6 @@ def gospel_blocks(gospel: dict, metrics: TextMetrics) -> list[Block]:
 ################################################################################
 # config and build dirs
 ################################################################################
-
-
-def read_yaml(path: Path) -> dict:
-    with open(path, encoding="utf-8") as f:
-        return yaml.safe_load(f)
-
-
-def write_yaml(data: dict, path: Path) -> None:
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(yaml.safe_dump(data) + "\n")
 
 
 def load_layout(path: Path = LAYOUT_PATH) -> dict:

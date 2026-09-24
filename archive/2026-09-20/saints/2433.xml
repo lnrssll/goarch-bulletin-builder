@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>Afterfeast of the Holy Cross</title>
+	<contentid>2433</contentid>
+	<displaydate>September 20</displaydate>
+	<date>9/20</date>
+	<month>9</month>
+	<day>20</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>10</classification>
+	<icons>
+		<icon id="1" source="x">
+			<filepath>small/elevcros.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/small/elevcros.jpg</url>
+			<copyright>Theologic Systems</copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	</lectionary>
+	<readings></readings><hymns>		<hymn>
+			<type>apolytikion</type>
+			<title>Apolytikion of Afterfeast of the Holy Cross in the First Tone</title>
+			<shorttitle>Apolytikion of Afterfeast of the Holy Cross</shorttitle>
+			<tone>First Tone</tone>
+			<translation xml:lang="en" lang="en" source="npr">
+				<body>Lord, save Your people and bless Your inheritance, granting our rulers to prevail over adversaries, and protecting Your commonwealth by Your Cross.</body>
+				<copyright>Narthex Press</copyright>
+			</translation>
+		</hymn>
+</hymns>
+</saintfeast>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlinechapel>
+	<feedtype>reading</feedtype>
+	<id>324</id>
+	<type>Gospel</type>
+	<displaytitle>Gospel Reading</displaytitle>
+	<event>Sunday after Holy Cross</event>
+	<prokeimenon></prokeimenon>
+	<icon>
+		<url>http://onlinechapel.goarch.org/images/small/jclifegv.jpg</url>
+		<title>Icons</title>
+		<copyright>Greek Orthodox Archdiocese of America</copyright>
+	</icon>
+	<translation xml:lang="en">
+		<title>Mark 8:34-38; 9:1</title>
+		<shorttitle>Mk. 8:34-38; 9:1</shorttitle>
+		<clip>The Lord said: "If anyone wishes to come after me, let him deny himself and take up his cross and</clip>
+		<body><![CDATA[<p>The Lord said: "If anyone wishes to come after me, let him deny himself and take up his cross and follow me. For whoever would save his life will lose it; and whoever loses his life for my sake and the gospel's will save it. For what does it profit a man, to gain the whole world and forfeit his life? For what can a man give in return for his life? For whoever is ashamed of me and my words in this adulterous and sinful generation, of him will the Son of man also be ashamed, when he comes in the glory of his Father with the holy angels." And he said to them, "Truly, I say to you, there are some standing here who will not taste death before they see the kingdom of God come with power."</p>]]></body>
+		<language>en</language>
+	</translation>
+	<translation xml:lang="el">
+		<title>&#922;&#945;&#964;&#8048; &#924;&#8118;&#961;&#954;&#959;&#957; 8:34-38, 9:1</title>
+		<shorttitle>&#924;&#940;&#961;&#954;. 8:34-38, 9:1</shorttitle>
+		<clip>&#917;&#7990;&#960;&#949;&#957; &#8001; &#922;&#973;&#961;&#953;&#959;&#962;&#903; &#917;&#7988; &#964;&#953;&#962; &#952;&#8051;&#955;&#949;&#953; &#8000;&#960;&#8055;&#963;&#969; &#956;&#959;&#965; &#7952;&#955;&#952;&#949;&#8150;&#957; </clip>
+		<body><![CDATA[<p>Εἶπεν ὁ Κύριος· Εἴ τις θέλει ὀπίσω μου ἐλθεῖν, ἀπαρνησάσθω ἑαυτὸν καὶ ἀράτω τὸν σταυρὸν αὐτοῦ, καὶ ἀκολουθείτω μοι. ὃς γὰρ ἂν θέλῃ τὴν ψυχὴν αὐτοῦ σῶσαι, ἀπολέσει αὐτήν· ὃς δ᾿ ἂν ἀπολέσῃ τὴν ἑαυτοῦ ψυχὴν ἕνεκεν ἐμοῦ καὶ τοῦ εὐαγγελίου, οὗτος σώσει αὐτήν. τί γὰρ ὠφελήσει ἄνθρωπον ἐὰν κερδήσῃ τὸν κόσμον ὅλον, καὶ ζημιωθῇ τὴν ψυχὴν αὐτοῦ; ἢ τί δώσει ἄνθρωπος ἀντάλλαγμα τῆς ψυχῆς αὐτοῦ; ὃς γὰρ ἐὰν ἐπαισχυνθῇ με καὶ τοὺς ἐμοὺς λόγους ἐν τῇ γενεᾷ ταύτῃ τῇ μοιχαλίδι καὶ ἁμαρτωλῷ, καὶ ὁ υἱὸς τοῦ ἀνθρώπου ἐπαισχυνθήσεται αὐτὸν ὅταν ἔλθῃ ἐν τῇ δόξῃ τοῦ πατρὸς αὐτοῦ μετὰ τῶν ἀγγέλων τῶν ἁγίων. Καὶ ἔλεγεν αὐτοῖς· ἀμὴν λέγω ὑμῖν ὅτι εἰσί τινες τῶν ὧδε ἑστηκότων, οἵτινες οὐ μὴ γεύσωνται θανάτου ἕως ἂν ἴδωσι τὴν βασιλείαν τοῦ Θεοῦ ἐληλυθυῖαν ἐν δυνάμει.</p>]]></body>
+		<language>el</language>
+	</translation>
+	<translation xml:lang="ar">
+		<title>&#1605;&#1585;&#1602;&#1587; 8: 34-38 &#1548; 9: 1</title>
+		<shorttitle>&#1605;&#1585;&#1602;&#1587; 8: 34-38 &#1548; 9: 1</shorttitle>
+		<clip>&#1601;&#1610; &#1584;&#1604;&#1603; &#1575;&#1604;&#1586;&#1605;&#1575;&#1606; &#1583;&#1614;&#1593;&#1614;&#1575; &#1610;&#1587;&#1608;&#1593; &#1575;&#1604;&#1618;&#1580;&#1614;&#1605;&#1618;&#1593;&#1614; &#1605;&#1614;&#1593;&#1614; &#1578;&#1614;&#1604;&#1575;&#1614;&#1605;&#1616;&#1610;&#1584;&#1616;&#1607;&#1616; &#1608;&#1614;&#1602;&#1614;&#1575;&#1604;&#1614; &#1604;&#1614;&#1607;&#1615;&#1605;&#1618;</clip>
+		<body><![CDATA[<p>34 في ذلك الزمان دَعَا يسوع الْجَمْعَ مَعَ تَلاَمِيذِهِ وَقَالَ لَهُمْ: ((مَنْ أَرَادَ أَنْ يَأْتِيَ وَرَائِي فَلْيُنْكِرْ نَفْسَهُ وَيَحْمِلْ صَلِيبَهُ وَيَتْبَعْنِي. 35فَإِنَّ مَنْ أَرَادَ أَنْ يُخَلِّصَ نَفْسَهُ يُهْلِكُهَا، وَمَنْ يُهْلِكُ نَفْسَهُ مِنْ أَجْلِي وَمِنْ أَجْلِ الإِنْجِيلِ فَهُوَ يُخَلِّصُهَا. 36لأَنَّهُ مَاذَا يَنْتَفِعُ الإِنْسَانُ لَوْ رَبِحَ الْعَالَمَ كُلَّهُ وَخَسِرَ نَفْسَهُ؟ 37أَوْ مَاذَا يُعْطِي الإِنْسَانُ فِدَاءً عَنْ نَفْسِهِ؟ 38لأَنَّ مَنِ اسْتَحَى بِي وَبِكَلاَمِي فِي هَذَا الْجِيلِ الْفَاسِقِ الْخَاطِئِ، فَإِنَّ ابْنَ الإِنْسَانِ يَسْتَحِي بِهِ مَتَى جَاءَ بِمَجْدِ أَبِيهِ مَعَ الْمَلاَئِكَةِ الْقِدِّيسِينَ)).1 وَقَالَ لَهُمُ: ((الْحَقَّ أَقُولُ لَكُمْ: إِنَّ مِنَ الْقِيَامِ هَهُنَا قَوْماً لاَ يَذُوقُونَ الْمَوْتَ حَتَّى يَرَوْا مَلَكُوتَ اللَّهِ قَدْ أَتَى بِقُوَّةٍ)).</p><p> </p><p> </p>]]></body>
+		<language>ar</language>
+	</translation>
+</onlinechapel>

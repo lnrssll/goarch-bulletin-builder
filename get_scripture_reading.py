@@ -38,11 +38,14 @@ def get_reading(rows: list[RowItem], data_key: str) -> ScriptureReading:
 
 
 def get_alleluia_mode(rows: list[RowItem]) -> int | None:
-    mode = next(n for n in rows[0].node.css("span > span") if "Mode" in n.text())
-    if "Grave" in mode.text():
+    title = rows[0].text
+    if "Grave" in title:
         return 7
-    number = re.search(r"\d", mode.text())
-    return int(number.group()) if number else None
+    match = re.search(r"Mode (pl\. )?(\d)", title)
+    if match is None:
+        return None
+    plagal, number = match.groups()
+    return int(number) + (4 if plagal else 0)
 
 
 def get_alleluia(rows: list[RowItem]) -> list[str]:

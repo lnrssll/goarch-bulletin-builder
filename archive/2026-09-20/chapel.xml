@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlinechapel>
+	<feedtype>daily</feedtype>
+	<date>09/20/2026</date>
+	<formatteddate>Sunday, September 20, 2026</formatteddate>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<icon source='atc'>http://onlinechapel.goarch.org/images/clark/exaltation.jpg</icon>
+	<fasting></fasting>
+	<tone>Grave Tone</tone>
+	<eothinon>5</eothinon>
+	<readings>		<reading id="414">
+			<type>MG</type>
+			<typebb>mg</typebb>
+			<event>1901</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=MG&amp;code=414&amp;event=1901&amp;date=09/20/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=MG&amp;code=414&amp;event=1901&amp;date=09/20/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>Luke 24:12-35</title>
+				<shorttitle>Luke 24:12-35</shorttitle>
+				<clip>At that time, Peter rose and ran to the tomb; stooping and looking in, he saw the linen cloths by themselves</clip>
+				<body>Full Orthros Gospel Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="206">
+			<type>E</type>
+			<typebb>epistle</typebb>
+			<event>1162</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=E&amp;code=206&amp;event=1162&amp;date=09/20/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=E&amp;code=206&amp;event=1162&amp;date=09/20/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>St. Paul's Letter to the Galatians 2:16-20</title>
+				<shorttitle>St. Paul's Letter to the Galatians 2:16-20</shorttitle>
+				<clip>Brethren, knowing that a man is not justified by works of the law but through faith in Jesus Christ,</clip>
+				<body>Epistle Full Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="324">
+			<type>G</type>
+			<typebb>gospel</typebb>
+			<event>1162</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=G&amp;code=324&amp;event=1162&amp;date=09/20/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=G&amp;code=324&amp;event=1162&amp;date=09/20/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>Mark 8:34-38; 9:1</title>
+				<shorttitle>Mark 8:34-38; 9:1</shorttitle>
+				<clip>The Lord said: "If anyone wishes to come after me, let him deny himself and take up his cross and</clip>
+				<body>Gospel Full reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+</readings>
+	<lectionarytitle>Sunday after Holy Cross</lectionarytitle>
+	<saintsfeasts>
+	<saintfeast>
+		<title>Sunday after Holy Cross</title>
+		<id>1162</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=1162&amp;PCode=SAHC&amp;D=S&amp;date=09/20/2026</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=1162&amp;PCode=SAHC&amp;D=S&amp;date=09/20/2026</publicurl>
+		<classification>5</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Eustathius the Great Martyr, his wife and two children</title>
+		<id>211</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=211</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=211</publicurl>
+		<classification>4</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Our Righteous Father Eustathius, Archbishop of Thessolonica</title>
+		<id>600</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=600</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=600</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>John the Foreigner</title>
+		<id>2579</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=2579</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=2579</publicurl>
+		<classification>10</classification>
+		<moreinfo>0</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Hilarion the New Martyr of Crete</title>
+		<id>2254</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=2254</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=2254</publicurl>
+		<classification>10</classification>
+		<moreinfo>0</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Afterfeast of the Holy Cross</title>
+		<id>2433</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=2433</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=2433</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	</saintsfeasts>
+</onlinechapel>

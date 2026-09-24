@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlinechapel>
+	<feedtype>reading</feedtype>
+	<id>218</id>
+	<type>Epistle</type>
+	<displaytitle>Epistle Reading</displaytitle>
+	<event>Sunday before Holy Cross</event>
+	<prokeimenon></prokeimenon>
+	<icon>
+		<url>http://onlinechapel.goarch.org/images/clark/pet_paul.jpg</url>
+		<title>Icons</title>
+		<copyright>Greek Orthodox Archdiocese of America</copyright>
+	</icon>
+	<translation xml:lang="en">
+		<title>St. Paul's Letter to the Galatians 6:11-18</title>
+		<shorttitle>Galatians 6:11-18</shorttitle>
+	 <prokmode>6</prokmode>
+	 <prokpsalm>Psalm 27.9,1</prokpsalm>
+	 <prokprokeimenon>O Lord, save your people and bless your inheritance.</prokprokeimenon>
+	 <prokverse>Verse: To you, O Lord, I have cried, O my God.</prokverse>
+		<clip>Brethren, see with what large letters I am writing to you with my own hand. It is those who want to make </clip>
+		<body><![CDATA[<p>Brethren, see with what large letters I am writing to you with my own hand. It is those who want to make a good showing in the flesh that would compel you to be circumcised, and only in order that they may not be persecuted for the cross of Christ. For even those who receive circumcision do not themselves keep the law, but they desire to have you circumcised that they may glory in your flesh. But far be it from me to glory except in the cross of our Lord Jesus Christ, by which the world has been crucified to me, and I to the world. For neither circumcision counts for anything, nor uncircumcision, but a new creation. Peace and mercy be upon all who walk by this rule, upon the Israel of God. Henceforth let no man trouble me; for I bear on my body the marks of Jesus. The grace of our Lord Jesus Christ be with your spirit, brethren. Amen.</p>]]></body>
+		<language>en</language>
+	</translation>
+	<translation xml:lang="el">
+		<title>&#928;&#961;&#8056;&#962; &#915;&#945;&#955;&#940;&#964;&#945;&#962; 6:11-18</title>
+		<shorttitle>&#915;&#945;&#955;. 6:11-18</shorttitle>
+	 <prokmode>6</prokmode>
+	 <prokpsalm>&#936;&#913;&#923;&#924;&#927;&#921; 27.9,1</prokpsalm>
+	 <prokprokeimenon>&#931;&#8182;&#963;&#959;&#957;, &#922;&#973;&#961;&#953;&#949; &#964;&#8056;&#957; &#955;&#945;&#8056;&#957; &#963;&#959;&#965; &#954;&#945;&#8054; &#949;&#8016;&#955;&#972;&#947;&#951;&#963;&#959;&#957; &#964;&#8052;&#957; &#954;&#955;&#951;&#961;&#959;&#957;&#959;&#956;&#943;&#945;&#957; &#963;&#959;&#965;.</prokprokeimenon>
+	 <prokverse>&#931;&#964;&#943;&#967;. &#928;&#961;&#8056;&#962; &#963;&#7952;, &#922;&#973;&#961;&#953;&#949;, &#954;&#949;&#954;&#961;&#940;&#958;&#959;&#956;&#945;&#953; &#8001; &#920;&#949;&#972;&#962; &#956;&#959;&#965;.</prokverse>
+		<clip>&#7944;&#948;&#949;&#955;&#966;&#959;&#943;, &#7988;&#948;&#949;&#964;&#949; &#960;&#951;&#955;&#943;&#954;&#959;&#953;&#962; &#8017;&#956;&#8150;&#957; &#947;&#961;&#940;&#956;&#956;&#945;&#963;&#953;&#957; </clip>
+		<body><![CDATA[<p>Ἀδελφοί, ἴδετε πηλίκοις ὑμῖν γράμμασιν ἔγραψα τῇ ἐμῇ χειρί. Ὅσοι θέλουσιν εὐπροσωπῆσαι ἐν σαρκί, οὗτοι ἀναγκάζουσιν ὑμᾶς περιτέμνεσθαι, μόνον ἵνα μὴ τῷ σταυρῷ τοῦ Χριστοῦ διώκωνται. Οὐδὲ γὰρ οἱ περιτετμημένοι αὐτοὶ νόμον φυλάσσουσιν, ἀλλὰ θέλουσιν ὑμᾶς περιτέμνεσθαι, ἵνα ἐν τῇ ὑμετέρᾳ σαρκὶ καυχήσωνται. Ἐμοὶ δὲ μὴ γένοιτο καυχᾶσθαι εἰ μὴ ἐν τῷ σταυρῷ τοῦ κυρίου ἡμῶν Ἰησοῦ Χριστοῦ· διʼ οὗ ἐμοὶ κόσμος ἐσταύρωται, κἀγὼ τῷ κόσμῳ. Ἐν γὰρ Χριστῷ Ἰησοῦ οὔτε περιτομή τι ἰσχύει, οὔτε ἀκροβυστία, ἀλλὰ καινὴ κτίσις. Καὶ ὅσοι τῷ κανόνι τούτῳ στοιχήσουσιν, εἰρήνη ἐπʼ αὐτούς, καὶ ἔλεος, καὶ ἐπὶ τὸν Ἰσραὴλ τοῦ θεοῦ. Τοῦ λοιποῦ, κόπους μοι μηδεὶς παρεχέτω· ἐγὼ γὰρ τὰ στίγματα τοῦ κυρίου Ἰησοῦ ἐν τῷ σώματί μου βαστάζω. Ἡ χάρις τοῦ κυρίου ἡμῶν Ἰησοῦ Χριστοῦ μετὰ τοῦ πνεύματος ὑμῶν, ἀδελφοί. Ἀμήν.</p>]]></body>
+		<language>el</language>
+	</translation>
+	<translation xml:lang="ar">
+		<title>&#1585;&#1587;&#1575;&#1604;&#1577; &#1576;&#1608;&#1604;&#1587; &#1575;&#1604;&#1575;&#1608;&#1604;&#1609; &#1575;&#1604;&#1609; &#1594;&#1604;&#1575;&#1591;&#1610;&#1577; 6: 11-18</title>
+		<shorttitle>&#1594;&#1604;&#1575;&#1591;&#1610;&#1577; 6: 11-18</shorttitle>
+	 <prokmode>6</prokmode>
+	 <prokpsalm>&#1605;&#1586;&#1605;&#1608;&#1585; 27: 9&#1548; 1</prokpsalm>
+	 <prokprokeimenon>&#1582;&#1604;&#1589; &#1610;&#1575;&#1604;&#1604;&#1607; &#1588;&#1593;&#1576;&#1603; &#1608;&#1576;&#1575;&#1585;&#1603; &#1605;&#1610;&#1585;&#1575;&#1579;&#1603;</prokprokeimenon>
+	 <prokverse>Verse: &#1573;&#1604;&#1610;&#1603; &#1610;&#1575; &#1585;&#1576; &#1589;&#1585;&#1582;&#1578;&#1548; &#1573;&#1604;&#1607;&#1610;</prokverse>
+		<clip>&#1610;&#1617;&#1615;&#1614;&#1575; &#1573;&#1616;&#1582;&#1618;&#1608;&#1614;&#1577;&#1548; &#1575;&#1615;&#1606;&#1618;&#1592;&#1615;&#1585;&#1615;&#1608;&#1575;&#1548; &#1605;&#1614;&#1575; &#1571;&#1614;&#1603;&#1618;&#1576;&#1614;&#1585;&#1614; &#1575;&#1604;&#1571;&#1614;&#1581;&#1618;&#1585;&#1615;&#1601;&#1614; &#1575;&#1604;&#1617;&#1614;&#1578;&#1616;&#1610; &#1603;&#1614;&#1578;&#1614;&#1576;&#1618;&#1578;&#1615;&#1607;&#1614;&#1575; &#1573;&#1616;&#1604;&#1614;&#1610;&#1618;&#1603;&#1615;&#1605;&#1618; &#1576;&#1616;&#1610;&#1614;&#1583;&#1616;&#1610;</clip>
+		<body><![CDATA[<p>يَُّا إِخْوَة، اُنْظُرُوا، مَا أَكْبَرَ الأَحْرُفَ الَّتِي كَتَبْتُهَا إِلَيْكُمْ بِيَدِي! جَمِيعُ الَّذِينَ يُرِيدُونَ أَنْ يَعْمَلُوا مَنْظَراً حَسَناً فِي الْجَسَدِ، هَؤُلاَءِ يُلْزِمُونَكُمْ أَنْ تَخْتَتِنُوا، لِئَلاَّ يُضْطَهَدُوا لأَجْلِ صَلِيبِ الْمَسِيحِ فَقَطْ. لأَنَّ الَّذِينَ يَخْتَتِنُونَ هُمْ لاَ يَحْفَظُونَ النَّامُوسَ، بَلْ يُرِيدُونَ أَنْ تَخْتَتِنُوا أَنْتُمْ لِكَيْ يَفْتَخِرُوا فِي جَسَدِكُمْ. وَأَمَّا مِنْ جِهَتِي، فَحَاشَا لِي أَنْ أَفْتَخِرَ إِلاَّ بِصَلِيبِ رَبِّنَا يَسُوعَ الْمَسِيحِ، الَّذِي بِهِ قَدْ صُلِبَ الْعَالَمُ لِي وَأَنَا لِلْعَالَمِ. لأَنَّهُ فِي الْمَسِيحِ يَسُوعَ لَيْسَ الْخِتَانُ يَنْفَعُ شَيْئاً وَلاَ الْغُرْلَةُ، بَلِ الْخَلِيقَةُ الْجَدِيدَةُ. فَكُلُّ الَّذِينَ يَسْلُكُونَ بِحَسَبِ هَذَا الْقَانُونِ عَلَيْهِمْ سَلاَمٌ وَرَحْمَةٌ، وَعَلَى إِسْرَائِيلِ اللهِ. فِي مَا بَعْدُ لاَ يَجْلِبُ أَحَدٌ عَلَيَّ أَتْعَاباً، لأَنِّي حَامِلٌ فِي جَسَدِي سِمَاتِ الرَّبِّ يَسُوعَ.نِعْمَةُ رَبِّنَا يَسُوعَ الْمَسِيحِ مَعَ رُوحِكُمْ أَيُّهَا الإِخْوَةُ. آمِينَ.</p>]]></body>
+		<language>ar</language>
+	</translation>
+</onlinechapel>

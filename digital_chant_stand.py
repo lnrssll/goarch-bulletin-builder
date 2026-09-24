@@ -7,7 +7,8 @@ from selectolax.parser import HTMLParser
 from classes import DcsSections, LiturgyVariablesPageData, RowItem
 from get_dismissal_hymns import get_dismissal_hymns
 from get_scripture_reading import get_alleluia, get_scripture_reading_sections
-from utils import fetch_html, http_client, to_alpha, write_yaml
+from utils import SourceArchive, to_alpha
+from yaml_io import write_yaml
 
 
 def iter_row_items(tree: HTMLParser) -> list[RowItem]:
@@ -61,11 +62,11 @@ def process_liturgy_variables_page(tree: HTMLParser) -> LiturgyVariablesPageData
     )
 
 
-async def run(run_date: date, out_dir: Path) -> None:
+async def scrape(run_date: date, archive: SourceArchive) -> LiturgyVariablesPageData:
     url = f"https://dcs.goarch.org/goa/dcs/h/s/{run_date:%Y/%m/%d}/li2/en/"
+    return process_liturgy_variables_page(await archive.fetch_html(url, "dcs.html"))
 
-    async with http_client() as client:
-        tree = await fetch_html(client, url)
 
-    data = process_liturgy_variables_page(tree)
-    await write_yaml(asdict(data), out_dir / "digital_chant_stand.yaml")
+async def run(run_date: date, out_dir: Path, archive: SourceArchive) -> None:
+    data = await scrape(run_date, archive)
+    write_yaml(asdict(data), out_dir / "digital_chant_stand.yaml")

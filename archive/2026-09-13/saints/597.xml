@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>The Forefeast of the Elevation of the Holy Cross</title>
+	<contentid>597</contentid>
+	<displaydate>September 13</displaydate>
+	<date>9/13</date>
+	<month>9</month>
+	<day>13</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>10</classification>
+	<icons>
+		<icon id="1" source="goa">
+			<filepath>september/15_elevation.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/september/15_elevation.jpg</url>
+			<copyright>Greek Orthodox Archdiocese of America</copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	<lectionaryreading type="G">
+		<type>G</type>
+		<title>John 12:19-36</title>
+		<shorttitle>Jn. 12:19-36</shorttitle>
+		<id>38</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=gospel&amp;code=38&amp;event=597</url>
+	</lectionaryreading>
+	</lectionary>
+	<readings></readings><hymns>		<hymn>
+			<type>apolytikion</type>
+			<title>Apolytikion of Forefeast of the Exaltation in the Second Tone</title>
+			<shorttitle>Apolytikion of Forefeast of the Exaltation</shorttitle>
+			<tone>Second Tone</tone>
+			<translation xml:lang="en" lang="en" source="htm">
+				<body>We offer Thee in mediation the life-giving Cross which, of Thy goodness, Thou hast given unto us, the unworthy, O Lord.  Save Thy hierarchs and Thy flock, and grant Thou peace through the Theotokos, O only friend of man.</body>
+				<copyright>Holy Transfiguration Monastery</copyright>
+			</translation>
+		</hymn>
+</hymns>
+</saintfeast>

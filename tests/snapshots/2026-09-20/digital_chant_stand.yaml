@@ -1,0 +1,32 @@
+alleluia:
+- It is good to give thanks to the Lord and to sing to Your name, O Most High.
+- To proclaim Your mercy in the morning and Your truth at night.
+dismissal_hymns:
+- mode: ''
+  source: Octoechos
+  text: "You destroyed death by Your Cross, You opened Paradise to the Robber. You\
+    \ turned the Myrrh-bearing Women\u2019s lament into joy, and You commanded Your\
+    \ Apostles to preach that You rose, O Christ God, granting the world the great\
+    \ mercy."
+  title: Resurrectional Apolytikion
+- mode: '1'
+  source: null
+  text: Save, O Lord, Your people and bless Your inheritance, granting victory to
+    the faithful over the enemy, and by Your Cross protecting Your commonwealth.
+  title: Apolytikion For the Cross
+- mode: '4'
+  source: Menaion
+  text: "Your Martyrs, O Lord, were worthily awarded by You * the crowns of incorruption,\
+    \ in that they contested for You our immortal God. * Since they possessed Your\
+    \ power, they defeated the tyrants, * dashing the demons\u2019 powerless displays\
+    \ of defiance. * O Christ God, at their fervent entreaties, save our souls."
+  title: For the Saints
+- mode: '4'
+  source: null
+  text: You who were lifted on the cross voluntarily, * O Christ our God, bestow Your
+    tender compassions * upon Your new community to which You gave Your name. * Cause
+    our faithful emperors to be glad in Your power, * granting them the victories
+    against their adversaries. * And for an ally, Lord, may they have You, * peace
+    as their armor, the trophy invincible.
+  title: Kontakion
+

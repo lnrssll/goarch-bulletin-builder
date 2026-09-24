@@ -1,4 +1,5 @@
 import argparse
+from dataclasses import dataclass
 from datetime import date, timedelta
 
 SUNDAY = 6
@@ -34,13 +35,20 @@ def next_sunday(today: date) -> date:
     return today + timedelta(days=(SUNDAY - today.weekday()) or 7)
 
 
-def parse_run_date() -> date:
+@dataclass
+class RunOptions:
+    run_date: date
+    refresh: bool
+
+
+def parse_run_options() -> RunOptions:
     parser = argparse.ArgumentParser(description="Run the scraper for a specific date")
 
     default = next_sunday(date.today())
     parser.add_argument("day",   type=parse_day,   nargs="?", metavar="DAY",   default=default.day)
     parser.add_argument("month", type=parse_month, nargs="?", metavar="MONTH", default=default.month)
     parser.add_argument("year",  type=parse_year,  nargs="?", metavar="YEAR",  default=default.year)
+    parser.add_argument("--refresh", action="store_true", help="re-download sources already in archive/")
     args = parser.parse_args()
 
     try:
@@ -51,4 +59,4 @@ def parse_run_date() -> date:
     if run_date.weekday() != SUNDAY:
         parser.error(f"{run_date.isoformat()} is not a Sunday")
 
-    return run_date
+    return RunOptions(run_date, args.refresh)

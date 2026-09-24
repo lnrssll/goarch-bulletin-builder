@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>Eustathios the Great Martyr, his wife and two children</title>
+	<contentid>211</contentid>
+	<displaydate>September 20</displaydate>
+	<date>9/20</date>
+	<month>9</month>
+	<day>20</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>4</classification>
+	<icons>
+		<icon id="1" source="x">
+			<filepath>small/eustathi.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/small/eustathi.jpg</url>
+			<copyright>Theologic Systems</copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	<lectionaryreading type="E">
+		<type>E</type>
+		<title>St. Paul's Letter to the Ephesians 6:10-17</title>
+		<shorttitle>Ephesians 6:10-17</shorttitle>
+		<id>200</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=epistle&amp;code=200&amp;event=211</url>
+	</lectionaryreading>
+	<lectionaryreading type="G">
+		<type>G</type>
+		<title>Luke 21:12-19</title>
+		<shorttitle>Lk. 21:12-19</shorttitle>
+		<id>381</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=gospel&amp;code=381&amp;event=211</url>
+	</lectionaryreading>
+	</lectionary>
+	<readings>
+		<translation xml:lang="en" lang="en" source="htm">
+			<title>Reading</title>
+			<shorttitle>Reading</shorttitle>
+			<body><![CDATA[<p> The holy Martyr Eustathius before his baptism was an illustrious Roman general named Placidas in the days of the Emperor Trajan.  While hunting in the country one day, he was converted to the Faith of Christ through the apparition of an uncommonly majestic stag, between whose antlers he saw the Cross of Christ, and through which the Lord spoke to him with a human voice.  Upon returning home, he learned that his wife Tatiana had also had a vision in which she was instructed to become a Christian.  They sought out the Bishop of the Christians and were baptized, Placidas receiving the name Eustathius, and Tatiana the name Theopiste; their two sons were baptized Agapius and Theopistus.  The family was then subjected to such trials as Job endured.  Their servants died, all their goods were stolen, and on a pilgrimage to Jerusalem they were scattered abroad, each not even knowing if the others were still alive.  By the providence of God, they were united again after many years, and returned to Rome in glory.  Nevertheless, when they refused to sacrifice to the idols-a public sacrifice from which no Roman general could be absent-the Emperor Hadrian, who had succeeded Trajan, had them put into a large bronze device in the shape of a bull, which was heated with fire until they died.  When their holy bodies were removed, they were found to be without harm.  They suffered martyrdom about the year 126.  </p>]]></body>
+			<copyright>Holy Transfiguration Monastery - Brookline, MA</copyright>
+		</translation>
+	</readings><hymns>		<hymn>
+			<type>apolytikion</type>
+			<title>Apolytikion of Martyr Eustathius and His Companions in the Fourth Tone</title>
+			<shorttitle>Apolytikion of Martyr Eustathius and His Companions</shorttitle>
+			<tone>Fourth Tone</tone>
+			<translation xml:lang="en" lang="en" source="htm">
+				<body>Thy Martyrs, O Lord, in their courageous contest for Thee received as the prize the crowns of incorruption and life from Thee, our immortal God. For since they possessed Thy strength, they cast down the tyrants and wholly destroyed the demons' strengthless presumption. O Christ God, by their prayers, save our souls, since Thou art merciful.</body>
+				<copyright>Holy Transfiguration Monastery</copyright>
+			</translation>
+		</hymn>
+		<hymn>
+			<type>kontakion</type>
+			<title>Kontakion of Martyr Eustathius and His Companions in the Second Tone</title>
+			<shorttitle>Kontakion of Martyr Eustathius and His Companions</shorttitle>
+			<tone>Second Tone</tone>
+			<translation xml:lang="en" lang="en" source="htm">
+				<body>O blest one, since thou didst emulate Christ's sufferings and drankest His cup with eagerness, thou didst become a partaker and joint-heir of His glory, O wise Eustathius; and since He is God of all things, He gave thee divine power from Heaven's heights.</body>
+				<copyright>Holy Transfiguration Monastery</copyright>
+			</translation>
+		</hymn>
+</hymns>
+</saintfeast>

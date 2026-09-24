@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>1st Sunday of Luke</title>
+	<contentid>1038</contentid>
+	<displaydate>September 27</displaydate>
+	<date>09/27/2026</date>
+	<month>09</month>
+	<day>27</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>5</classification>
+	<icons>
+		<icon id="1" source="sti">
+			<filepath>skete/callapostles.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/skete/callapostles.jpg</url>
+			<copyright>St. Isaac of Syria Skete</copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	<lectionaryreading type="G">
+		<type>G</type>
+		<title>Luke 5:1-11</title>
+		<shorttitle>Lk. 5:1-11</shorttitle>
+		<id>169</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=gospel&amp;code=169&amp;event=1038</url>
+	</lectionaryreading>
+	</lectionary>
+	<readings></readings><hymns></hymns>
+</saintfeast>

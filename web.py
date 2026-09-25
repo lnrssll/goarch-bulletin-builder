@@ -176,7 +176,7 @@ def decode_flash(value: str) -> Flash | None:
     try:
         raw = base64.urlsafe_b64decode(value + "=" * (-len(value) % 4))
         kind, message, detail = json.loads(raw)
-    except ValueError:
+    except (ValueError, TypeError):
         return None
     return Flash(kind, message, detail)
 
@@ -208,9 +208,8 @@ def not_found(req: Request) -> Response:
 
 
 def safe_next(target: str) -> str:
-    if target.startswith("/") and not target.startswith("//") and "\\" not in target:
-        return target
-    return "/"
+    # a plain local path only: browsers drop tabs and newlines, so "/\t/x.org" would become "//x.org"
+    return target if re.fullmatch(r"(/[\w.-]+)*/?", target) else "/"
 
 
 ################################################################################

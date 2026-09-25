@@ -322,8 +322,9 @@ def test_session_cookie_is_secure_over_https(locked):
 
 
 def test_login_only_returns_to_this_site(locked):
-    result = locked.post("/login", {"password": PASSWORD, "next": "//example.com/"})
-    assert result.headers["Location"] == "/"
+    for target in ("//example.com/", "/\t/example.com/", "https://example.com/"):
+        result = locked.post("/login", {"password": PASSWORD, "next": target})
+        assert result.headers["Location"] == "/"
 
 
 def test_forged_and_foreign_sessions_are_refused(locked):
@@ -333,6 +334,11 @@ def test_forged_and_foreign_sessions_are_refused(locked):
 
     locked.cookies[web.SESSION_COOKIE] = web.App(password=PASSWORD).new_session()
     assert locked.get("/").status == 303
+
+
+def test_garbled_flash_cookie_is_ignored(client):
+    client.cookies[web.FLASH_COOKIE] = "NQ"  # base64 of the JSON number 5
+    assert client.get("/").status == 200
 
 
 def test_cross_site_forms_are_refused(site, client):

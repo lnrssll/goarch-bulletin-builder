@@ -53,7 +53,7 @@ typst watch   --input date=2026-09-27 booklet.typ out/2026-09-27.pdf    # live r
 
 `main.py` prints a ready-to-paste `typst watch` command at the end. It is written for nushell, the user's shell.
 
-Deployment (Docker + nginx + certbot, modeled on the user's `stablestack` template) is in `deploy/README.md`. There's no container runtime on the dev machine, so the `Dockerfile` has been checked by rehearsing its steps (clean copy per `.dockerignore`, `uv sync --locked --no-dev`, the same `CMD`), not by building it.
+Deployment is in `deploy/README.md`: one Docker image, run with `docker compose` locally or behind nginx + certbot (modeled on the user's `stablestack` template), or on Railway. Settings are environment variables documented in `.env.example`; `.env.local` and `.env.prod` hold the real values and are gitignored (and kept out of the image by `.dockerignore`). `web.py` reads `PORT`, and at startup refuses to run if `build/` isn't writable (a Railway volume needs `RAILWAY_RUN_UID=0`). The Docker test run doesn't touch the repo's `build/`: compose uses its own volumes.
 
 Notes:
 - `cli.parse_run_options` rejects dates that aren't Sundays and years before the current year.

@@ -2,6 +2,7 @@
 .venv
 __pycache__
 .pytest_cache
+.ruff_cache
 *.pyc
 build
 archive
@@ -9,3 +10,5 @@ out
 tests
 tasks
 Makefile
+.env*
+.claude

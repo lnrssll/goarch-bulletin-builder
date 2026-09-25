@@ -584,7 +584,7 @@ class App:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Serve the bulletin builder web UI")
     parser.add_argument("--host", default="127.0.0.1", help="address to listen on (default: this computer only)")
-    parser.add_argument("--port", type=int, default=8000)
+    parser.add_argument("--port", type=int, default=int(os.environ.get("PORT", 8000)))
     args = parser.parse_args()
 
     password = os.environ.get("BULLETIN_PASSWORD", "")
@@ -592,6 +592,9 @@ def main() -> int:
         parser.error("set BULLETIN_PASSWORD to serve beyond this computer")
 
     os.chdir(Path(__file__).resolve().parent)
+    sunday.BUILD_DIR.mkdir(exist_ok=True)
+    if not os.access(sunday.BUILD_DIR, os.W_OK):
+        parser.error(f"can't write to {sunday.BUILD_DIR.resolve()} (on Railway, set RAILWAY_RUN_UID=0)")
     print(f"Bulletin Builder on http://{args.host}:{args.port}/", file=sys.stderr)
     waitress.serve(
         App(password),

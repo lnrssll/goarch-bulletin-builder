@@ -5,8 +5,11 @@ RUN pip install --no-cache-dir uv==0.12.10
 
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
+    UV_NO_CACHE=1 \
     UV_PYTHON_DOWNLOADS=never \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    TZ=America/Phoenix \
+    PORT=8000
 
 WORKDIR /app
 
@@ -21,4 +24,4 @@ USER bulletin
 
 EXPOSE 8000
 
-CMD [".venv/bin/python", "web.py", "--host", "0.0.0.0", "--port", "8000"]
+CMD [".venv/bin/python", "web.py", "--host", "0.0.0.0"]

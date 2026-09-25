@@ -11,3 +11,7 @@ wheels/
 
 Makefile
 out
+
+# Environment files with passwords (see .env.example)
+.env*
+!.env.example

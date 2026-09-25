@@ -4,9 +4,8 @@ services:
     restart: unless-stopped
     ports:
       - "127.0.0.1:8000:8000"
-    env_file: /etc/bulletin.env
-    environment:
-      TZ: America/Phoenix
+    # .env.local for trying it on this computer; ENV_FILE=.env.prod on a server
+    env_file: ${ENV_FILE:-.env.local}
     volumes:
       - build:/app/build
       - archive:/app/archive

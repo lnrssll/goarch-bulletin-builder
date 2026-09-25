@@ -11,7 +11,7 @@ uv run web.py             # open http://127.0.0.1:8000
 
 Each Sunday has one page with three steps: download the readings, fill in the hymns and services, then download the booklet PDF. The readings can also be typed in or corrected by hand, for when goarch.org is down or has changed.
 
-To run it on a server for others to use, see [`deploy/README.md`](deploy/README.md).
+To try it in Docker, or run it on Railway or a server for others to use, see [`deploy/README.md`](deploy/README.md).
 
 ## Command line
 

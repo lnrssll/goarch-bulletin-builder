@@ -1,0 +1,240 @@
+# The hymns suggested under "Hymns of the Day" on the Sunday page.
+#
+#   title          the full name, printed whenever it fits on one line
+#   short          printed when the title doesn't fit (optional: otherwise the
+#                  abbreviations below are used)
+#   also           other names and spellings that find this hymn
+#   mode           only when the hymn is always in one mode: 1-4, then
+#                  pl. 1 = 5, pl. 2 = 6, grave = 7, pl. 4 = 8
+#   page           the English page in the hymnal (always odd), or Choir/Handout
+#   pages_by_mode  the page for each mode, when it depends on the mode
+#
+# Modes come from past bulletins and the Digital Chant Stand. A hymn without
+# a mode just leaves the Mode box for you to fill in.
+
+abbreviations:
+  Apolytikion: Apol.
+  Kontakion: Kont.
+  Sunday: Sun.
+
+hymns:
+  # Sunday Resurrectional Apolytikia
+  - title: Resurrectional Apolytikion
+    also: [Resurrectional Apolitikion, Ressurectional Apolytikion]
+    pages_by_mode: {1: 99, 2: 103, 3: 107, 4: 111, 5: 115, 6: 119, 7: 123, 8: 127}
+
+  # Apolytikia from the Triodion
+  - title: Apolytikion of the Sunday of Orthodoxy
+    also: [Apolytikion of Sunday of Orthodoxy]
+    mode: 2
+    page: 129
+  - title: Apolytikion of St. Gregory Palamas
+    mode: 8
+    page: 133
+  - title: Apolytikion of St. John Climacus
+    also: [Apolytikion of Sunday of St. John Climacus, Apolytikion of the Sunday of St. John Climacus]
+    mode: 8
+    page: 137
+  - title: Apolytikion of St. Mary of Egypt
+    mode: 8
+    page: 141
+  - title: Apolytikion of Lazarus Saturday and Palm Sunday
+    also: [Lazarus Saturday/Palm Sunday Apolytikion]
+    short: Lazarus Sat./Palm Sun. Apol.
+    mode: 1
+    page: 145
+  - title: Palm Sunday Apolytikion
+    also: [Another Palm Sunday Apolytikion]
+    mode: 4
+    page: 149
+
+  # Apolytikia from the Pentecostarion
+  - title: Paschal Apolytikion
+    also: [Pascha Apolytikion, Christ Is Risen]
+    mode: 5
+    page: 153
+  - title: Paschal Hypakoe
+    also: [Hypakoe]
+    mode: 4
+    page: Handout
+  - title: Apolytikion of Thomas Sunday
+    also: [Sunday of Thomas Apolytikion]
+    page: 155
+  - title: Apolytikion of the Sunday of the Myrrh-bearing Women
+    also: [Sunday of the Myrrh-bearing Women Apolytikion]
+    short: Myrrh-bearing Women Apol.
+    mode: 2
+    page: 159
+  - title: Another Apolytikion of the Myrrh-bearing Women
+    also: [Sunday of the Myrrh-bearing Women Another Apolytikion]
+    short: Myrrh-bearing Women, another Apol.
+    mode: 2
+    page: 163
+  - title: Mid-Pentecost Apolytikion
+    also: [Apolytikion of Mid-Pentecost, Apolytikion of the Samaritan Woman]
+    mode: 8
+    page: 167
+  - title: Ascension Apolytikion
+    also: [Apolytikion of the Ascension]
+    mode: 4
+    page: 169
+  - title: Apolytikion of the Holy Fathers
+    also: [Sunday of the Holy Fathers Apolytikion, Apolytikion of Fathers of the 1st Council]
+    mode: 8
+    page: 171
+  - title: Pentecost Apolytikion
+    also: [Apolytikion of Pentecost]
+    mode: 8
+    page: 173
+  - title: All Saints Apolytikion
+    also: [Apolytikion of All Saints]
+    mode: 4
+    page: 175
+
+  # Apolytikia from the Menaion
+  - title: Nativity of the Theotokos Apolytikion
+    also: [Apolytikion of the Nativity of the Theotokos]
+    page: 177
+  - title: Apolytikion of the Holy Cross
+    also: [Apolytikion for the Cross, Elevation of the Cross Apolytikion, Sunday of the Holy Cross Apolytikion]
+    mode: 1
+    page: 181
+  - title: Entry of the Theotokos Apolytikion
+    also: [Apolytikion of the Entry of the Theotokos]
+    page: 183
+  - title: Apolytikion of the Holy Ancestors
+    also: [Sunday of the Holy Ancestors Apolytikion]
+    page: 187
+  - title: Apolytikion of the Forefeast of the Nativity
+    page: 191
+  - title: Apolytikion of the Sunday before the Nativity
+    page: 195
+  - title: Nativity Apolytikion
+    also: [Apolytikion of the Nativity, Christmas Apolytikion]
+    page: 199
+  - title: Apolytikion of the Sunday after the Nativity
+    page: 203
+  - title: Apolytikion of the Forefeast of Theophany
+    page: 205
+  - title: Theophany Apolytikion
+    also: [Apolytikion of Theophany]
+    mode: 1
+    page: 209
+  - title: Presentation of the Lord Apolytikion
+    also: [Apolytikion of the Presentation, Apolytikion of Afterfeast of the Presentation]
+    mode: 1
+    page: 213
+  - title: Annunciation Apolytikion
+    also: [Apolytikion of the Annunciation]
+    page: 217
+  - title: Transfiguration Apolytikion
+    also: [Apolytikion for the Transfiguration, Apolytikion of the Transfiguration]
+    mode: 7
+    page: 221
+  - title: Dormition Apolytikion
+    also: [Apolytikion of Dormition of the Theotokos, Apolytikion of Apodosis of the Dormition]
+    mode: 1
+    page: 223
+
+  # Kontakia
+  - title: Kontakion for the Mother of God
+    also: [Ordinary Kontakion]
+    mode: 2
+    page: 225
+  - title: Nativity of the Theotokos Kontakion
+    also: [Kontakion of the Nativity of the Theotokos, Kontakion for Joachim and Anna]
+    mode: 4
+    page: 229
+  - title: Holy Cross Kontakion
+    also: [Kontakion for the Cross, Kontakion of the Holy Cross]
+    mode: 4
+    page: 233
+  - title: Entry of the Theotokos Kontakion
+    also: [Kontakion of the Entry of the Theotokos]
+    page: 237
+  - title: Kontakion of the Season before the Nativity
+    page: 241
+  - title: Nativity Kontakion
+    also: [Kontakion of the Nativity, Christmas Kontakion]
+    page: 245
+  - title: Theophany Kontakion
+    also: [Kontakion of Theophany]
+    mode: 4
+    page: 249
+  - title: Presentation of the Lord Kontakion
+    also: [Kontakion of the Presentation]
+    mode: 1
+    page: 251
+  - title: Kontakion of the Publican and the Pharisee
+    page: 255
+  - title: Kontakion of the Prodigal Son
+    page: 257
+  - title: Kontakion of the Last Judgment
+    also: [Kontakion of Judgment (Meatfare) Sunday, Kontakion of the Last Judgement]
+    mode: 1
+    page: 261
+  - title: Kontakion of Forgiveness Sunday
+    also: [Kontakion of Forgiveness (Cheesefare) Sunday]
+    mode: 6
+    page: 265
+  - title: Annunciation Kontakion
+    also: [Kontakion of the Annunciation, Kontakion of Sunday of Orthodoxy]
+    mode: 8
+    page: 269
+  - title: Palm Sunday Kontakion
+    mode: 6
+    page: 273
+  - title: Pascha Kontakion
+    also: [Paschal Kontakion]
+    mode: 8
+    page: 275
+  - title: Ascension Kontakion
+    also: [Kontakion of the Ascension]
+    mode: 6
+    page: 279
+  - title: Pentecost Kontakion
+    also: [Kontakion of Pentecost]
+    mode: 8
+    page: 281
+  - title: All Saints Kontakion
+    also: [Kontakion of All Saints]
+    mode: 8
+    page: 283
+  - title: Transfiguration Kontakion
+    also: [Kontakion for the Transfiguration, Kontakion of the Transfiguration]
+    mode: 7
+    page: 285
+  - title: Dormition Kontakion
+    also: [Kontakion of Dormition of the Theotokos]
+    mode: 6
+    page: 289
+
+  # Hymns sung instead of the Trisagion
+  - title: Before Your Cross
+    also: [Ton Stavron Sou]
+    page: 291
+  - title: As Many as Have Been Baptized
+    also: [Osi is Hriston]
+    mode: 1
+    page: 293
+  - title: Alternate Cherubic Hymn
+    page: 295
+
+  # Megalynaria
+  - title: Megalynarion of the Liturgy of St. Basil
+    also: [All of Creation Rejoices]
+    page: 299
+  - title: Palm Sunday Megalynarion
+    also: [Palm Sunday Magalynarion]
+    mode: 4
+    page: 303
+  - title: Pascha Megalynarion
+    also: [Paschal Megalynarion, The Angel Cried]
+    mode: 1
+    page: 305
+  - title: Thomas Sunday Megalynarion
+    page: 309
+  - title: Pentecost Megalynarion
+    page: 311
+  - title: Nativity Megalynarion
+    page: 313

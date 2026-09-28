@@ -71,7 +71,7 @@
       <tbody>
         {% for hymn in hymn_rows %}
         <tr>
-          <td><input name="hymn_title" value="{{ hymn.title }}" list="hymn-titles" aria-label="Hymn {{ loop.index }} title"></td>
+          <td><input name="hymn_title" value="{{ hymn.title }}" list="hymn-titles" autocomplete="off" aria-label="Hymn {{ loop.index }} title"></td>
           <td>
             <select name="hymn_mode" aria-label="Hymn {{ loop.index }} mode">
               <option value=""></option>
@@ -80,12 +80,17 @@
               {% endfor %}
             </select>
           </td>
-          <td><input name="hymn_page" value="{{ hymn.page }}" size="8" aria-label="Hymn {{ loop.index }} page"></td>
+          <td>
+            <span class="prefixed" data-prefix-for-numbers>
+              <span class="prefix" aria-hidden="true">p.</span>
+              <input name="hymn_page" value="{{ hymn.page }}" size="6" list="page-words" autocomplete="off" aria-label="Hymn {{ loop.index }} page">
+            </span>
+          </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
-    <p class="hint">A page number like 127 prints as “p. 127”; you can also write “Choir” or “Handout”. To remove a hymn, clear its title.</p>
+    <p class="hint">Write the page number, or “Choir” or “Handout”. Long titles are shortened in print when they don't fit on one line (Apol., Kont., Sun.). To remove a hymn, clear its title.</p>
 
     <h3>Upcoming services <small>back page</small></h3>
     <table class="rows services">
@@ -96,24 +101,38 @@
         {% for service in service_rows %}
         <tr>
           <td><input name="service_date" value="{{ service.date }}" placeholder="mm/dd/yyyy" aria-label="Service {{ loop.index }} date"></td>
-          <td><input name="service_priest" value="{{ service.priest }}" list="priests" aria-label="Service {{ loop.index }} priest"></td>
+          <td>
+            <span class="prefixed" data-prefix-unless='{{ no_priest|tojson }}'>
+              <span class="prefix" aria-hidden="true">Fr.</span>
+              <input name="service_priest" value="{{ service.priest }}" list="priests" autocomplete="off" aria-label="Service {{ loop.index }} priest">
+            </span>
+          </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
-    <p class="hint">Write dates like {{ service_day.strftime("%m/%d/%Y") }}, or “Today”. To remove a service, clear both boxes.</p>
+    <p class="hint">Write dates like {{ service_day.strftime("%m/%d/%Y") }}, or “Today”. “Fr.” is added to the priest's name; write “Reader Service” when there's no priest. To remove a service, clear both boxes.</p>
 
     <button data-busy="Saving…">Save hymns and services</button>
   </form>
 
   <datalist id="hymn-titles">
     {% for hymn in suggestions.hymns %}
-    <option value="{{ hymn.title }}">{% if hymn.mode %}Mode {{ hymn.mode }}, {% endif %}{{ hymn.page }}</option>
+    <option value="{{ hymn.title }}"
+      {%- if hymn.mode %} data-mode="{{ hymn.mode }}"{% endif %}
+      {%- if hymn.page %} data-page="{{ hymn.page }}"{% endif %}
+      {%- if hymn.pages_by_mode %} data-pages='{{ hymn.pages_by_mode|tojson }}'{% endif %}
+      {%- if hymn.also %} data-also='{{ hymn.also|tojson }}'{% endif %}>{{ hymn.detail }}</option>
     {% endfor %}
   </datalist>
   <datalist id="priests">
     {% for priest in suggestions.priests %}
     <option value="{{ priest }}"></option>
+    {% endfor %}
+  </datalist>
+  <datalist id="page-words">
+    {% for word in suggestions.page_words %}
+    <option value="{{ word }}"></option>
     {% endfor %}
   </datalist>
 

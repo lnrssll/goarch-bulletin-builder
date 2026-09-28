@@ -202,6 +202,47 @@ table.rows input { width: 100%; }
 table.rows td:first-child { width: 60%; }
 table.rows.services td:first-child { width: 40%; }
 
+.prefixed { display: flex; }
+.prefixed .prefix {
+  padding: 0.35rem 0.4rem;
+  border: 1px solid var(--line);
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  background: var(--surface);
+  color: var(--muted);
+}
+table.rows .prefixed input { flex: 1; width: auto; min-width: 0; border-radius: 0 4px 4px 0; }
+.prefixed.no-prefix .prefix { display: none; }
+table.rows .prefixed.no-prefix input { border-radius: 4px; }
+
+.has-suggestions { position: relative; }
+.suggestions {
+  position: absolute;
+  z-index: 10;
+  top: 100%;
+  left: 0;
+  min-width: 100%;
+  width: max-content;
+  max-width: min(32rem, calc(100vw - 2rem));
+  max-height: 18rem;
+  overflow-y: auto;
+  margin: 2px 0 0;
+  padding: 0.25rem 0;
+  list-style: none;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.18);
+}
+.suggestions li { padding: 0.35rem 0.6rem; cursor: pointer; }
+.suggestions li small { display: block; color: var(--muted); font-size: 0.85rem; }
+.suggestions li:hover { background: var(--surface); }
+.suggestions li[aria-selected="true"] { background: var(--surface); box-shadow: inset 3px 0 0 var(--accent); }
+td:last-child .suggestions { left: auto; right: 0; }
+@media (pointer: coarse) {
+  .suggestions li { padding: 0.65rem 0.75rem; }
+}
+
 table.sundays td, table.sundays th { border-bottom: 1px solid var(--line); padding: 0.45rem 0.6rem 0.45rem 0; }
 
 dl.summary {

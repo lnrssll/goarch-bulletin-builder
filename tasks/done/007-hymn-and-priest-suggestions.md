@@ -237,6 +237,19 @@ This works the same way as "Fr.".
   - Enter picks a suggestion without sending the form.
   - With JS turned off, the form still works with the plain datalists.
 
+## Status (2026-09-28)
+
+Built as planned, with these differences:
+- **No `short_title` in `manual.yaml`.** `bulletin.typ` reads `data/hymns.yaml` itself and works out the short form at print time: the catalog's `short` for a catalog title, otherwise the file's `abbreviations`. `manual.yaml` is unchanged, and a title edited by hand can never keep an old short form. Python uses the same `abbreviations` only to expand typed ones on save and for matching. `render.inputs` includes `data/hymns.yaml`.
+- **The abbreviations are whole words, singular only** (Apolytikion, Kontakion, Sunday). The plurals never appear in a hymn title.
+- **Priests are counted over every service entry** in the last 52 Sundays, not only "Today", so a newly scheduled priest shows up too.
+- **The Dormition Kontakion is mode 6** in the catalog: the DCS page says plagal 2. The history has it once as mode 2 (2026-08-16) and once as mode 6 (2026-08-23, as "Kontakion for the Virgin").
+- **Hymns with no mode in the catalog** (the history and DCS archive have nothing): Thomas Sunday, the Nativity of the Theotokos apolytikion, and most Nativity-season, Triodion-kontakia and megalynaria entries. Picking one fills in only its page.
+
+Checked in Chrome with scripted key events (the window was hidden, so real keystrokes and a phone weren't tried): "Res", Tab, mode 7 gives p. 123; "Kont", Tab gives mode 2, p. 225; changing to "Pasch" + Enter refills mode 8, p. 275; a typed "Handout" survives a mode change; "Ordinary" finds the Kontakion for the Mother of God; clicking a filled Priest box lists all seven; "rea", Enter gives Reader Service and hides "Fr."; "h", Tab in the Page box gives Handout and hides "p.".
+
+The owner then tried it by hand in the browser on a scratch copy and confirmed it all works. Also fixed: 2026-03-08's `manual.yaml` had the Gregory Palamas apolytikion on p. 269; the owner changed it to p. 133.
+
 ## Later, not in this task
 
 - **Pre-fill the first row.** Every ordinary Sunday starts with the Resurrectional Apolytikion in the mode of the week. `manual.template` could write that row instead of the "Example" placeholder. The mode comes from the DCS dismissal hymns (task 002), or can be worked out from the date of Pascha. With the catalog, the page follows.

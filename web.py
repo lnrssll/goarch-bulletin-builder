@@ -12,7 +12,7 @@ import threading
 import time
 import traceback
 from collections.abc import Callable
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import date
 from http import HTTPStatus
 from http.cookies import CookieError, SimpleCookie
@@ -355,9 +355,18 @@ def sunday_page(req: Request, iso: str) -> Response:
         layout=LAYOUT_DESCRIPTIONS.get(feed.get("layout"), ""),
         details_saved=details is not None,
         unfinished=manual.unfinished(details) if details else [],
-        hymn_rows=padded(shown.dismissal_hymns, MIN_HYMN_ROWS, ManualHymnData),
-        service_rows=padded(shown.upcoming_services, MIN_SERVICE_ROWS, UpcomingServiceData),
+        hymn_rows=padded(
+            [replace(hymn, page=manual.page_number(hymn.page)) for hymn in shown.dismissal_hymns],
+            MIN_HYMN_ROWS,
+            ManualHymnData,
+        ),
+        service_rows=padded(
+            [replace(service, priest=manual.priest_name(service.priest)) for service in shown.upcoming_services],
+            MIN_SERVICE_ROWS,
+            UpcomingServiceData,
+        ),
         modes=manual.MODES,
+        no_priest=manual.NO_PRIEST,
         suggestions=manual.suggestions(sunday.BUILD_DIR),
         hymnal=manual.hymnal_index(),
         render_error=render_error,
@@ -376,8 +385,13 @@ def fetch(req: Request, iso: str) -> Response:
 
 def save_details(req: Request, iso: str) -> Response:
     day = parse_sunday(iso)
+    abbreviations = manual.hymn_catalog().abbreviations
     hymns = [
-        ManualHymnData(title=title, mode=manual.parse_mode(mode), page=manual.page_label(page))
+        ManualHymnData(
+            title=manual.expand_abbreviations(title, abbreviations),
+            mode=manual.parse_mode(mode),
+            page=manual.page_label(page),
+        )
         for title, mode, page in zip(
             req.fields("hymn_title"), req.fields("hymn_mode"), req.fields("hymn_page")
         )
@@ -385,7 +399,9 @@ def save_details(req: Request, iso: str) -> Response:
     ]
     services = [
         UpcomingServiceData(date=when, priest=priest)
-        for when, priest in zip(req.fields("service_date"), req.fields("service_priest"))
+        for when, priest in zip(
+            req.fields("service_date"), map(manual.priest_label, req.fields("service_priest"))
+        )
         if when or priest
     ]
     with WORK_LOCK:

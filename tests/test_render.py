@@ -1,9 +1,11 @@
+import json
 import os
 import shutil
 from datetime import date
 from pathlib import Path
 
 import pytest
+import typst
 
 import manual
 import render
@@ -43,6 +45,42 @@ def test_renders_again_only_when_an_input_changes(site):
 def test_a_hymn_without_a_mode_renders(site):
     out_dir = build_from_snapshot(site, DAY.isoformat())
     manual.write(ManualData([ManualHymnData("Ordinary Kontakion", None, "p. 225")], []), out_dir)
+    assert render.ensure_rendered(DAY) == render.BOOKLET_PAGES
+
+
+def printed_hymn_titles(run_date: date) -> list[str]:
+    return json.loads(
+        typst.query(
+            "bulletin.typ",
+            "<hymn-title>",
+            field="value",
+            root=".",
+            sys_inputs={"date": run_date.isoformat()},
+            ignore_system_fonts=True,
+        )
+    )
+
+
+def test_long_hymn_titles_are_shortened_to_fit(site):
+    out_dir = build_from_snapshot(site, DAY.isoformat())
+    manual.write(
+        ManualData(
+            [
+                ManualHymnData("Resurrectional Apolytikion", 8, "p. 127"),
+                ManualHymnData("Apolytikion of the Sunday of the Myrrh-bearing Women", 2, "p. 159"),
+                ManualHymnData("Kontakion of the Holy Great Martyr Demetrios the Myrrh-streamer", 3, "Choir"),
+                ManualHymnData("Apolytikion of Martyr Callistratus and Companions", 4, "Choir"),
+            ],
+            [],
+        ),
+        out_dir,
+    )
+    assert printed_hymn_titles(DAY) == [
+        "Resurrectional Apolytikion",
+        "Myrrh-bearing Women Apol.",
+        "Kont. of the Holy Great Martyr Demetrios the Myrrh-streamer",
+        "Apolytikion of Martyr Callistratus and Companions",
+    ]
     assert render.ensure_rendered(DAY) == render.BOOKLET_PAGES
 
 

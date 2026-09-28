@@ -1,3 +1,6 @@
+import re
+from collections import Counter
+from collections.abc import Iterator
 from dataclasses import asdict, dataclass, field
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -7,8 +10,17 @@ from yaml_io import read_yaml, write_yaml
 
 FILENAME = "manual.yaml"
 HYMNAL_INDEX_PATH = Path("data/table-of-contents.txt")
+HYMN_CATALOG_PATH = Path("data/hymns.yaml")
 EXAMPLE_HYMN_TITLE = "Example"
 UNKNOWN_PRIEST = "Fr. X"
+PRIEST_PREFIX = "Fr."
+PAGE_PREFIX = "p."
+READER_SERVICE = "Reader Service"
+NO_PRIEST = (READER_SERVICE, "TBD")
+NOT_A_PAGE = ("Choir", "Handout")
+PRIEST_PREFIX_RE = re.compile(r"^(?:fr\b\.?|father\b)\s*", re.IGNORECASE)
+PAGE_PREFIX_RE = re.compile(r"^(?:pages?|pg|pp|p)\.?\s*(?=\d)", re.IGNORECASE)
+HYMNAL_PAGE_RE = re.compile(r"^p\. (\d+)")
 SERVICE_DATE_FORMAT = "%m/%d/%Y"
 MODES = range(1, 9)
 LOOKBACK_WEEKS = 8
@@ -16,9 +28,34 @@ SUGGESTION_SUNDAYS = 52
 
 
 @dataclass
+class HymnSuggestion:
+    title: str
+    mode: int | None = None
+    page: str = ""
+    pages_by_mode: dict[int, str] = field(default_factory=dict)
+    also: list[str] = field(default_factory=list)
+
+    @property
+    def detail(self) -> str:
+        parts = [f"Mode {self.mode}"] if self.mode else []
+        if self.pages_by_mode:
+            parts.append("page depends on mode")
+        elif self.page:
+            parts.append(page_label(self.page))
+        return ", ".join(parts)
+
+
+@dataclass
+class HymnCatalog:
+    hymns: list[HymnSuggestion] = field(default_factory=list)
+    abbreviations: dict[str, str] = field(default_factory=dict)
+
+
+@dataclass
 class Suggestions:
-    hymns: list[ManualHymnData] = field(default_factory=list)
+    hymns: list[HymnSuggestion] = field(default_factory=list)
     priests: list[str] = field(default_factory=list)
+    page_words: tuple[str, ...] = NOT_A_PAGE
 
 
 def service_day(run_date: date) -> date:
@@ -40,8 +77,41 @@ def parse_mode(value: object) -> int | None:
     return mode if mode in MODES else None
 
 
+def standard_spelling(text: str, words: tuple[str, ...]) -> str:
+    return next((word for word in words if word.casefold() == text.casefold()), text)
+
+
 def page_label(text: str) -> str:
-    return f"p. {text}" if text.isdigit() else text
+    text = page_number(text)
+    if text[:1].isdigit():
+        return f"{PAGE_PREFIX} {text}"
+    return standard_spelling(text, NOT_A_PAGE)
+
+
+def page_number(page: str) -> str:
+    return PAGE_PREFIX_RE.sub("", page.strip())
+
+
+def priest_label(text: str) -> str:
+    name = priest_name(text)
+    plain = standard_spelling(name, NO_PRIEST)
+    if not name or plain in NO_PRIEST:
+        return plain
+    return f"{PRIEST_PREFIX} {name}"
+
+
+def priest_name(priest: str) -> str:
+    return PRIEST_PREFIX_RE.sub("", priest.strip())
+
+
+def expand_abbreviations(title: str, abbreviations: dict[str, str]) -> str:
+    for word, short in abbreviations.items():
+        title = re.sub(rf"\b{re.escape(short)}", word, title, flags=re.IGNORECASE)
+    return title
+
+
+def hymn_key(title: str, abbreviations: dict[str, str]) -> str:
+    return re.sub(r"\W+", "", expand_abbreviations(title, abbreviations).casefold())
 
 
 def as_text(value: object) -> str:
@@ -122,26 +192,97 @@ def unfinished(data: ManualData) -> list[str]:
         notes.append(f"The “{EXAMPLE_HYMN_TITLE}” hymn is still listed.")
     if any(service.priest == UNKNOWN_PRIEST for service in data.upcoming_services):
         notes.append(f"An upcoming service still says “{UNKNOWN_PRIEST}”.")
+    for hymn in data.dismissal_hymns:
+        page = HYMNAL_PAGE_RE.match(hymn.page)
+        if hymn.title != EXAMPLE_HYMN_TITLE and page and int(page[1]) % 2 == 0:
+            notes.append(
+                f"“{hymn.title}” is on p. {page[1]}, an even page. The English is on the odd pages."
+            )
     return notes
 
 
-def suggestions(build_root: Path) -> Suggestions:
-    found = Suggestions()
-    if not build_root.is_dir():
-        return found
+def hymn_catalog(path: Path = HYMN_CATALOG_PATH) -> HymnCatalog:
+    if not path.exists():
+        return HymnCatalog()
+    data = read_yaml(path) or {}
+    return HymnCatalog(
+        hymns=[
+            catalog_hymn(entry)
+            for entry in data.get("hymns") or []
+            if isinstance(entry, dict) and as_text(entry.get("title"))
+        ],
+        abbreviations={
+            as_text(word): as_text(short) for word, short in (data.get("abbreviations") or {}).items()
+        },
+    )
 
-    titles: set[str] = set()
+
+def catalog_hymn(entry: dict) -> HymnSuggestion:
+    return HymnSuggestion(
+        title=as_text(entry.get("title")),
+        mode=parse_mode(entry.get("mode")),
+        page=page_number(page_label(as_text(entry.get("page")))),
+        pages_by_mode={
+            mode: page_number(page_label(as_text(page)))
+            for key, page in (entry.get("pages_by_mode") or {}).items()
+            if (mode := parse_mode(key))
+        },
+        also=[as_text(name) for name in entry.get("also") or []],
+    )
+
+
+def recent_details(build_root: Path) -> Iterator[ManualData]:
+    if not build_root.is_dir():
+        return
     recent = sorted((p for p in build_root.iterdir() if p.is_dir()), reverse=True)
     for out_dir in recent[:SUGGESTION_SUNDAYS]:
-        data = read(out_dir)
-        for hymn in data.dismissal_hymns if data else []:
-            if hymn.title and hymn.title != EXAMPLE_HYMN_TITLE and hymn.title not in titles:
-                titles.add(hymn.title)
-                found.hymns.append(hymn)
-        for service in data.upcoming_services if data else []:
-            if service.priest and service.priest != UNKNOWN_PRIEST and service.priest not in found.priests:
-                found.priests.append(service.priest)
-    return found
+        if data := read(out_dir):
+            yield data
+
+
+def suggestions(build_root: Path, catalog: HymnCatalog | None = None) -> Suggestions:
+    if catalog is None:
+        catalog = hymn_catalog()
+    known: dict[str, int] = {}
+    for index, hymn in enumerate(catalog.hymns):
+        for name in (hymn.title, *hymn.also):
+            known.setdefault(hymn_key(name, catalog.abbreviations), index)
+
+    used: Counter[int] = Counter()
+    others: dict[str, list[ManualHymnData]] = {}
+    priests: Counter[str] = Counter()
+    for data in recent_details(build_root):
+        for hymn in data.dismissal_hymns:
+            if not hymn.title or hymn.title == EXAMPLE_HYMN_TITLE:
+                continue
+            key = hymn_key(hymn.title, catalog.abbreviations)
+            if key in known:
+                used[known[key]] += 1
+            else:
+                others.setdefault(key, []).append(hymn)
+        for service in data.upcoming_services:
+            label = priest_label(service.priest)
+            if label and label != UNKNOWN_PRIEST and label not in NO_PRIEST:
+                priests[priest_name(label)] += 1
+
+    by_use = sorted(range(len(catalog.hymns)), key=lambda index: -used[index])
+    return Suggestions(
+        hymns=[
+            *(catalog.hymns[index] for index in by_use),
+            *(from_history(uses, catalog.abbreviations) for uses in others.values()),
+        ],
+        priests=[*(name for name, _ in priests.most_common()), READER_SERVICE],
+    )
+
+
+def from_history(uses: list[ManualHymnData], abbreviations: dict[str, str]) -> HymnSuggestion:
+    modes = {hymn.mode for hymn in uses}
+    pages = {page_number(page_label(hymn.page)) for hymn in uses}
+    return HymnSuggestion(
+        title=expand_abbreviations(uses[0].title, abbreviations),
+        mode=modes.pop() if len(modes) == 1 else None,
+        page=pages.pop() if len(pages) == 1 else "",
+    )
 
 
 def hymnal_index(path: Path = HYMNAL_INDEX_PATH) -> dict[str, list[tuple[str, str]]]:

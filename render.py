@@ -27,6 +27,7 @@ def inputs(run_date: date) -> list[Path]:
         *build_dir(run_date).glob("*.yaml"),
         *Path().glob("*.typ"),
         Path("data/layout.yaml"),
+        Path("data/hymns.yaml"),
         *Path("assets").iterdir(),
     ]
 

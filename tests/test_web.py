@@ -199,8 +199,45 @@ def test_saved_hymns_fill_the_form_and_suggestions(archived, network, client):
     page = client.get(f"/sundays/{DAY}").text
     assert 'value="Ordinary Kontakion"' in page
     assert "<option selected>2</option>" in page
-    assert '<option value="Fr. Joshua">' in page
+    assert 'name="hymn_page" value="225"' in page
+    assert 'name="service_priest" value="Joshua"' in page
+    assert '<option value="Joshua">' in page
     assert "Not ready to print" not in page
+
+
+def test_suggestions_carry_the_mode_and_page(client):
+    page = client.get(f"/sundays/{DAY}").text
+    assert (
+        '<option value="Resurrectional Apolytikion" data-pages=\'{"1": "99", "2": "103", "3": "107", "4": "111", '
+        '"5": "115", "6": "119", "7": "123", "8": "127"}\''
+    ) in page
+    assert '<option value="Kontakion for the Mother of God" data-mode="2" data-page="225"' in page
+    assert '<option value="Reader Service">' in page
+    assert '<option value="Handout">' in page
+
+
+def test_saving_adds_the_prefixes(site, client):
+    client.post(
+        f"/sundays/{DAY}/details",
+        details_form(
+            hymn_title=["Apol. of Sun. of Orthodoxy", "Hypakoe"],
+            hymn_mode=["2", "4"],
+            hymn_page=["129", "handout"],
+            service_date=["Today", "10/03/2026", "10/10/2026"],
+            service_priest=["Joshua", "reader service", "Fr. Jacob"],
+        ),
+    )
+    assert manual.read(site / "build" / DAY) == ManualData(
+        [
+            ManualHymnData("Apolytikion of Sunday of Orthodoxy", 2, "p. 129"),
+            ManualHymnData("Hypakoe", 4, "Handout"),
+        ],
+        [
+            UpcomingServiceData("Today", "Fr. Joshua"),
+            UpcomingServiceData("10/03/2026", "Reader Service"),
+            UpcomingServiceData("10/10/2026", "Fr. Jacob"),
+        ],
+    )
 
 
 def test_readings_can_be_typed_in_by_hand(site, client):

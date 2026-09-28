@@ -8,6 +8,7 @@
 #let dcs_data = yaml(build_path + "digital_chant_stand.yaml")
 
 #let layout = yaml("data/layout.yaml")
+#let hymn_catalog = yaml("data/hymns.yaml")
 
 #let size = layout.text.base_size_pt * 1pt * (feed_data.text_size_factor / 100)
 
@@ -18,6 +19,31 @@
 // so that other documents -- e.g. booklet.typ -- can #import and re-lay
 // them out without depending on this file's own page setup below.
 ////////////////////////////////////////////////////////////////////////////////
+
+// The catalog's short form for one of its hymns, otherwise the abbreviations.
+#let short_title(title) = {
+  let entry = hymn_catalog.hymns.find(hymn => lower(hymn.title) == lower(title))
+  if entry != none and "short" in entry { return entry.short }
+  let short = title
+  for (word, abbreviation) in hymn_catalog.abbreviations {
+    short = short.replace(regex("(?i)\\b" + word + "\\b"), abbreviation)
+  }
+  short
+}
+
+// Each title in full if it fits on one line next to the widest mode and page.
+#let hymn_cells(hymns, width) = {
+  let inset = 5pt
+  let modes = hymns.map(it => if it.mode != none { emph[Mode #it.mode] })
+  let pages = hymns.map(it => emph(it.page))
+  let widest(cells) = calc.max(0pt, ..cells.map(cell => measure(cell).width))
+  let title_width = width - widest(modes) - widest(pages) - 6 * inset
+  hymns.zip(modes, pages).map(((it, mode, page)) => {
+    let title = str(it.title)
+    if measure(title).width > title_width { title = short_title(title) }
+    ([#title#metadata(title)<hymn-title>], mode, page)
+  }).flatten()
+}
 
 #let front_page = [
   #set text(size: 10pt)
@@ -44,14 +70,11 @@
     === Hymns of the Day
 
     #text(size: 8pt)[
-      #table(
+      #std.layout(size => table(
         columns: 3,
-        ..manual_data.dismissal_hymns.map(it => (
-          it.title,
-          if it.mode != none { emph[Mode #it.mode] },
-          emph(it.page),
-        )).flatten()
-      )
+        inset: 5pt,
+        ..hymn_cells(manual_data.dismissal_hymns, size.width)
+      ))
     ]
   ]
 ]

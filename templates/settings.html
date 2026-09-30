@@ -26,6 +26,13 @@
   </ul>
 </details>
 
+<h2 id="backup">Backup</h2>
+<p>A copy of everything typed in here: the hymns, services and readings of every Sunday, and these settings. Download one about once a month and keep it somewhere other than this website, such as an email to yourself or a USB stick.</p>
+<div class="actions">
+  <a class="button{% if not backup_due %} secondary{% endif %}" href="/settings/backup.zip">Download a backup</a>
+</div>
+<p class="hint">{% if last_backup %}Last downloaded on {{ last_backup | long_date }}.{% else %}No backup has been downloaded yet.{% endif %}</p>
+
 <h2>Undo</h2>
 {% if can_undo %}
 <form method="post" action="/settings/undo" data-confirm="Undo the last change to the settings?">

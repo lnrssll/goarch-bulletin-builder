@@ -63,6 +63,7 @@ Notes:
   - `test_scrapers.py`: replays every Sunday in `archive/` offline through `sunday.fetch_readings`, then compares the scraped YAML with `tests/snapshots/<date>/`. A snapshot diff after a scraper change is either a regression or an intended change; regenerate the snapshots only for the latter. To add a regression case, commit its `archive/<date>/` and generate its snapshot.
   - `test_source_archive.py`: archive caching, using `httpx.MockTransport`.
   - `test_sunday.py`: the fetch pipeline (one source failing, bot-check pages) and the readings editor's load/save.
+  - `test_backup.py`: what goes into the backup zip, and remembering the last download.
   - `test_parish.py`: parish settings: only changes are stored, defaults fill in missing or unreadable ones, typographic quotes, put back the original, undo, history limit, the QR code and uploaded images.
   - `test_manual.py`: `manual.yaml` reading, the template and its carry-over from last week, the "Fr." and "p." prefixes, suggestions, and that `data/hymns.yaml` agrees with the hymnal index.
   - `test_render.py`: every snapshot Sunday renders to a 2-page booklet with typst-py; re-render only when an input changes; long hymn titles print in short form (read back with `typst.query` on the `<hymn-title>` metadata); settings with Typst-special characters, any number of contacts, no website, a new logo, and an overflowing welcome text.
@@ -134,6 +135,7 @@ Everything the bulletin prints that isn't the week's readings, hymns or services
 - **Undo:** each save first copies `parish.yaml` to `state/settings/history/<timestamp>.yaml` (the last 50 are kept); `parish.undo` writes the newest back and removes it. It writes rather than renames, so the mtime tells the render cache. "Put back the original" (`parish.put_back`) saves the defaults for a section's keys.
 - **Uploaded logos** go to `state/settings/images/<sha256>.<ext>`, named by content so older settings in the history still find theirs. PNG, JPEG and WebP only, by their first bytes, then a trial compile of just the image (`render.check_image`).
 - **Plain text:** Typst prints YAML strings literally, so a `#`, `*` or `$` can't break the document. Saving turns straight quotes in printed prose into typographic ones (`parish.typographic`), as Typst markup would; emails, websites and phones are left alone. The defaults use `’` for that reason.
+- **Backups** (`backup.py`, `deploy/README.md` "Backups"): the Settings page's download, for a copy off the server kept by the church, plus a weekly host cron job or Railway volume backups.
 - **Not settings:** `data/layout.yaml` and `data/text_metrics.yaml` (the text sizing is calibrated to them; a developer job), and the password and time zone (server config).
 
 ## Layout logic
@@ -172,6 +174,7 @@ Flow: each change is a form POST that does its work and redirects to the Sunday 
 | `POST /settings/<section>/original` | puts back the defaults for that section |
 | `POST /settings/undo` | undoes the last settings change, then returns to `next` |
 | `GET /settings/logo-picture` | the current logo, for the logo page |
+| `GET /settings/backup.zip` | `backup.make_zip`: everything under `state/` but the PDFs and preview pictures, paths relative to `state/`; records the time in `state/last-backup.txt`. The home page reminds after 35 days without one |
 
 Safety:
 - With `BULLETIN_PASSWORD` set, every page but `/login` and `/static/` needs a session: an HMAC-signed expiry in an HttpOnly, SameSite=Lax cookie, marked `Secure` over HTTPS (waitress trusts `X-Forwarded-Proto`; the container is only reachable from the host's nginx). The signing key is random per process, so a restart logs everyone out. Failed logins wait a second. Without a password there's no login, and `main()` refuses to listen beyond localhost.

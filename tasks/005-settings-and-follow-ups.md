@@ -8,7 +8,7 @@ This carries on task 004 (`tasks/done/004-webui.md`), toward the same goal: the 
 
 ## Status (2026-09-30)
 
-**Part 1 is done.** Part 2 is still open. The owner's answers:
+**Part 1 is done, and so are the backups from Part 2** (see the end of "Backups a volunteer can see"). The rest of Part 2 is still open. The owner's answers:
 1. Layout numbers stay out of the UI. 2. No second password. 3. Past Sundays use the current settings. 4. The QR code is generated (`segno`).
 
 Where Part 1 differs from the plan below:
@@ -132,6 +132,8 @@ Task 004's Docker setup was rehearsed, not built.
 
 - **A "Download a backup" button in Settings.** It gives a zip (stdlib `zipfile`) of every `manual.yaml` and the `settings/` folder: all that can't be regenerated. On an unwatched server, a cron job fails silently, but a volunteer who clicks it once a month has a real copy off the machine. The settings page can show when it was last used.
 - **Also a host cron job**, for the whole `build` and `settings` volumes: a weekly `tar`, keeping 12 weeks, documented in `deploy/README.md`.
+
+Done (2026-09-30): the zip holds everything under `state/` except PDFs and preview pictures (so hand-typed readings and icons too, ~2 MB), with paths relative to `state/` so restoring is unzipping into it. The home page shows a quiet reminder after 35 days without a download, since the Settings page itself is rarely opened. `deploy/README.md` has the weekly cron job (it runs `tar` inside the app container, so no volume names to guess), Railway's volume backups, and how to restore. Not done: restoring from the web UI. On Railway, restoring a zip needs a developer; if that matters, an upload-a-backup form in Settings is the fix.
 
 ### A handover sheet and a maintenance runbook
 

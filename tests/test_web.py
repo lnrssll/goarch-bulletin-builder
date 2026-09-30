@@ -2,6 +2,7 @@ import html
 import io
 import shutil
 import time
+import zipfile
 from dataclasses import dataclass
 from datetime import date, timedelta
 from pathlib import Path
@@ -493,6 +494,24 @@ def test_a_logo_that_is_too_large(client):
     assert small.status == 413
 
 
+def test_downloading_a_backup(ready, client):
+    assert "download a backup" in client.get("/").text
+    assert "No backup has been downloaded yet" in client.get("/settings").text
+
+    result = client.get("/settings/backup.zip")
+    assert result.headers["Content-Type"] == "application/zip"
+    assert result.headers["Content-Disposition"].startswith('attachment; filename="bulletin-backup-')
+    with zipfile.ZipFile(io.BytesIO(result.body)) as archive:
+        assert f"sundays/{DAY}/manual.yaml" in archive.namelist()
+
+    assert "download a backup" not in client.get("/").text
+    assert "Last downloaded on" in client.get("/settings").text
+
+
+def test_no_backup_reminder_before_the_first_sunday(client):
+    assert "download a backup" not in client.get("/").text
+
+
 def test_the_parish_name_heads_every_page(client):
     client.post("/settings/wording", {name: getattr(parish.original(), name) for name in web.WORDING} | {"site_name": "St. Anywhere"})
     assert '<a class="brand" href="/">St. Anywhere</a>' in client.get("/").text
@@ -519,6 +538,7 @@ def test_password_protects_every_page(site, locked):
 
 def test_settings_need_a_login(site, locked):
     assert locked.get("/settings").headers["Location"] == "/login?next=/settings"
+    assert locked.get("/settings/backup.zip").status == 303
     assert locked.post("/settings/welcome", {"welcome_heading": "Hi"}).status == 303
     assert locked.post("/settings/logo", files={"logo": ("x.png", b"\x89PNG\r\n\x1a\n")}).status == 303
     assert parish.load() == parish.original()

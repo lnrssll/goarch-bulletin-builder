@@ -18,6 +18,10 @@
   <p class="hint">Any Sunday, past or future.{% if parish.liturgy_day == "saturday" %} Picking the Saturday of a service opens the Sunday after it.{% endif %}</p>
 </form>
 
+{% if backup_due %}
+<p class="notice">It's time to keep a copy of the bulletins somewhere safe: <a href="/settings#backup">download a backup</a>.</p>
+{% endif %}
+
 {% if sundays %}
 <h2>Recent Sundays</h2>
 <table class="sundays">

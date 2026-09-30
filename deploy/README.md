@@ -74,11 +74,31 @@ docker compose cp ./state/. app:/app/state/
 docker compose exec -u root app chown -R bulletin /app/state
 ```
 
-Back up `state` now and then:
+## Backups
+
+`state/` is the only thing that can't be made again. There are two kinds of backup, and it's worth having both:
+
+- **Download a backup** (under Settings in the web UI) gives a zip of `state/` without the PDFs and pictures, which are made again when a Sunday is opened. The home page reminds whoever makes the bulletin when the last download is more than five weeks old. It's the one copy that ends up off the server, kept by someone at the church, so it survives the server being lost or its bill going unpaid.
+- **On your own server**, a weekly copy of the volume, keeping 12 weeks. Put this in `/etc/cron.d/bulletin-backup` (`%` must be written `\%` in a cron file):
+
+  ```
+  # m h dom mon dow user command
+  15 3 * * 0 root mkdir -p /var/backups/bulletin && cd /opt/bulletin && docker compose exec -T app tar czf - -C /app state > /var/backups/bulletin/state-$(date +\%F).tar.gz && find /var/backups/bulletin -name 'state-*.tar.gz' -mtime +84 -delete
+  ```
+
+  Check a week later that `/var/backups/bulletin` has a file in it. These copies are on the same machine, so they cover mistakes, not the loss of the server.
+- **On Railway**, the volume's settings have a backups section that can take them on a schedule; turn on weekly backups there (see Railway's documentation, which changes more often than this file).
+
+To restore on your own server, from a downloaded zip or a weekly copy:
 
 ```bash
-docker compose cp app:/app/state ./state-backup-$(date +%F)
+mkdir restore && cd restore
+unzip ../bulletin-backup-2026-10-04.zip          # or: tar xzf /var/backups/bulletin/state-2026-10-04.tar.gz --strip-components=1
+docker compose cp ./. app:/app/state/
+docker compose exec -u root app chown -R bulletin /app/state
 ```
+
+Restoring replaces files of the same name and leaves others alone, and the Sundays' PDFs are made again when they're opened.
 
 ## When downloads from goarch.org fail
 

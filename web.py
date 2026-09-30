@@ -14,7 +14,7 @@ import time
 import traceback
 from collections.abc import Callable
 from dataclasses import dataclass, field, replace
-from datetime import date
+from datetime import date, datetime, timedelta
 from email.parser import BytesParser
 from http import HTTPStatus
 from http.cookies import CookieError, SimpleCookie
@@ -25,6 +25,7 @@ import httpx
 import jinja2
 import waitress
 
+import backup
 import manual
 import parish
 import render
@@ -48,6 +49,7 @@ LOCAL_HOSTS = ("127.0.0.1", "localhost", "::1")
 MIN_HYMN_ROWS = 5
 MIN_SERVICE_ROWS = 4
 RECENT_SUNDAYS = 12
+BACKUP_REMINDER = timedelta(days=35)
 STATIC_TYPES = {
     ".css": "text/css; charset=utf-8",
     ".js": "text/javascript; charset=utf-8",
@@ -416,7 +418,13 @@ def fetch_flash(result: sunday.FetchResult) -> Flash:
 def home(req: Request) -> Response:
     upcoming = sunday.next_sunday(date.today())
     others = [day for day in sunday.saved_dates() if day != upcoming][:RECENT_SUNDAYS]
-    return page(req, "home.html", upcoming=summarize(upcoming), sundays=[summarize(day) for day in others])
+    return page(
+        req,
+        "home.html",
+        upcoming=summarize(upcoming),
+        sundays=[summarize(day) for day in others],
+        backup_due=backup_due(),
+    )
 
 
 def open_sunday(req: Request) -> Response:
@@ -627,6 +635,12 @@ def settings_preview(sides: int) -> Preview:
     )
 
 
+def backup_due() -> bool:
+    last = backup.last_download()
+    has_sundays = bool(sunday.saved_dates())
+    return has_sundays and (last is None or datetime.now() - last > BACKUP_REMINDER)
+
+
 def settings_home(req: Request) -> Response:
     return page(
         req,
@@ -634,6 +648,22 @@ def settings_home(req: Request) -> Response:
         sections=SECTIONS,
         can_undo=bool(parish.history()),
         last_changed=parish.last_changed(),
+        last_backup=backup.last_download(),
+        backup_due=backup_due(),
+    )
+
+
+def download_backup(req: Request) -> Response:
+    with WORK_LOCK:
+        content = backup.make_zip()
+        backup.record_download(datetime.now())
+    return Response(
+        content,
+        headers=[
+            ("Content-Type", "application/zip"),
+            ("Content-Disposition", f'attachment; filename="{backup.filename(date.today())}"'),
+            ("Cache-Control", "no-store"),
+        ],
     )
 
 
@@ -823,6 +853,7 @@ ROUTES: list[tuple[str, re.Pattern[str], Callable[..., Response]]] = [
         ("GET", rf"/sundays/{DATE}/preview-(\d+)\.png", preview),
         ("GET", r"/settings", settings_home),
         ("POST", r"/settings/undo", undo_settings),
+        ("GET", r"/settings/backup\.zip", download_backup),
         ("GET", r"/settings/logo-picture", logo_picture),
         ("GET", r"/settings/([a-z-]+)", settings_form),
         ("POST", r"/settings/([a-z-]+)", save_settings),

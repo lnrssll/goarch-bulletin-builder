@@ -15,6 +15,7 @@ SOLVE_TOLERANCE_PT = 0.05
 SIZE_STEP_PT = 0.1
 LAYOUT_TIE_TOLERANCE_PT = 0.0  # accept a smaller size (in pt) to keep a preferred layout
 SMALL_SIZE_NOTICE_PT = 7.0
+MIN_OVERRIDE_PT = 5.0
 VERSE_LABEL = "Verse: "
 READING_HEADING = "The Reading is from "
 
@@ -255,6 +256,19 @@ def choose_layout(
     )
     s = candidates[layout]
 
+    return sized(layout, s, epistle, alleluia, gospel, box, metrics, candidates)
+
+
+def sized(
+    layout: str,
+    s: float,
+    epistle: list[Block],
+    alleluia: list[Block],
+    gospel: list[Block],
+    box: PageBox,
+    metrics: TextMetrics,
+    candidates: dict[str, float],
+) -> SizingResult:
     return SizingResult(
         font_size_pt=s,
         layout=layout,
@@ -263,6 +277,28 @@ def choose_layout(
         page_fill=page_fill(layout, s, epistle, alleluia, gospel, box, metrics),
         candidates=candidates,
     )
+
+
+def overrides(feed: dict, base_size_pt: float) -> tuple[float | None, str | None]:
+    """The size and layout chosen by hand in feed.yaml, each None when missing or out of range."""
+    size = feed.get("size_override_pt")
+    if not isinstance(size, (int, float)) or isinstance(size, bool) or not MIN_OVERRIDE_PT <= size <= base_size_pt:
+        size = None
+    layout = feed.get("layout_override")
+    return size, layout if layout in LAYOUTS else None
+
+
+def by_hand(
+    automatic: SizingResult,
+    size: float | None,
+    layout: str | None,
+    blocks: tuple[list[Block], list[Block], list[Block]],
+    model: "Model",
+) -> SizingResult:
+    """A layout chosen by hand gets the model's size for it, unless a size was chosen too."""
+    layout = layout or automatic.layout
+    s = size if size is not None else automatic.candidates[layout]
+    return sized(layout, s, *blocks, model.box, model.metrics, automatic.candidates)
 
 
 ################################################################################
@@ -380,11 +416,22 @@ def size_sunday(
     return result, data, blocks
 
 
+def automatic(out_dir: Path) -> SizingResult | None:
+    """The model's own choice, for comparing with one made by hand; None without all the readings."""
+    try:
+        return size_sunday(out_dir, load_model())[0]
+    except MissingBuildData:
+        return None
+
+
 def run(out_dir: Path) -> SizingResult:
     model = load_model()
-    result, data, _ = size_sunday(out_dir, model)
+    result, data, blocks = size_sunday(out_dir, model)
 
     feed = data["feed.yaml"]
+    size, layout = overrides(feed, model.base_size_pt)
+    if size is not None or layout is not None:
+        result = by_hand(result, size, layout, blocks, model)
     feed["text_size_factor"] = round(100 * result.font_size_pt / model.base_size_pt, 1)
     feed["alleluia_page_break"] = result.alleluia_page_break
     feed["gospel_page_break"] = result.gospel_page_break

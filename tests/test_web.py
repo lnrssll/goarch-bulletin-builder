@@ -1,5 +1,6 @@
 import html
 import io
+import re
 import shutil
 import time
 import zipfile
@@ -129,6 +130,13 @@ def network(monkeypatch) -> list[str]:
 
     monkeypatch.setattr(sunday, "http_client", lambda: httpx.AsyncClient(transport=httpx.MockTransport(refuse)))
     return asked
+
+
+def readings_form(page: str) -> dict[str, str]:
+    """The readings editor's text as it would be sent back unchanged."""
+    fields = dict(re.findall(r'<input name="(\w+)" value="([^"]*)"', page))
+    fields |= {name: html.unescape(text) for name, text in re.findall(r'<textarea name="(\w+)"[^>]*>(.*?)</textarea>', page, re.S)}
+    return {name: html.unescape(value) for name, value in fields.items()}
 
 
 def details_form(**fields: list[str]) -> dict[str, list[str]]:
@@ -298,6 +306,29 @@ def test_readings_can_be_typed_in_by_hand(site, client):
     ]
     assert read_yaml(out_dir / "feed.yaml")["font_size_pt"] == 10
     assert (out_dir / "booklet.pdf").exists()
+
+
+def test_an_overflowing_sunday_can_be_fixed_by_hand(ready, client):
+    feed_path = ready / "feed.yaml"
+    readings = client.get(f"/sundays/{DAY}/readings").text
+    form = readings_form(readings)
+
+    client.post(f"/sundays/{DAY}/readings", form | {"size_override_pt": "10.0", "layout_override": "split_before_alleluia"})
+    feed = read_yaml(feed_path)
+    assert (feed["size_override_pt"], feed["layout_override"]) == (10.0, "split_before_alleluia")
+    assert feed["text_size_factor"] == 100.0 and feed["alleluia_page_break"]
+    page = client.get(f"/sundays/{DAY}").text
+    assert "(chosen by hand)" in page
+    assert "preview-3.png" in page and "readings#text-size" in page
+
+    client.post(f"/sundays/{DAY}/readings", form | {"size_override_pt": "7.0", "layout_override": "split_before_alleluia"})
+    assert "preview-3.png" not in client.get(f"/sundays/{DAY}").text
+    assert 'value="7.0" selected' in client.get(f"/sundays/{DAY}/readings").text
+
+    client.post(f"/sundays/{DAY}/readings", form | {"size_override_pt": "", "layout_override": "nonsense"})
+    feed = read_yaml(feed_path)
+    assert (feed["size_override_pt"], feed["layout_override"]) == (None, None)
+    assert "(chosen by hand)" not in client.get(f"/sundays/{DAY}").text
 
 
 def test_readings_form_shows_the_downloaded_text(archived, network, client):

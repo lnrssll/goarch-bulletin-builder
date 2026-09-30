@@ -8,6 +8,7 @@ icon_filename: exaltation.jpg
 icon_src: http://onlinechapel.goarch.org/images/clark/exaltation.jpg
 icon_title: ''
 layout: split_before_alleluia
+layout_override: null
 lectionary_title: Sunday after Holy Cross
 page_fill:
 - 0.806
@@ -19,5 +20,6 @@ saint_and_feast_urls:
 - http://onlinechapel.goarch.org/saints.asp?contentid=2579
 - http://onlinechapel.goarch.org/saints.asp?contentid=2254
 - http://onlinechapel.goarch.org/saints.asp?contentid=2433
+size_override_pt: null
 text_size_factor: 100.0
 

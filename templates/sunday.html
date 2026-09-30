@@ -39,7 +39,7 @@
       <dd>{{ readings.gospel_book }} {{ readings.gospel_chapverse }}</dd>
       {% if font_size_pt %}
       <dt>Text size</dt>
-      <dd>{{ font_size_pt }} pt; {{ layout }}</dd>
+      <dd>{{ font_size_pt }} pt; {{ layout }}{% if readings.size_override_pt or readings.layout_override %} (chosen by hand){% endif %}</dd>
       {% endif %}
     </dl>
     <div class="actions">
@@ -168,7 +168,7 @@
     <p class="notice warning">Not ready to print yet: finish step 2 first.</p>
     {% endif %}
     {% if pages > expected_pages %}
-    <p class="notice warning">The readings didn't fit: the booklet has {{ pages }} pages instead of {{ expected_pages }}. Print it anyway, or let whoever looks after this program know.</p>
+    <p class="notice warning">Something didn't fit: the booklet has {{ pages }} pages instead of {{ expected_pages }}. If it's the readings, choose a smaller <a href="{{ url }}/readings#text-size">text size</a> (at the bottom of “Edit the readings”). Otherwise print it anyway, or let whoever looks after this program know.</p>
     {% endif %}
     <div class="actions">
       <a class="button" href="{{ url }}/booklet.pdf?download=1">Download the booklet</a>

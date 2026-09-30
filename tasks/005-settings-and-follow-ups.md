@@ -157,6 +157,8 @@ Done (2026-09-30): `deploy/HANDOVER.md` is a one-page sheet to print and fill in
 
 If the sizing model ever misjudges a Sunday, the volunteer's only choice is to print a third page. Add an optional text size (and break choice) to the readings editor. `text_sizing.run` would use it instead of solving, and write it into `feed.yaml` as an override so the model stays model-only (task 001). Done when a Sunday that overflows can be fixed from the web page.
 
+Done (2026-09-30): the readings editor ends with "Text size": a size (the base size down to 6pt, half a point apart) and a page break, each "Automatic" by default and showing what automatic chose. The Sunday page's overflow warning links there, and the summary says "(chosen by hand)". A layout chosen alone gets the model's largest size for it. A test overflows a Sunday by hand and fixes it from the web page.
+
 ### Keep the page that broke
 
 When goarch.org changes and a scrape fails, nothing is archived (on purpose, so a bot-check page never becomes the cache). But a developer called in years later needs exactly that page.

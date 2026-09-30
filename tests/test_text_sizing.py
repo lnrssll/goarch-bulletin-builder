@@ -5,9 +5,11 @@ import pytest
 from text_sizing import (
     LAYOUTS,
     Block,
+    Model,
     PageConstraint,
     alleluia_blocks,
     block_height,
+    by_hand,
     blocks_height,
     choose_layout,
     closed_form_size,
@@ -17,6 +19,7 @@ from text_sizing import (
     load_layout,
     load_metrics,
     max_size_one,
+    overrides,
     page_box,
 )
 
@@ -144,3 +147,38 @@ def test_layout_is_best_and_first_in_preference_order(metrics, box):
 def test_short_epistle_long_gospel_puts_alleluia_with_epistle(metrics, box):
     result = size_for(metrics, box, epistle_chars=700, gospel_chars=1500)
     assert result.candidates["split_before_gospel"] >= result.candidates["split_before_alleluia"]
+
+
+@pytest.mark.parametrize(
+    "feed, expected",
+    [
+        ({}, (None, None)),
+        ({"size_override_pt": 8.5, "layout_override": "flow"}, (8.5, "flow")),
+        ({"size_override_pt": 12, "layout_override": "sideways"}, (None, None)),
+        ({"size_override_pt": 4.9}, (None, None)),
+        ({"size_override_pt": "8", "layout_override": None}, (None, None)),
+        ({"size_override_pt": True}, (None, None)),
+    ],
+)
+def test_overrides_are_read_carefully(feed, expected):
+    assert overrides(feed, S_MAX) == expected
+
+
+def test_a_size_chosen_by_hand_keeps_the_automatic_layout(metrics, box):
+    blocks = sections(metrics, epistle_chars=2500, gospel_chars=2500)
+    automatic = choose_layout(*blocks, box, metrics, S_MAX)
+    smaller = automatic.font_size_pt - 1
+    result = by_hand(automatic, smaller, None, blocks, Model(box, metrics, S_MAX))
+    assert (result.font_size_pt, result.layout) == (smaller, automatic.layout)
+    assert result.page_fill[0] < automatic.page_fill[0]
+
+
+def test_a_layout_chosen_by_hand_gets_its_own_largest_size(metrics, box):
+    blocks = sections(metrics, epistle_chars=2500, gospel_chars=2500)
+    automatic = choose_layout(*blocks, box, metrics, S_MAX)
+    other = next(layout for layout in LAYOUTS if layout != automatic.layout)
+    result = by_hand(automatic, None, other, blocks, Model(box, metrics, S_MAX))
+    assert result.layout == other
+    assert result.font_size_pt == automatic.candidates[other]
+    assert result.gospel_page_break == (other == "split_before_gospel")
+    assert result.alleluia_page_break == (other == "split_before_alleluia")

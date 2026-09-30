@@ -67,6 +67,8 @@ class Readings:
     gospel_book: str = ""
     gospel_chapverse: str = ""
     gospel_text: list[str] = field(default_factory=list)
+    size_override_pt: float | None = None
+    layout_override: str = ""
 
 
 ################################################################################
@@ -189,6 +191,8 @@ def load_readings(run_date: date, out_dir: Path) -> Readings:
         gospel_book=gospel.get("book") or "",
         gospel_chapverse=gospel.get("chapverse") or "",
         gospel_text=gospel.get("text") or [],
+        size_override_pt=feed.get("size_override_pt"),
+        layout_override=feed.get("layout_override") or "",
     )
 
 
@@ -203,6 +207,8 @@ def save_readings(run_date: date, out_dir: Path, readings: Readings) -> text_siz
         "lectionary_title": readings.lectionary_title,
         "formatted_date": readings.formatted_date,
         "icon_title": readings.icon_title,
+        "size_override_pt": readings.size_override_pt,
+        "layout_override": readings.layout_override or None,
     }
     epistle |= {
         "book": readings.epistle_book,

@@ -71,6 +71,10 @@ uv run pytest                               # unit tests
 
 `sunday.fetch_readings` (used by `main.py` and the web UI) runs it after scraping, and the web UI's readings editor runs it after every save.
 
+## Chosen by hand
+
+If the model gets a Sunday wrong and the booklet runs to a third page, the volunteer can pick a size and a page break at the bottom of the readings editor ("Text size"). They're kept in `feed.yaml` as `size_override_pt` and `layout_override` (null for automatic). `run` still solves as usual, then applies them: a size alone keeps the automatic layout, and a layout alone gets the model's largest size for that layout. `--explain` and `--report` show only the model's own choice. Downloading the readings again rewrites `feed.yaml` and drops them, like other changes made in the editor.
+
 ## Tuning
 
 The constants in `text_metrics.yaml` were measured from rendered PDFs and lean conservative, especially below ~8pt. To tune:

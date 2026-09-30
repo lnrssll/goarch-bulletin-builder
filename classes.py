@@ -50,6 +50,9 @@ class DailyFeedPageData:
     font_size_pt: float | None = None
     layout: str | None = None
     page_fill: list[float] | None = None
+    # chosen by hand in the readings editor, when the automatic sizing gets a Sunday wrong
+    size_override_pt: float | None = None
+    layout_override: str | None = None
 
 
 @dataclass

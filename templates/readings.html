@@ -62,6 +62,27 @@
     <p class="hint">Leave an empty line between paragraphs.</p>
   </fieldset>
 
+  <fieldset id="text-size">
+    <legend>Text size</legend>
+    <p class="hint">The size and page break are chosen by themselves, to fit the readings on pages 2 and 3. Change them only if the booklet comes out with more than 2 pages: then pick a smaller size than the automatic one.</p>
+    <label>Size
+      <select name="size_override_pt">
+        <option value="">Automatic{% if automatic %} ({{ automatic.font_size_pt }} pt){% endif %}</option>
+        {% for size in sizes %}
+        <option value="{{ size }}"{% if readings.size_override_pt == size %} selected{% endif %}>{{ size }} pt</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Page break
+      <select name="layout_override">
+        <option value="">Automatic{% if automatic %} ({{ layouts[automatic.layout] }}){% endif %}</option>
+        {% for value, description in layouts.items() %}
+        <option value="{{ value }}"{% if readings.layout_override == value %} selected{% endif %}>{{ description | capitalize }}</option>
+        {% endfor %}
+      </select>
+    </label>
+  </fieldset>
+
   <div class="actions">
     <button data-busy="Saving…">Save the readings</button>
     <a href="{{ url }}">Cancel</a>

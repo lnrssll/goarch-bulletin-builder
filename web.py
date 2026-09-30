@@ -30,6 +30,7 @@ import manual
 import parish
 import render
 import sunday
+import text_sizing
 from classes import ManualData, ManualHymnData, UpcomingServiceData
 from yaml_io import read_yaml
 
@@ -66,6 +67,8 @@ HTML_HEADERS = [
     ("Referrer-Policy", "same-origin"),
     ("Cache-Control", "no-store"),
 ]
+# the sizes offered in the readings editor, from the largest down, half a point apart
+SMALLEST_OFFERED_PT = 6.0
 LAYOUT_DESCRIPTIONS = {
     "split_before_alleluia": "Epistle on page 2; Alleluia and Gospel on page 3",
     "split_before_gospel": "Epistle and Alleluia on page 2; Gospel on page 3",
@@ -529,14 +532,34 @@ def save_details(req: Request, iso: str) -> Response:
     return redirect(req, sunday_url(day), Flash("ok", "Hymns and services saved."))
 
 
+def offered_sizes(current: float | None) -> list[float]:
+    base = text_sizing.load_layout()["text"]["base_size_pt"]
+    sizes = [base - n / 2 for n in range(int((base - SMALLEST_OFFERED_PT) * 2) + 1)]
+    return sorted({*sizes, current} - {None}, reverse=True)
+
+
+def parse_size(text: str) -> float | None:
+    try:
+        size = round(float(text), 1)
+    except ValueError:
+        return None
+    base = text_sizing.load_layout()["text"]["base_size_pt"]
+    return size if text_sizing.MIN_OVERRIDE_PT <= size <= base else None
+
+
 def readings_form(req: Request, iso: str) -> Response:
     day = parse_sunday(iso)
+    out_dir = sunday.sunday_dir(day)
+    readings = sunday.load_readings(day, out_dir)
     return page(
         req,
         "readings.html",
         day=day,
         url=sunday_url(day),
-        readings=sunday.load_readings(day, sunday.sunday_dir(day)),
+        readings=readings,
+        automatic=text_sizing.automatic(out_dir),
+        sizes=offered_sizes(readings.size_override_pt),
+        layouts=LAYOUT_DESCRIPTIONS,
     )
 
 
@@ -555,6 +578,8 @@ def save_readings(req: Request, iso: str) -> Response:
         gospel_book=req.field("gospel_book"),
         gospel_chapverse=req.field("gospel_chapverse"),
         gospel_text=paragraphs(req.field("gospel_text")),
+        size_override_pt=parse_size(req.field("size_override_pt")),
+        layout_override=req.field("layout_override") if req.field("layout_override") in LAYOUT_DESCRIPTIONS else "",
     )
     with WORK_LOCK:
         sunday.save_readings(day, sunday.sunday_dir(day), readings)

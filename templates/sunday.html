@@ -111,7 +111,7 @@
         {% endfor %}
       </tbody>
     </table>
-    <p class="hint">Write dates like {{ service_day.strftime("%m/%d/%Y") }}, or “Today”. “Fr.” is added to the priest's name; write “Reader Service” when there's no priest. To remove a service, clear both boxes.</p>
+    <p class="hint">Write dates like {{ service_day.strftime("%m/%d/%Y") }}, or “{{ parish.today }}”. “Fr.” is added to the priest's name; write “Reader Service” when there's no priest. To remove a service, clear both boxes.</p>
 
     <button data-busy="Saving…">Save hymns and services</button>
   </form>

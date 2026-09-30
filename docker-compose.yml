@@ -7,9 +7,9 @@ services:
     # .env.local for trying it on this computer; ENV_FILE=.env.prod on a server
     env_file: ${ENV_FILE:-.env.local}
     volumes:
-      - build:/app/build
+      - state:/app/state
       - archive:/app/archive
 
 volumes:
-  build:
+  state:
   archive:

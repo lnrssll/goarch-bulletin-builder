@@ -18,8 +18,8 @@ RUN uv sync --locked --no-dev --no-install-project
 
 COPY . .
 RUN useradd --system --no-create-home bulletin \
-    && mkdir -p build archive \
-    && chown bulletin build archive
+    && mkdir -p state archive \
+    && chown bulletin state archive
 USER bulletin
 
 EXPOSE 8000

@@ -6,6 +6,20 @@
 
 This carries on task 004 (`tasks/done/004-webui.md`), toward the same goal: the church keeps using this for ten years without technical help. Today, a new visiting priest, a new phone number or a new website means a code edit and a redeploy, so a developer is needed. Part 1 fixes that. Part 2 lists everything else task 004 turned up.
 
+## Status (2026-09-30)
+
+**Part 1 is done.** Part 2 is still open. The owner's answers:
+1. Layout numbers stay out of the UI. 2. No second password. 3. Past Sundays use the current settings. 4. The QR code is generated (`segno`).
+
+Where Part 1 differs from the plan below:
+- **One `state/` folder instead of `build/` + `settings/`.** Railway allows one volume per service, so the owner chose to rename `build/` to something general: `state/sundays/<date>/` (was `build/<date>/`) and `state/settings/`. One volume (`/app/state`), one folder to back up. `build_path.typ` became `inputs.typ`; `sunday.build_dir`/`built_dates` became `sunday_dir`/`saved_dates`.
+- **The church's `parish.yaml` holds only its changes,** not a complete copy: Typst merges it over `data/parish.yaml`, so a corrected default still reaches every setting the church hasn't changed. `parish.ensure()` only writes `{}` when it's missing, plus the QR code.
+- **The hymnal index is a setting** (`hymnal_index`, the text of the index), so undo covers it too.
+- **Exactly two contacts, not a list.** The owner: the contacts are only the head priests of the two churches (Frs. Timothy and Andrew), not every visiting priest. So the form has two fixed slots (left and right), and the contacts aren't added to the priest suggestions (past Sundays name priests by first name anyway).
+- **Quotes:** Typst markup made the old welcome text's apostrophes curly; YAML strings print as they are. The defaults use `’`, and saving turns typed straight quotes in printed prose into typographic ones.
+- **Checked:** with the default settings every page renders pixel-identical to before, except the QR code, which is now generated. It still decodes to `lakehavasuorthodoxchurch.org`.
+- **Found:** a third contact with all five fields would overflow the back page with today's welcome text, one more reason for the two fixed slots. A long welcome text is still caught by the preview's page count, with Undo.
+
 ## Part 1: parish settings
 
 ### Everything fixed in the printed bulletin today

@@ -1,0 +1,8 @@
+<label>Website address
+  <input name="website" value="{{ settings.website }}" placeholder="example.org" autocomplete="off">
+</label>
+<p class="hint">The QR code opens this address. Leave it empty to print no QR code.</p>
+<label>Printed next to the QR code
+  <textarea name="website_lines" rows="4">{{ settings.website_lines | join("\n") }}</textarea>
+</label>
+<p class="hint">One line per row. Break a long address into short pieces, so that it fits beside the code.</p>

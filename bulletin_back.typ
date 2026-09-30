@@ -1,18 +1,29 @@
-#import "build_path.typ": build_path
+#import "inputs.typ": sunday_path, settings_path, parish
 
 #set text(size: 9pt)
 
-#let upcoming_services = yaml(build_path + "manual.yaml").upcoming_services
+#let upcoming_services = yaml(sunday_path + "manual.yaml").upcoming_services
 
-= Welcome
+// Name, church and city, then email and phone; empty fields are left out.
+#let contact_card(contact) = {
+  let lines(..keys) = keys.pos()
+    .map(key => contact.at(key, default: none))
+    .filter(value => value not in (none, ""))
+    .map(str)
+    .join(linebreak())
+  lines("name", "church", "city")
+  parbreak()
+  lines("email", "phone")
+}
 
-We are pleased to have you join us for today's Divine Liturgy!
+= #parish.welcome_heading
 
-In order to receive Holy Communion in the Orthodox Church, one must be baptized and/or chrismated into the Orthodox Church. Whether you are an Orthodox Christian or not, please come forward at the end of the service to receive a blessing and blessed bread, which is offered to everyone. You are also invited to stay for coffee hour.
+#for paragraph in parish.welcome {
+  paragraph
+  parbreak()
+}
 
-If you are interested in learning more about the Orthodox Church, please contact one of our visiting priests, using the contact information provided below. Please also add your name and contact information to our visitors book, if you'd like to receive our weekly newsletter for upcoming services and announcements.
-
-=== Upcoming Services
+=== #parish.services_heading
 
 #columns(2, gutter: 20pt)[
   #let mid = calc.ceil(upcoming_services.len() / 2)
@@ -22,39 +33,26 @@ If you are interested in learning more about the Orthodox Church, please contact
   ]
 ]
 
-=== Contact Information
+=== #parish.contacts_heading
 
-#columns(2, gutter: 20pt)[
-  #set text(size: 8pt)
-
-  Rev. Fr. Andrew J. Barakos \
-  Assumption Church \
-  Scottsdale, AZ \
-
-  #("priest@assumptionaz.org") \
-  (480) 991-3009
-
-  #colbreak()
-
-  Fr. Timothy Pavlatos \
-  Saint Katherine Church \
-  Chandler, AZ \
-
-  #("frtimskchurch@gmail.com") \
-  (480) 899-3330
-]
+#grid(
+  columns: (1fr, 1fr),
+  column-gutter: 20pt,
+  row-gutter: 1.2em,
+  ..parish.contacts.map(contact => text(size: 8pt, contact_card(contact))),
+)
 
 #v(1fr)
 
 #grid(
   columns: (1fr, auto),
-  image("assets/logo.webp", height: 40pt),
+  image("/" + parish.logo, height: 40pt),
   align(horizon)[
     #grid(
       columns: 2,
       gutter: 5pt,
-      image("assets/lhoc-qr.png", height: 33pt),
-      text(size: 7pt)[lakehavasu \ orthodox \ church.org]
+      ..if parish.website != "" { (image(settings_path + "qr.svg", height: 33pt),) } else { () },
+      ..if parish.website_lines.len() > 0 { (text(size: 7pt, parish.website_lines.join(linebreak())),) } else { () },
     )
   ]
 )

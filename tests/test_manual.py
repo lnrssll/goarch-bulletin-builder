@@ -4,10 +4,12 @@ from pathlib import Path
 import pytest
 
 import manual
+import parish
 from classes import ManualData, ManualHymnData, UpcomingServiceData
 
 ROOT = Path(__file__).resolve().parent.parent
 SUNDAY = date(2026, 9, 27)
+SETTINGS = parish.original()
 CATALOG = manual.HymnCatalog(
     hymns=[
         manual.HymnSuggestion("Resurrectional Apolytikion", pages_by_mode={1: "99", 8: "127"}),
@@ -34,7 +36,7 @@ def test_template_carries_the_priests_over_from_last_week():
             ("10/10/2026", "Fr. Jacob"),
         )
     )
-    assert manual.template(SUNDAY, last_week).upcoming_services == services(
+    assert manual.template(SUNDAY, last_week, SETTINGS).upcoming_services == services(
         ("Today", "Fr. Joshua"),
         ("10/03/2026", manual.UNKNOWN_PRIEST),
         ("10/10/2026", "Fr. Jacob"),
@@ -42,7 +44,7 @@ def test_template_carries_the_priests_over_from_last_week():
 
 
 def test_template_without_history():
-    data = manual.template(SUNDAY, None)
+    data = manual.template(SUNDAY, None, SETTINGS)
     assert data.upcoming_services == services(
         ("Today", manual.UNKNOWN_PRIEST),
         ("10/03/2026", manual.UNKNOWN_PRIEST),
@@ -51,13 +53,33 @@ def test_template_without_history():
     assert len(manual.unfinished(data)) == 2
 
 
-def test_write_template_looks_back_past_skipped_weeks(tmp_path):
+def test_template_follows_a_sunday_liturgy():
+    settings = parish.Settings(liturgy_day=parish.SUNDAY, today="This Sunday")
+    last_week = ManualData(upcoming_services=services(("09/27/2026", "Fr. Joshua"), ("09/26/2026", "Fr. Jacob")))
+    assert manual.template(SUNDAY, last_week, settings).upcoming_services == services(
+        ("This Sunday", "Fr. Joshua"),
+        ("10/04/2026", manual.UNKNOWN_PRIEST),
+    )
+
+
+def test_write_template_follows_the_settings(site, tmp_path):
+    parish.save({"liturgy_day": parish.SUNDAY})
+    manual.write_template(SUNDAY, tmp_path / "2026-09-27")
+    assert manual.read(tmp_path / "2026-09-27").upcoming_services[1].date == "10/04/2026"
+
+
+def test_hymnal_index_refuses_malformed_lines():
+    with pytest.raises(ValueError, match="Line 2"):
+        manual.hymnal_index("Ordinary Kontakion | 225 | Kontakia\nOnly a title\n")
+
+
+def test_write_template_looks_back_past_skipped_weeks(site, tmp_path):
     manual.write(ManualData(upcoming_services=services(("09/26/2026", "Fr. Joshua"))), tmp_path / "2026-09-13")
     manual.write_template(SUNDAY, tmp_path / "2026-09-27")
     assert manual.read(tmp_path / "2026-09-27").upcoming_services[0] == UpcomingServiceData("Today", "Fr. Joshua")
 
 
-def test_write_template_never_overwrites(tmp_path):
+def test_write_template_never_overwrites(site, tmp_path):
     mine = ManualData([ManualHymnData("Ordinary Kontakion", 2, "p. 225")], services(("Today", "Fr. Joshua")))
     manual.write(mine, tmp_path)
     manual.write_template(SUNDAY, tmp_path)
@@ -198,7 +220,7 @@ def test_hymn_suggestion_detail():
 def test_the_hymn_catalog_agrees_with_the_hymnal_index():
     catalog = manual.hymn_catalog(ROOT / manual.HYMN_CATALOG_PATH)
     index_pages = {
-        int(page) for entries in manual.hymnal_index(ROOT / manual.HYMNAL_INDEX_PATH).values() for _, page in entries
+        int(page) for entries in manual.hymnal_index((ROOT / parish.HYMNAL_INDEX_PATH).read_text()).values() for _, page in entries
     }
     assert all(page % 2 == 1 for page in index_pages)
 
@@ -219,6 +241,6 @@ def test_a_missing_catalog_is_empty(tmp_path):
 
 
 def test_hymnal_index():
-    index = manual.hymnal_index(ROOT / manual.HYMNAL_INDEX_PATH)
+    index = manual.hymnal_index((ROOT / parish.HYMNAL_INDEX_PATH).read_text())
     assert ("Ordinary Kontakion", "225") in index["Kontakia"]
     assert index["Sunday Resurrectional Apolitikia"][7] == ("Tone 8", "127")

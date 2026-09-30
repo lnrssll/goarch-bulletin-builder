@@ -15,7 +15,8 @@ from classes import DailyFeedPageData, EpistlePageData, GospelPageData, LiturgyV
 from utils import ARCHIVE_DIR, ScrapeError, SourceArchive, http_client
 from yaml_io import read_yaml, write_yaml
 
-BUILD_DIR = Path("build")
+STATE_DIR = Path("state")
+SUNDAYS_DIR = STATE_DIR / "sundays"
 SUNDAY = 6
 
 
@@ -69,7 +70,7 @@ class Readings:
 
 
 ################################################################################
-# dates and build dirs
+# dates and Sunday folders
 ################################################################################
 
 
@@ -85,15 +86,15 @@ def long_date(day: date) -> str:
     return f"{day:%B} {day.day}, {day.year}"
 
 
-def build_dir(run_date: date) -> Path:
-    return BUILD_DIR / run_date.isoformat()
+def sunday_dir(run_date: date) -> Path:
+    return SUNDAYS_DIR / run_date.isoformat()
 
 
-def built_dates() -> list[date]:
-    if not BUILD_DIR.is_dir():
+def saved_dates() -> list[date]:
+    if not SUNDAYS_DIR.is_dir():
         return []
     dates = []
-    for path in BUILD_DIR.iterdir():
+    for path in SUNDAYS_DIR.iterdir():
         try:
             day = date.fromisoformat(path.name)
         except ValueError:
@@ -154,7 +155,7 @@ async def download_readings(run_date: date, refresh: bool = False) -> FetchResul
     async with http_client() as client:
         return await fetch_readings(
             run_date,
-            build_dir(run_date),
+            sunday_dir(run_date),
             ARCHIVE_DIR / run_date.isoformat(),
             client,
             refresh,

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<p class="breadcrumb"><a href="/">← Sundays</a></p>
+<h1>Settings</h1>
+<p class="notice warning">These change every bulletin, including old ones printed again. Most weeks you don't need anything here.</p>
+
+<ul class="settings-list">
+  {% for section in sections if not section.advanced %}
+  <li>
+    <a href="{{ section.url }}">{{ section.title }}</a>
+    <span class="hint">{{ section.about }}</span>
+  </li>
+  {% endfor %}
+</ul>
+
+<details class="advanced">
+  <summary>Advanced</summary>
+  <ul class="settings-list">
+    {% for section in sections if section.advanced %}
+    <li>
+      <a href="{{ section.url }}">{{ section.title }}</a>
+      <span class="hint">{{ section.about }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+</details>
+
+<h2>Undo</h2>
+{% if can_undo %}
+<form method="post" action="/settings/undo" data-confirm="Undo the last change to the settings?">
+  <input type="hidden" name="next" value="/settings">
+  <button class="secondary" data-busy="Undoing…">Undo the last change</button>
+</form>
+<p class="hint">Last changed on {{ last_changed | long_date }}. Each undo goes one change further back.</p>
+{% else %}
+<p>Nothing has been changed here yet.</p>
+{% endif %}
+{% endblock %}

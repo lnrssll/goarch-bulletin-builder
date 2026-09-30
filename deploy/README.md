@@ -26,18 +26,18 @@ docker compose up -d --build
 docker compose logs -f            # "Bulletin Builder on http://0.0.0.0:8000/" means it's up
 ```
 
-Open http://127.0.0.1:8000 and log in. This uses Docker volumes of its own, not the `build/` folder in the repo, so nothing you do here touches the real bulletins. `docker compose down` stops it; `docker compose down -v` also deletes its data.
+Open http://127.0.0.1:8000 and log in. This uses Docker volumes of its own, not the `state/` folder in the repo, so nothing you do here touches the real bulletins. `docker compose down` stops it; `docker compose down -v` also deletes its data.
 
 ## Railway
 
 1. **Push** the repo to GitHub. On railway.com, make a new project with *Deploy from GitHub repo*. Railway finds the `Dockerfile` by itself.
 2. **Variables:** in the service's *Variables* tab, open the *Raw Editor* and paste the contents of `.env.prod` (`BULLETIN_PASSWORD` and `RAILWAY_RUN_UID=0`).
-3. **Volume:** attach a volume to the service with mount path `/app/build`. This is where the Sundays are kept; without it, every redeploy loses them. Railway allows one volume per service, so `archive/` (the downloaded goarch.org pages) isn't kept. It's only a cache, and it starts empty after each redeploy.
+3. **Volume:** attach a volume to the service with mount path `/app/state`. This is where the Sundays and the parish settings are kept; without it, every redeploy loses them. Railway allows one volume per service, so `archive/` (the downloaded goarch.org pages) isn't kept. It's only a cache, and it starts empty after each redeploy.
 4. **Domain:** under *Settings > Networking*, generate a domain, or add your own. Railway provides HTTPS itself.
 
 Each push to the main branch redeploys. A redeploy takes the app down for a moment (Railway never runs two copies with the same volume) and logs everyone out.
 
-If the deploy log says `can't write to /app/build`, `RAILWAY_RUN_UID=0` is missing.
+If the deploy log says `can't write to /app/state`, `RAILWAY_RUN_UID=0` is missing.
 
 A new volume starts with no earlier Sundays, so the hymn-title suggestions and the carrying over of upcoming services start from nothing and build up as Sundays are saved.
 
@@ -67,17 +67,17 @@ Certbot adds the certificate to the nginx config and renews it automatically. Do
 
 To redeploy: `git pull && docker compose up -d --build`. Everyone has to log in again afterwards.
 
-The data is in two Docker volumes that survive restarts and rebuilds: `build` (one folder per Sunday, the only thing typed in by hand) and `archive` (the pages downloaded from goarch.org). To keep the earlier Sundays' history, copy the `build/` folder from the computer that made the bulletins until now:
+The data is in two Docker volumes that survive restarts and rebuilds: `state` (everything typed in by hand: `state/sundays/`, one folder per Sunday, and `state/settings/`, the parish details changed under Settings) and `archive` (the pages downloaded from goarch.org). To keep the earlier Sundays' history and the settings, copy the `state/` folder from the computer that made the bulletins until now:
 
 ```bash
-docker compose cp ./build/. app:/app/build/
-docker compose exec -u root app chown -R bulletin /app/build
+docker compose cp ./state/. app:/app/state/
+docker compose exec -u root app chown -R bulletin /app/state
 ```
 
-Back up `build` now and then:
+Back up `state` now and then:
 
 ```bash
-docker compose cp app:/app/build ./build-backup-$(date +%F)
+docker compose cp app:/app/state ./state-backup-$(date +%F)
 ```
 
 ## When downloads from goarch.org fail

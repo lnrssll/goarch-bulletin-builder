@@ -1,11 +1,11 @@
-#import "build_path.typ": build_path
+#import "inputs.typ": sunday_path, settings_path, parish
 
-#let manual_data = yaml(build_path + "manual.yaml")
+#let manual_data = yaml(sunday_path + "manual.yaml")
 
-#let epistle_data = yaml(build_path + "epistle.yaml")
-#let gospel_data = yaml(build_path + "gospel.yaml")
-#let feed_data = yaml(build_path + "feed.yaml")
-#let dcs_data = yaml(build_path + "digital_chant_stand.yaml")
+#let epistle_data = yaml(sunday_path + "epistle.yaml")
+#let gospel_data = yaml(sunday_path + "gospel.yaml")
+#let feed_data = yaml(sunday_path + "feed.yaml")
+#let dcs_data = yaml(sunday_path + "digital_chant_stand.yaml")
 
 #let layout = yaml("data/layout.yaml")
 #let hymn_catalog = yaml("data/hymns.yaml")
@@ -45,17 +45,27 @@
   }).flatten()
 }
 
+// The logo at `width`, or at `max_height` if it would be taller than that.
+#let logo(width, max_height) = std.layout(size => {
+  let wide = image("/" + parish.logo, width: width)
+  if measure(wide, width: size.width).height > max_height {
+    image("/" + parish.logo, height: max_height)
+  } else {
+    wide
+  }
+})
+
 #let front_page = [
   #set text(size: 10pt)
 
   #align(center + top)[
-    #image("assets/logo.webp", width: 80%)
+    #logo(80%, 25mm)
   ]
 
   #align(center + horizon)[
     #title[#(feed_data.lectionary_title)]
     #if feed_data.icon_title.len() > 0 [
-      #text[_On #feed_data.formatted_date, we commemorate_ \ #feed_data.icon_title]
+      #text[#emph(parish.commemorate.replace("{date}", feed_data.formatted_date)) \ #feed_data.icon_title]
     ] else [
       == #feed_data.formatted_date
     ]
@@ -67,7 +77,7 @@
   )
 
   #align(bottom + center)[
-    === Hymns of the Day
+    === #parish.hymns_heading
 
     #text(size: 8pt)[
       #std.layout(size => table(
@@ -80,7 +90,7 @@
 ]
 
 #let reading_block(data) = [
-  === The Reading is from #(data.book)
+  === #parish.reading_heading #(data.book)
   #emph(data.chapverse)
 
   #set par(
@@ -94,7 +104,7 @@
 ]
 
 #let epistle_section = [
-  === The Prokeimenon
+  === #parish.prokeimenon_heading
 
   #text[
     #set par(
@@ -103,14 +113,14 @@
     )
     #epistle_data.prokeimenon
 
-    *Verse:* #epistle_data.verse
+    #strong(parish.verse_label) #epistle_data.verse
   ]
 
   #reading_block(epistle_data)
 ]
 
 #let alleluia_section = [
-  === The Alleluia
+  === #parish.alleluia_heading
 
   #set par(
     hanging-indent: layout.text.indent_em * 1em,

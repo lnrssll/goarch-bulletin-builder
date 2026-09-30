@@ -1,0 +1,21 @@
+{% for contact in contact_rows %}
+<fieldset class="contact">
+  <legend>{{ "Printed on the left" if loop.first else "Printed on the right" }}</legend>
+  <label>Name
+    <input name="contact_name" value="{{ contact.name }}" placeholder="Rev. Fr. John Doe">
+  </label>
+  <label>Church
+    <input name="contact_church" value="{{ contact.church }}" placeholder="Saint John Church">
+  </label>
+  <label>City
+    <input name="contact_city" value="{{ contact.city }}" placeholder="Phoenix, AZ">
+  </label>
+  <label>Email
+    <input name="contact_email" value="{{ contact.email }}" inputmode="email" autocomplete="off">
+  </label>
+  <label>Phone
+    <input name="contact_phone" value="{{ contact.phone }}" inputmode="tel" autocomplete="off">
+  </label>
+</fieldset>
+{% endfor %}
+<p class="hint">The head priest of each church, when a new one is assigned. Empty boxes aren't printed; to leave one out, clear all of its boxes.</p>

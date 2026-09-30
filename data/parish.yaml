@@ -1,0 +1,51 @@
+# The parish's own details, printed in every bulletin. These are the
+# defaults. What the church changes under Settings in the web UI is kept in
+# state/settings/parish.yaml, which holds only the changed keys and takes
+# precedence key by key (see parish.py). bulletin.typ merges the two the same way.
+
+# The name at the top of the web pages (not printed).
+site_name: Bulletin Builder
+
+# When the Divine Liturgy is served: "saturday" (the Saturday before the
+# Sunday, by a visiting priest, as in a mission) or "sunday".
+liturgy_day: saturday
+
+welcome_heading: Welcome
+welcome:
+  - We are pleased to have you join us for today’s Divine Liturgy!
+  - In order to receive Holy Communion in the Orthodox Church, one must be baptized and/or chrismated into the Orthodox Church. Whether you are an Orthodox Christian or not, please come forward at the end of the service to receive a blessing and blessed bread, which is offered to everyone. You are also invited to stay for coffee hour.
+  - If you are interested in learning more about the Orthodox Church, please contact one of our visiting priests, using the contact information provided below. Please also add your name and contact information to our visitors book, if you’d like to receive our weekly newsletter for upcoming services and announcements.
+
+contacts:
+  - name: Rev. Fr. Andrew J. Barakos
+    church: Assumption Church
+    city: Scottsdale, AZ
+    email: priest@assumptionaz.org
+    phone: (480) 991-3009
+  - name: Fr. Timothy Pavlatos
+    church: Saint Katherine Church
+    city: Chandler, AZ
+    email: frtimskchurch@gmail.com
+    phone: (480) 899-3330
+
+# The QR code opens `website`; `website_lines` is the address as printed next
+# to it, one line each.
+website: lakehavasuorthodoxchurch.org
+website_lines:
+  - lakehavasu
+  - orthodox
+  - church.org
+
+# Under the repo root; an uploaded logo is kept in state/settings/images/.
+logo: assets/logo.webp
+
+# Headings and wording. {date} is replaced by the Sunday's date.
+commemorate: On {date}, we commemorate
+hymns_heading: Hymns of the Day
+reading_heading: The Reading is from
+prokeimenon_heading: The Prokeimenon
+verse_label: "Verse:"
+alleluia_heading: The Alleluia
+services_heading: Upcoming Services
+today: Today
+contacts_heading: Contact Information

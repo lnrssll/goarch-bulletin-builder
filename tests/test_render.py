@@ -8,6 +8,7 @@ import pytest
 import typst
 
 import manual
+import parish
 import render
 from classes import ManualData, ManualHymnData
 
@@ -18,7 +19,7 @@ DAY = date(2026, 9, 27)
 
 
 def build_from_snapshot(site: Path, iso: str) -> Path:
-    out_dir = site / "build" / iso
+    out_dir = site / "state" / "sundays" / iso
     shutil.copytree(SNAPSHOTS / iso, out_dir)
     manual.write_template(date.fromisoformat(iso), out_dir)
     return out_dir
@@ -49,6 +50,7 @@ def test_a_hymn_without_a_mode_renders(site):
 
 
 def printed_hymn_titles(run_date: date) -> list[str]:
+    parish.ensure()
     return json.loads(
         typst.query(
             "bulletin.typ",
@@ -90,3 +92,69 @@ def test_typst_errors_become_render_errors(site):
     with pytest.raises(render.RenderError, match="manual.yaml"):
         render.render(DAY)
     assert not (out_dir / "booklet.pdf").exists()
+
+
+TYPST_SPECIAL = "# @ref * $x$ <tag> _under_ \\ `raw` [link] // not a comment"
+
+
+def test_every_printed_setting_is_plain_text(site):
+    build_from_snapshot(site, DAY.isoformat())
+    text_settings = [name for name, value in vars(parish.original()).items() if isinstance(value, str)]
+    printed = [name for name in text_settings if name not in ("site_name", "liturgy_day", "logo", "hymnal_index")]
+    parish.save({name: f"{name} {TYPST_SPECIAL}" for name in printed})
+    parish.save({
+        "welcome": [TYPST_SPECIAL, "= Not a heading"],
+        "contacts": [parish.Contact(name=TYPST_SPECIAL, email="a#b@example.org")],
+        "website_lines": [TYPST_SPECIAL],
+    })
+    assert render.ensure_rendered(DAY) == render.BOOKLET_PAGES
+
+
+@pytest.mark.parametrize("count", [1, 2])
+def test_any_number_of_contacts_renders(site, count):
+    build_from_snapshot(site, DAY.isoformat())
+    contacts = [parish.Contact(name=f"Fr. Priest {n}", church="Church", city="City, AZ") for n in range(count)]
+    parish.save({"contacts": contacts})
+    assert render.ensure_rendered(DAY) == render.BOOKLET_PAGES
+
+
+def test_contacts_leave_out_empty_fields(site):
+    build_from_snapshot(site, DAY.isoformat())
+    parish.save({"contacts": [parish.Contact(name="Fr. John"), parish.Contact(email="office@example.org")]})
+    assert render.ensure_rendered(DAY) == render.BOOKLET_PAGES
+
+
+def test_no_website_prints_no_qr_code(site):
+    build_from_snapshot(site, DAY.isoformat())
+    parish.save({"website": "", "website_lines": []})
+    assert not parish.QR_PATH.exists()
+    assert render.ensure_rendered(DAY) == render.BOOKLET_PAGES
+
+
+def test_a_new_logo_renders(site):
+    build_from_snapshot(site, DAY.isoformat())
+    path = parish.store_image((ROOT / "assets" / "lhoc-qr.png").read_bytes())
+    render.check_image(path)
+    parish.save({"logo": path})
+    assert render.ensure_rendered(DAY) == render.BOOKLET_PAGES
+
+
+def test_an_unreadable_image_is_refused(site):
+    path = parish.store_image(b"\x89PNG\r\n\x1a\n" + b"not really a picture")
+    with pytest.raises(render.RenderError):
+        render.check_image(path)
+
+
+def test_too_much_welcome_text_overflows(site):
+    build_from_snapshot(site, DAY.isoformat())
+    parish.save({"welcome": parish.original().welcome * 3})
+    assert render.ensure_rendered(DAY) > render.BOOKLET_PAGES
+
+
+def test_a_settings_change_renders_again(site):
+    out_dir = build_from_snapshot(site, DAY.isoformat())
+    render.ensure_rendered(DAY)
+    later = (out_dir / "booklet.pdf").stat().st_mtime_ns + 1_000_000_000
+    parish.save({"today": "This Saturday"})
+    os.utime(parish.SETTINGS_PATH, ns=(later, later))
+    assert render.is_stale(DAY)

@@ -1,0 +1,10 @@
+<fieldset>
+  <legend>The Divine Liturgy is served</legend>
+  {% for value, label in liturgy_days.items() %}
+  <label class="choice">
+    <input type="radio" name="liturgy_day" value="{{ value }}"{% if settings.liturgy_day == value %} checked{% endif %}>
+    {{ label }}
+  </label>
+  {% endfor %}
+</fieldset>
+<p class="hint">This sets the dates suggested under “Upcoming services” when a new Sunday is started, and the date of the Liturgy shown on each Sunday's page. Sundays already saved keep the dates they have.</p>

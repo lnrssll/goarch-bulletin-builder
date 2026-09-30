@@ -1,3 +1,4 @@
+import html
 import io
 import shutil
 import time
@@ -11,6 +12,7 @@ import httpx
 import pytest
 
 import manual
+import parish
 import sunday
 import web
 from classes import ManualData, ManualHymnData, UpcomingServiceData
@@ -38,16 +40,22 @@ class Client:
         self.cookies: dict[str, str] = {}
         self.secure: set[str] = set()
 
-    def request(self, method: str, url: str, form: dict | None = None, **environ: str) -> Result:
+    def request(
+        self, method: str, url: str, form: dict | None = None, files: dict | None = None, **environ: str
+    ) -> Result:
         path, _, query = url.partition("?")
-        body = urlencode(form or {}, doseq=True).encode()
+        if files is None:
+            body = urlencode(form or {}, doseq=True).encode()
+            content_type = "application/x-www-form-urlencoded"
+        else:
+            body, content_type = multipart(form or {}, files)
         env: dict = {}
         setup_testing_defaults(env)
         env |= {
             "REQUEST_METHOD": method,
             "PATH_INFO": path,
             "QUERY_STRING": query,
-            "CONTENT_TYPE": "application/x-www-form-urlencoded",
+            "CONTENT_TYPE": content_type,
             "CONTENT_LENGTH": str(len(body)),
             "wsgi.input": io.BytesIO(body),
             "HTTP_COOKIE": "; ".join(f"{name}={value}" for name, value in self.cookies.items()),
@@ -74,12 +82,28 @@ class Client:
     def get(self, url: str) -> Result:
         return self.request("GET", url)
 
-    def post(self, url: str, form: dict | None = None, **environ: str) -> Result:
-        return self.request("POST", url, form, **environ)
+    def post(self, url: str, form: dict | None = None, files: dict | None = None, **environ: str) -> Result:
+        return self.request("POST", url, form, files, **environ)
 
     def follow(self, result: Result) -> Result:
         assert result.status == 303, result.text
         return self.get(result.headers["Location"])
+
+
+def multipart(form: dict, files: dict[str, tuple[str, bytes]]) -> tuple[bytes, str]:
+    """A form as a browser sends it with a file; filenames go into the header as given."""
+    boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW"
+    parts = [
+        f'--{boundary}\r\nContent-Disposition: form-data; name="{name}"\r\n\r\n{value}\r\n'.encode()
+        for name, values in form.items()
+        for value in (values if isinstance(values, list) else [values])
+    ]
+    parts += [
+        f'--{boundary}\r\nContent-Disposition: form-data; name="{name}"; filename="{filename}"\r\n'
+        f"Content-Type: application/octet-stream\r\n\r\n".encode() + content + b"\r\n"
+        for name, (filename, content) in files.items()
+    ]
+    return b"".join(parts) + f"--{boundary}--\r\n".encode(), f"multipart/form-data; boundary={boundary}"
 
 
 @pytest.fixture
@@ -90,7 +114,7 @@ def client(site) -> Client:
 @pytest.fixture
 def archived(site) -> Path:
     shutil.copytree(ROOT / "archive" / DAY, site / "archive" / DAY)
-    return site / "build" / DAY
+    return site / "state" / "sundays" / DAY
 
 
 @pytest.fixture
@@ -125,7 +149,7 @@ def test_home_offers_the_next_sunday(client):
 
 def test_home_lists_only_recent_sundays(site, client):
     for weeks in range(web.RECENT_SUNDAYS + 3):
-        (site / "build" / (date(2026, 1, 4) + timedelta(weeks=weeks)).isoformat()).mkdir(parents=True)
+        (site / "state" / "sundays" / (date(2026, 1, 4) + timedelta(weeks=weeks)).isoformat()).mkdir(parents=True)
     page = client.get("/").text
     assert page.count('<td><a href="/sundays/') == web.RECENT_SUNDAYS
     assert "/sundays/2026-01-04" not in page
@@ -162,7 +186,7 @@ def test_a_refused_download_changes_nothing(site, network, client):
     assert "refused the download" in page.text
     assert "Nothing was changed" in page.text
     assert len(network) == 2
-    assert not (site / "build" / DAY).exists()
+    assert not (site / "state" / "sundays" / DAY).exists()
     assert not (site / "archive" / DAY).exists()
 
 
@@ -179,7 +203,7 @@ def test_saving_hymns_and_services(site, client):
     )
 
     assert "Hymns and services saved" in client.follow(result).text
-    assert manual.read(site / "build" / DAY) == ManualData(
+    assert manual.read(site / "state" / "sundays" / DAY) == ManualData(
         [
             ManualHymnData("Resurrectional Apolytikion", 8, "p. 127"),
             ManualHymnData("Ordinary Kontakion", None, "Choir"),
@@ -227,7 +251,7 @@ def test_saving_adds_the_prefixes(site, client):
             service_priest=["Joshua", "reader service", "Fr. Jacob"],
         ),
     )
-    assert manual.read(site / "build" / DAY) == ManualData(
+    assert manual.read(site / "state" / "sundays" / DAY) == ManualData(
         [
             ManualHymnData("Apolytikion of Sunday of Orthodoxy", 2, "p. 129"),
             ManualHymnData("Hypakoe", 4, "Handout"),
@@ -261,7 +285,7 @@ def test_readings_can_be_typed_in_by_hand(site, client):
     )
 
     page = client.follow(result).text
-    out_dir = site / "build" / day
+    out_dir = site / "state" / "sundays" / day
     assert "Readings saved" in page and "3rd Sunday of Luke" in page
     assert read_yaml(out_dir / "epistle.yaml")["text"] == [
         "Brethren, I would have you know that the gospel.",
@@ -319,6 +343,162 @@ def test_unknown_addresses(client):
 
 
 ################################################################################
+# settings
+################################################################################
+
+
+@pytest.fixture
+def ready(site) -> Path:
+    """A Sunday that can be printed, for the settings pages' pictures."""
+    out_dir = site / "state" / "sundays" / DAY
+    shutil.copytree(ROOT / "tests" / "snapshots" / DAY, out_dir)
+    manual.write_template(date.fromisoformat(DAY), out_dir)
+    return out_dir
+
+
+def test_settings_are_only_linked_from_the_footer(client):
+    page = client.get("/").text
+    assert page.count('href="/settings"') == 1
+    assert '<footer class="site-footer">' in page
+    settings = client.get("/settings").text
+    for section in web.SECTIONS:
+        assert f'href="{section.url}"' in settings
+    assert "Nothing has been changed here yet" in settings
+
+
+@pytest.mark.parametrize("section", web.SECTIONS, ids=lambda section: section.slug)
+def test_every_settings_page_opens(ready, client, section):
+    page = client.get(section.url)
+    assert page.status == 200
+    assert ("preview-1.png" in page.text) == bool(section.sides)
+    assert ("preview-2.png" in page.text) == (section.sides == 2)
+
+
+def test_settings_page_without_a_sunday_to_show(client):
+    assert "appears here once a Sunday" in client.get("/settings/welcome").text
+
+
+def test_saving_the_welcome_text(ready, client):
+    result = client.post(
+        "/settings/welcome",
+        {"welcome_heading": " Welcome! ", "welcome": "First  paragraph,\r\nstill first.\r\n\r\nSecond <b>one</b>."},
+    )
+    assert result.headers["Location"] == "/settings/welcome"
+    page = client.follow(result).text
+    assert "Saved." in page
+    assert "Second &lt;b&gt;one&lt;/b&gt;." in page
+    assert "Put back the original" in page
+    settings = parish.load()
+    assert settings.welcome_heading == "Welcome!"
+    assert settings.welcome == ["First paragraph, still first.", "Second <b>one</b>."]
+
+    assert "Nothing was changed" in client.follow(client.post("/settings/welcome", {
+        "welcome_heading": "Welcome!", "welcome": "First paragraph, still first.\n\nSecond <b>one</b>.",
+    })).text
+
+
+def test_a_refused_setting_keeps_what_was_typed(client):
+    result = client.post("/settings/wording", {name: "Typed" for name in web.WORDING} | {"today": ""})
+    assert result.status == 400
+    assert "can't be empty" in html.unescape(result.text)
+    assert 'value="Typed"' in result.text
+    assert parish.load() == parish.original()
+
+
+def test_the_two_contacts(client):
+    page = client.get("/settings/contacts").text
+    assert page.count('name="contact_name"') == parish.CONTACTS
+    assert 'value="Fr. Timothy Pavlatos"' in page
+
+    form = {
+        "contact_name": ["", "Fr. B", "Fr. C"],
+        "contact_church": ["", "", "Church C"],
+        "contact_city": ["", "", ""],
+        "contact_email": ["", "b@example.org", ""],
+        "contact_phone": ["", "", ""],
+    }
+    client.post("/settings/contacts", form)
+    assert parish.load().contacts == [parish.Contact(name="Fr. B", email="b@example.org")]
+
+
+def test_website_and_liturgy_day(client):
+    client.post("/settings/website", {"website": "example.org", "website_lines": " example\r\n\r\n.org "})
+    settings = parish.load()
+    assert (settings.website, settings.website_lines) == ("example.org", ["example", ".org"])
+    assert client.post("/settings/website", {"website": "two words", "website_lines": ""}).status == 400
+
+    assert client.post("/settings/liturgy-day", {"liturgy_day": "monday"}).status == 400
+    client.post("/settings/liturgy-day", {"liturgy_day": parish.SUNDAY})
+    assert "Picking the Saturday" not in client.get("/").text
+    page = client.get(f"/sundays/{DAY}").text
+    assert "Divine Liturgy on Sunday, September 27, 2026" in page
+    assert "10/04/2026" in page
+
+
+def test_the_hymnal_index(client):
+    result = client.post("/settings/hymnal", {"hymnal_index": "Ordinary Kontakion | 225 | Kontakia\r\nJust a title\r\n"})
+    assert result.status == 400
+    assert "Line 2" in result.text
+    client.post("/settings/hymnal", {"hymnal_index": "New Hymn | 301 | New Section\r\n"})
+    assert "New Hymn" in client.get(f"/sundays/{DAY}").text
+
+
+def test_put_back_the_original_and_undo(client):
+    client.post("/settings/welcome", {"welcome_heading": "Hello", "welcome": "Hi."})
+    page = client.follow(client.post("/settings/welcome/original")).text
+    assert "The original is back" in page
+    assert parish.load() == parish.original()
+
+    page = client.follow(client.post("/settings/undo", {"next": "/settings/welcome"})).text
+    assert "was undone" in page
+    assert parish.load().welcome_heading == "Hello"
+    client.post("/settings/undo", {"next": "/settings"})
+    assert "nothing to undo" in html.unescape(client.follow(client.post("/settings/undo", {"next": "//example.org"})).text)
+
+
+def test_a_setting_that_overflows_is_reported(ready, client):
+    client.post("/settings/welcome", {"welcome_heading": "Welcome", "welcome": "Long text. " * 400})
+    page = client.get("/settings/welcome").text
+    assert "has 3 pages instead of 2" in page
+    assert 'action="/settings/undo"' in page
+
+
+def test_uploading_a_logo(ready, client):
+    logo = (ROOT / "assets" / "lhoc-qr.png").read_bytes()
+    result = client.post("/settings/logo", files={"logo": ('my "logo" ïcon.png', logo)})
+    assert "Saved." in client.follow(result).text
+    path = Path(parish.load().logo)
+    assert path.parent == parish.IMAGES_DIR and path.read_bytes() == logo
+
+    picture = client.get("/settings/logo-picture")
+    assert (picture.headers["Content-Type"], picture.body) == ("image/png", logo)
+
+
+def test_uploads_that_are_not_logos(client):
+    for content, message in [
+        (b"", "Choose a picture first"),
+        (b"GIF89a....", "isn't a PNG, JPEG or WebP"),
+        (b"\x89PNG\r\n\x1a\nbroken", "couldn't be read"),
+    ]:
+        result = client.post("/settings/logo", files={"logo": ("logo.png", content)})
+        assert result.status == 400 and message in html.unescape(result.text)
+    assert parish.load().logo == parish.original().logo
+    assert not list(parish.IMAGES_DIR.glob("*"))
+
+
+def test_a_logo_that_is_too_large(client):
+    result = client.post("/settings/logo", files={"logo": ("big.png", b"\x89PNG" + b"0" * web.MAX_UPLOAD_BYTES)})
+    assert result.status == 413 and "up to 5 MB" in result.text
+    small = client.post("/settings/welcome", {"welcome": "x" * (web.MAX_BODY_BYTES + 1)})
+    assert small.status == 413
+
+
+def test_the_parish_name_heads_every_page(client):
+    client.post("/settings/wording", {name: getattr(parish.original(), name) for name in web.WORDING} | {"site_name": "St. Anywhere"})
+    assert '<a class="brand" href="/">St. Anywhere</a>' in client.get("/").text
+
+
+################################################################################
 # login and safety
 ################################################################################
 
@@ -332,9 +512,16 @@ def locked(site, monkeypatch) -> Client:
 def test_password_protects_every_page(site, locked):
     assert locked.get(f"/sundays/{DAY}").headers["Location"] == f"/login?next=/sundays/{DAY}"
     assert locked.post(f"/sundays/{DAY}/details", details_form(hymn_title=["x"])).headers["Location"] == "/login?next=/"
-    assert not (site / "build" / DAY).exists()
+    assert not (site / "state" / "sundays" / DAY).exists()
     assert locked.get("/login").status == 200
     assert locked.get("/static/style.css").status == 200
+
+
+def test_settings_need_a_login(site, locked):
+    assert locked.get("/settings").headers["Location"] == "/login?next=/settings"
+    assert locked.post("/settings/welcome", {"welcome_heading": "Hi"}).status == 303
+    assert locked.post("/settings/logo", files={"logo": ("x.png", b"\x89PNG\r\n\x1a\n")}).status == 303
+    assert parish.load() == parish.original()
 
 
 def test_login_and_logout(locked):
@@ -385,7 +572,7 @@ def test_cross_site_forms_are_refused(site, client):
         HTTP_SEC_FETCH_SITE="cross-site",
     )
     assert result.status == 403
-    assert not (site / "build" / DAY).exists()
+    assert not (site / "state" / "sundays" / DAY).exists()
 
 
 def test_oversized_forms_are_refused(client):

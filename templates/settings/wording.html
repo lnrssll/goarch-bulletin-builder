@@ -1,0 +1,7 @@
+{% for name, label in wording.items() %}
+<label>{{ label }}
+  <input name="{{ name }}" value="{{ settings[name] }}" required>
+  {% if settings[name] != original[name] %}<small>Originally “{{ original[name] }}”</small>{% endif %}
+</label>
+{% endfor %}
+<p class="hint">Before the commemoration, {date} is replaced by the Sunday's date.</p>

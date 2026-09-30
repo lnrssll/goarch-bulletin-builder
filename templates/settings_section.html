@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}{{ section.title }}{% endblock %}
+{% block content %}
+<p class="breadcrumb"><a href="/settings">← Settings</a></p>
+<h1>{{ section.title }}</h1>
+<p class="lede">{{ section.about }}</p>
+{% if error %}
+<p class="notice error">{{ error }}</p>
+{% endif %}
+
+<form class="settings" method="post" action="{{ section.url }}" data-warn-unsaved
+      {%- if section.slug == "logo" %} enctype="multipart/form-data"{% endif %}>
+  {% include "settings/" ~ section.slug ~ ".html" %}
+  <div class="actions">
+    <button data-busy="Saving…">Save</button>
+    <a href="/settings">Cancel</a>
+  </div>
+</form>
+
+{% if changed %}
+<form method="post" action="{{ section.url }}/original"
+      data-confirm="Put back what the program came with? “Undo the last change” brings back what's here now.">
+  <button class="link" data-busy="Putting it back…">Put back the original</button>
+</form>
+{% endif %}
+
+{% if section.sides %}
+<section class="step" id="preview">
+  <h2>How it prints</h2>
+  {% if preview.error %}
+  <div class="notice error">
+    <p>The bulletin couldn't be made with these settings.</p>
+    <details>
+      <summary>Technical details</summary>
+      <pre>{{ preview.error }}</pre>
+    </details>
+  </div>
+  {% elif not preview.day %}
+  <p>A picture of the bulletin appears here once a Sunday has its readings and hymns saved.</p>
+  {% else %}
+    {% if preview.pages > expected_pages %}
+    <div class="notice warning">
+      <p>The booklet for {{ preview.day | long_date }} has {{ preview.pages }} pages instead of {{ expected_pages }}. If it's because of this change, shorten it or undo it.</p>
+      {% if can_undo %}
+      <form method="post" action="/settings/undo">
+        <input type="hidden" name="next" value="{{ section.url }}">
+        <button class="secondary" data-busy="Undoing…">Undo the last change</button>
+      </form>
+      {% endif %}
+    </div>
+    {% endif %}
+    {% for src in preview.sides %}
+    <figure class="preview">
+      <img src="{{ src }}" alt="Side {{ loop.index }} of the booklet for {{ preview.day | long_date }}">
+      <figcaption>
+        {% if loop.index == 1 %}Outside: back cover and front cover{% else %}Inside: the readings{% endif %},
+        for <a href="{{ preview.day | sunday_url }}">{{ preview.day | long_date }}</a>
+      </figcaption>
+    </figure>
+    {% endfor %}
+  {% endif %}
+</section>
+{% endif %}
+{% endblock %}

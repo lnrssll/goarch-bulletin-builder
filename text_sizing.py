@@ -6,7 +6,7 @@ from pathlib import Path
 
 from yaml_io import read_yaml, write_yaml
 
-BUILD_DIR = Path("build")
+SUNDAYS_DIR = Path("state/sundays")
 LAYOUT_PATH = Path("data/layout.yaml")
 METRICS_PATH = Path("data/text_metrics.yaml")
 
@@ -320,7 +320,7 @@ def gospel_blocks(gospel: dict, metrics: TextMetrics) -> list[Block]:
 
 
 ################################################################################
-# config and build dirs
+# config and Sunday folders
 ################################################################################
 
 
@@ -354,7 +354,7 @@ def load_model() -> Model:
     return Model(page_box(layout), load_metrics(layout), layout["text"]["base_size_pt"])
 
 
-def load_build(out_dir: Path) -> dict[str, dict]:
+def load_sunday(out_dir: Path) -> dict[str, dict]:
     missing = [name for name in REQUIRED_FILES if not (out_dir / name).exists()]
     if missing:
         raise MissingBuildData(f"{out_dir} is missing {', '.join(missing)}")
@@ -371,10 +371,10 @@ def build_blocks(
     )
 
 
-def size_build(
+def size_sunday(
     out_dir: Path, model: Model
 ) -> tuple[SizingResult, dict[str, dict], tuple[list[Block], list[Block], list[Block]]]:
-    data = load_build(out_dir)
+    data = load_sunday(out_dir)
     blocks = build_blocks(data, model.metrics)
     result = choose_layout(*blocks, model.box, model.metrics, model.base_size_pt)
     return result, data, blocks
@@ -382,7 +382,7 @@ def size_build(
 
 def run(out_dir: Path) -> SizingResult:
     model = load_model()
-    result, data, _ = size_build(out_dir, model)
+    result, data, _ = size_sunday(out_dir, model)
 
     feed = data["feed.yaml"]
     feed["text_size_factor"] = round(100 * result.font_size_pt / model.base_size_pt, 1)
@@ -411,7 +411,7 @@ def run(out_dir: Path) -> SizingResult:
 def explain(out_dir: Path) -> None:
     model = load_model()
     box, metrics, base_size = model.box, model.metrics, model.base_size_pt
-    result, _, blocks = size_build(out_dir, model)
+    result, _, blocks = size_sunday(out_dir, model)
     s = result.font_size_pt
 
     print(f"{out_dir}")
@@ -433,16 +433,16 @@ def explain(out_dir: Path) -> None:
     print(f"chosen: {result.layout} at {s}pt, page fill {result.page_fill[0]:.0%} / {result.page_fill[1]:.0%}")
 
 
-def report(build_dir: Path = BUILD_DIR) -> None:
+def report(sundays_dir: Path = SUNDAYS_DIR) -> None:
     model = load_model()
 
     print(
         f"{'date':<11} {'E chars':>7} {'P':>2} {'G chars':>7} {'P':>2} "
         f"{'pt':>5} {'layout':<22} {'fill':>9}"
     )
-    for out_dir in sorted(p for p in build_dir.iterdir() if p.is_dir()):
+    for out_dir in sorted(p for p in sundays_dir.iterdir() if p.is_dir()):
         try:
-            result, data, _ = size_build(out_dir, model)
+            result, data, _ = size_sunday(out_dir, model)
         except MissingBuildData as e:
             print(f"{out_dir.name:<11} skipped: {e}")
             continue
@@ -459,12 +459,12 @@ def report(build_dir: Path = BUILD_DIR) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Size the readings of a build dir to fit the two reading pages"
+        description="Size the readings of a Sunday to fit the two reading pages"
     )
-    parser.add_argument("date", nargs="?", help="build date, YYYY-MM-DD")
+    parser.add_argument("date", nargs="?", help="the Sunday, YYYY-MM-DD")
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--explain", action="store_true", help="print the sizing for DATE, read-only")
-    mode.add_argument("--report", action="store_true", help="print the sizing for all of build/, read-only")
+    mode.add_argument("--report", action="store_true", help="print the sizing for all of state/sundays/, read-only")
     args = parser.parse_args()
 
     if args.report:
@@ -474,7 +474,7 @@ def main() -> int:
     if args.date is None:
         parser.error("DATE is required unless --report is given")
 
-    out_dir = BUILD_DIR / args.date
+    out_dir = SUNDAYS_DIR / args.date
     try:
         if args.explain:
             explain(out_dir)

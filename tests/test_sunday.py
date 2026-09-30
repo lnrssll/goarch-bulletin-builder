@@ -34,7 +34,7 @@ def test_a_failed_source_leaves_the_other_one_written(site):
     archive_root = site / "archive" / DAY.isoformat()
     shutil.copytree(ROOT / "archive" / DAY.isoformat(), archive_root)
     (archive_root / "dcs.html").write_text(BOT_CHECK)
-    out_dir = site / "build" / DAY.isoformat()
+    out_dir = site / "state" / "sundays" / DAY.isoformat()
 
     fetched = fetch(out_dir, archive_root)
 
@@ -47,7 +47,7 @@ def test_a_failed_source_leaves_the_other_one_written(site):
 
 
 def test_bot_check_pages_are_never_archived_or_written(tmp_path):
-    out_dir = tmp_path / "build" / DAY.isoformat()
+    out_dir = tmp_path / "state" / "sundays" / DAY.isoformat()
     archive_root = tmp_path / "archive" / DAY.isoformat()
 
     fetched = fetch(out_dir, archive_root, bot_check_client())
@@ -64,7 +64,7 @@ def test_readings_start_from_the_date_when_nothing_was_fetched(tmp_path):
 
 def test_saved_readings_load_back_and_keep_the_rest(site):
     archive_root = ROOT / "archive" / DAY.isoformat()
-    out_dir = site / "build" / DAY.isoformat()
+    out_dir = site / "state" / "sundays" / DAY.isoformat()
     fetch(out_dir, archive_root)
 
     readings = sunday.load_readings(DAY, out_dir)

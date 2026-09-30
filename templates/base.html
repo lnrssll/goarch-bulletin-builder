@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <title>{% block title %}{% endblock %} · Bulletin Builder</title>
+  <title>{% block title %}{% endblock %} · {{ parish.site_name }}</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="/static/style.css">
   <script src="/static/app.js" defer></script>
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="/">Bulletin Builder</a>
+    <a class="brand" href="/">{{ parish.site_name }}</a>
     {% if show_logout %}
     <form method="post" action="/logout">
       <button class="link">Log out</button>
@@ -32,5 +32,8 @@
     {% endif %}
     {% block content %}{% endblock %}
   </main>
+  <footer class="site-footer">
+    <a href="/settings">Settings</a>
+  </footer>
 </body>
 </html>

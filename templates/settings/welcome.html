@@ -1,0 +1,7 @@
+<label>Heading
+  <input name="welcome_heading" value="{{ settings.welcome_heading }}" required>
+</label>
+<label>Text
+  <textarea name="welcome" rows="14">{{ settings.welcome | paragraphs }}</textarea>
+</label>
+<p class="hint">Leave an empty line between paragraphs. The text is printed as typed.</p>

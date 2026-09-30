@@ -15,7 +15,7 @@
   <label for="date">Another Sunday</label>
   <input id="date" name="date" type="date" required>
   <button class="secondary">Open</button>
-  <p class="hint">Any Sunday, past or future. Picking the Saturday of a service opens the Sunday after it.</p>
+  <p class="hint">Any Sunday, past or future.{% if parish.liturgy_day == "saturday" %} Picking the Saturday of a service opens the Sunday after it.{% endif %}</p>
 </form>
 
 {% if sundays %}

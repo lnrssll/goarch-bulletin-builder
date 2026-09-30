@@ -16,8 +16,8 @@ To try it in Docker, or run it on Railway or a server for others to use, see [`d
 ## Command line
 
 ```sh
-uv run main.py            # scrape the next Sunday into build/<date>/ (sources cached in archive/<date>/)
-# edit build/<date>/manual.yaml (hymns of the day, upcoming services)
+uv run main.py            # scrape the next Sunday into state/sundays/<date>/ (sources cached in archive/<date>/)
+# edit state/sundays/<date>/manual.yaml (hymns of the day, upcoming services)
 typst compile --input date=2026-09-27 booklet.typ out/2026-09-27.pdf
 uv run pytest
 ```

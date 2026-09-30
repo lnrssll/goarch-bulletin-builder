@@ -5,11 +5,11 @@ from dataclasses import asdict, dataclass, field
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
+import parish
 from classes import ManualData, ManualHymnData, UpcomingServiceData
 from yaml_io import read_yaml, write_yaml
 
 FILENAME = "manual.yaml"
-HYMNAL_INDEX_PATH = Path("data/table-of-contents.txt")
 HYMN_CATALOG_PATH = Path("data/hymns.yaml")
 EXAMPLE_HYMN_TITLE = "Example"
 UNKNOWN_PRIEST = "Fr. X"
@@ -58,8 +58,8 @@ class Suggestions:
     page_words: tuple[str, ...] = NOT_A_PAGE
 
 
-def service_day(run_date: date) -> date:
-    return run_date - timedelta(days=1)
+def service_day(run_date: date, liturgy_day: str) -> date:
+    return run_date - timedelta(days=1) if liturgy_day == parish.SATURDAY else run_date
 
 
 def parse_service_date(text: str) -> date | None:
@@ -144,17 +144,17 @@ def write(data: ManualData, out_dir: Path) -> None:
     write_yaml(asdict(data), out_dir / FILENAME)
 
 
-def previous(run_date: date, build_root: Path) -> ManualData | None:
+def previous(run_date: date, sundays_dir: Path) -> ManualData | None:
     for weeks in range(1, LOOKBACK_WEEKS + 1):
-        data = read(build_root / (run_date - timedelta(weeks=weeks)).isoformat())
+        data = read(sundays_dir / (run_date - timedelta(weeks=weeks)).isoformat())
         if data:
             return data
     return None
 
 
-def template(run_date: date, previous: ManualData | None) -> ManualData:
-    today = service_day(run_date)
-    next_service = service_day(run_date + timedelta(weeks=1))
+def template(run_date: date, previous: ManualData | None, settings: parish.Settings) -> ManualData:
+    today = service_day(run_date, settings.liturgy_day)
+    next_service = service_day(run_date + timedelta(weeks=1), settings.liturgy_day)
 
     priest_today = UNKNOWN_PRIEST
     later: dict[date, UpcomingServiceData] = {}
@@ -172,7 +172,7 @@ def template(run_date: date, previous: ManualData | None) -> ManualData:
     return ManualData(
         dismissal_hymns=[ManualHymnData(EXAMPLE_HYMN_TITLE, 9, "p. 0")],
         upcoming_services=[
-            UpcomingServiceData("Today", priest_today),
+            UpcomingServiceData(settings.today, priest_today),
             *(later[day] for day in sorted(later)),
         ],
     )
@@ -181,7 +181,7 @@ def template(run_date: date, previous: ManualData | None) -> ManualData:
 def write_template(run_date: date, out_dir: Path) -> None:
     if (out_dir / FILENAME).exists():
         return
-    write(template(run_date, previous(run_date, out_dir.parent)), out_dir)
+    write(template(run_date, previous(run_date, out_dir.parent), parish.load()), out_dir)
 
 
 def unfinished(data: ManualData) -> list[str]:
@@ -231,16 +231,16 @@ def catalog_hymn(entry: dict) -> HymnSuggestion:
     )
 
 
-def recent_details(build_root: Path) -> Iterator[ManualData]:
-    if not build_root.is_dir():
+def recent_details(sundays_dir: Path) -> Iterator[ManualData]:
+    if not sundays_dir.is_dir():
         return
-    recent = sorted((p for p in build_root.iterdir() if p.is_dir()), reverse=True)
+    recent = sorted((p for p in sundays_dir.iterdir() if p.is_dir()), reverse=True)
     for out_dir in recent[:SUGGESTION_SUNDAYS]:
         if data := read(out_dir):
             yield data
 
 
-def suggestions(build_root: Path, catalog: HymnCatalog | None = None) -> Suggestions:
+def suggestions(sundays_dir: Path, catalog: HymnCatalog | None = None) -> Suggestions:
     if catalog is None:
         catalog = hymn_catalog()
     known: dict[str, int] = {}
@@ -251,7 +251,7 @@ def suggestions(build_root: Path, catalog: HymnCatalog | None = None) -> Suggest
     used: Counter[int] = Counter()
     others: dict[str, list[ManualHymnData]] = {}
     priests: Counter[str] = Counter()
-    for data in recent_details(build_root):
+    for data in recent_details(sundays_dir):
         for hymn in data.dismissal_hymns:
             if not hymn.title or hymn.title == EXAMPLE_HYMN_TITLE:
                 continue
@@ -285,11 +285,14 @@ def from_history(uses: list[ManualHymnData], abbreviations: dict[str, str]) -> H
     )
 
 
-def hymnal_index(path: Path = HYMNAL_INDEX_PATH) -> dict[str, list[tuple[str, str]]]:
+def hymnal_index(text: str) -> dict[str, list[tuple[str, str]]]:
     sections: dict[str, list[tuple[str, str]]] = {}
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for number, line in enumerate(text.splitlines(), start=1):
         if not line.strip():
             continue
-        title, page, section = (part.strip() for part in line.split("|"))
+        parts = [part.strip() for part in line.split("|")]
+        if len(parts) != 3 or not all(parts):
+            raise ValueError(f"Line {number} isn't “title | page | section”: {line.strip()}")
+        title, page, section = parts
         sections.setdefault(section, []).append((title, page))
     return sections

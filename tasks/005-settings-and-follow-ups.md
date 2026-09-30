@@ -124,7 +124,7 @@ Task 004's Docker setup was rehearsed, not built.
 - [x] **Build and run.** (Owner, 2026-09-30, after the move to `state/`.) `docker compose up --build` works, and the `bulletin` user can write to the named volumes.
 - [x] **Time zone.** (Owner, 2026-09-30: Arizona time.) Check `docker compose exec app date` shows Arizona time. If the slim image has no time zone database, `TZ=America/Phoenix` silently falls back to UTC. Then after 5pm on a Saturday the home page's "next Sunday" is already the week after. Fix it by installing `tzdata` in the Dockerfile, or with `TZ=MST7`: Arizona has no daylight saving time, and a POSIX TZ string needs no database.
 - [ ] **Downloads from the server.** (Waits for the Railway deployment.) Download one Sunday from the server itself. The live downloads so far ran from a home connection, and goarch.org's Cloudflare may challenge datacenter IPs. If it challenges every time, write down the outcome and pick a workaround: the readings editor, or downloading with `main.py` at home and `docker compose cp` of that build dir.
-- [ ] **Bring over `state/`** (was `build/`). Five older Sundays don't render as they are:
+- [ ] **Bring over `state/`** (was `build/`). Five older Sundays didn't render as they were. 2026-01-25 and 2026-02-01 are now sized (2026-09-30, owner's go-ahead; only the sizing fields were added), and every other Sunday renders to 2 pages. The three without readings are left as they are unless the owner says otherwise; they show as "Readings missing".
   - `2026-01-25` and `2026-02-01` predate the sizing fields: run `uv run text_sizing.py <date>` on each first.
   - `2026-01-11` and `2026-01-18` have no `digital_chant_stand.yaml`, and `2026-04-19` has no readings. The owner decides whether to leave them (they show as missing) or leave them out of the copy.
 
@@ -178,7 +178,7 @@ Done (2026-09-30): `tests/snapshots/<date>/previews.sha256`, in `sha256sum` form
 
 ### Small cleanups
 
-- **AGENTS.md says "older DCS pages are gone"**, but on 2026-09-24 the DCS page for 2026-01-04 downloaded fine. Find out what's actually gone, with a request or two at most, not a bulk download, and correct the wording.
+- [x] (2026-09-30: DCS returned 404 for 2025-01-05 and 2024-01-07, so it seems to keep only the current year; AGENTS.md now says so.) **AGENTS.md says "older DCS pages are gone"**, but on 2026-09-24 the DCS page for 2026-01-04 downloaded fine. Find out what's actually gone, with a request or two at most, not a bulk download, and correct the wording.
 - **`assets/church.webp`** (164 KB) isn't used anywhere. Ask the owner before removing it.
 - **Hymns of the Day from DCS** stay in task 002. Once that parsing is reliable, the hook is to pre-fill the hymn rows on the Sunday form.
 

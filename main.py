@@ -17,6 +17,8 @@ async def main() -> int:
     fetched = await sunday.download_readings(run_date, options.refresh)
     for source, error in fetched.failures.items():
         print(f"{source.name} failed, nothing written for it: {error}", file=sys.stderr)
+        if source in fetched.saved:
+            print(f"  what it sent is saved in {fetched.saved[source]}", file=sys.stderr)
     if fetched.failures:
         return 1
 

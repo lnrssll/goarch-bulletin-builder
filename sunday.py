@@ -1,7 +1,9 @@
 import asyncio
 from collections.abc import Awaitable, Callable
 from dataclasses import asdict, dataclass, field
-from datetime import date, timedelta
+import re
+import shutil
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -17,6 +19,9 @@ from yaml_io import read_yaml, write_yaml
 
 STATE_DIR = Path("state")
 SUNDAYS_DIR = STATE_DIR / "sundays"
+# what goarch.org sent when a download failed, for a developer (see AGENTS.md)
+FAILED_DIR = STATE_DIR / "failed-downloads"
+FAILED_KEPT = 20
 SUNDAY = 6
 
 
@@ -50,6 +55,8 @@ SOURCES = (
 @dataclass
 class FetchResult:
     failures: dict[Source, Exception] = field(default_factory=dict)
+    # where the pages of a failed source were saved
+    saved: dict[Source, Path] = field(default_factory=dict)
     sizing: text_sizing.SizingResult | None = None
 
 
@@ -125,6 +132,7 @@ async def fetch_readings(
     archive_root: Path,
     client: httpx.AsyncClient | None = None,
     refresh: bool = False,
+    failed_root: Path | None = None,
 ) -> FetchResult:
     # one archive per source, so a source that fails archives nothing and the other still can
     archives = {source: SourceArchive(archive_root, client, refresh) for source in SOURCES}
@@ -139,6 +147,13 @@ async def fetch_readings(
             fetched.failures[source] = result
         elif isinstance(result, BaseException):
             raise result
+    if failed_root is not None:
+        stamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        for source in fetched.failures:
+            dest = failed_root / f"{stamp}_for_{run_date.isoformat()}" / slug(source.name)
+            if archives[source].save_failed(dest):
+                fetched.saved[source] = dest
+        prune(failed_root, FAILED_KEPT)
     if len(fetched.failures) == len(SOURCES):
         return fetched
 
@@ -161,7 +176,18 @@ async def download_readings(run_date: date, refresh: bool = False) -> FetchResul
             ARCHIVE_DIR / run_date.isoformat(),
             client,
             refresh,
+            FAILED_DIR,
         )
+
+
+def slug(name: str) -> str:
+    return re.sub(r"\W+", "-", name.lower()).strip("-")
+
+
+def prune(root: Path, kept: int) -> None:
+    if root.is_dir():
+        for old in sorted(p for p in root.iterdir() if p.is_dir())[:-kept]:
+            shutil.rmtree(old)
 
 
 ################################################################################

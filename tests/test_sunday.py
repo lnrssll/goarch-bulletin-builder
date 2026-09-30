@@ -57,6 +57,35 @@ def test_bot_check_pages_are_never_archived_or_written(tmp_path):
     assert not archive_root.exists()
 
 
+def test_what_a_failed_download_sent_is_kept_for_a_developer(tmp_path):
+    def answer(request: httpx.Request) -> httpx.Response:
+        if "dcs.goarch.org" in str(request.url):
+            return httpx.Response(503, text=BOT_CHECK)
+        return httpx.Response(200, text="<onlinechapel>changed</onlinechapel>")
+
+    archive_root = tmp_path / "archive" / DAY.isoformat()
+    failed_root = tmp_path / "failed"
+    client = httpx.AsyncClient(transport=httpx.MockTransport(answer))
+    fetched = asyncio.run(
+        sunday.fetch_readings(DAY, tmp_path / "out", archive_root, client, failed_root=failed_root)
+    )
+
+    assert len(fetched.failures) == len(sunday.SOURCES)
+    assert not archive_root.exists()
+    saved = {source.name: path for source, path in fetched.saved.items()}
+    assert (saved["Digital Chant Stand"] / "dcs.html").read_text() == BOT_CHECK
+    assert (saved["Online Chapel"] / "chapel.xml").read_text() == "<onlinechapel>changed</onlinechapel>"
+    assert saved["Online Chapel"].parent.parent == failed_root
+    assert saved["Online Chapel"].parent.name.endswith(f"_for_{DAY.isoformat()}")
+
+
+def test_only_the_latest_failures_are_kept(tmp_path):
+    for n in range(5):
+        (tmp_path / f"2026-09-0{n + 1}_12-00-00_for_2026-09-27").mkdir()
+    sunday.prune(tmp_path, 3)
+    assert sorted(p.name[:10] for p in tmp_path.iterdir()) == ["2026-09-03", "2026-09-04", "2026-09-05"]
+
+
 def test_readings_start_from_the_date_when_nothing_was_fetched(tmp_path):
     readings = sunday.load_readings(DAY, tmp_path)
     assert readings == sunday.Readings(formatted_date="September 27, 2026")

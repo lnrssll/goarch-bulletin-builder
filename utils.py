@@ -27,6 +27,8 @@ class SourceArchive:
     client: httpx.AsyncClient | None = None
     refresh: bool = False
     downloaded: dict[Path, bytes] = field(default_factory=dict)
+    # error pages, kept apart so that save() can never archive one
+    refused: dict[Path, bytes] = field(default_factory=dict)
 
     async def fetch(self, url: str, name: str) -> bytes:
         path = self.root / name
@@ -36,6 +38,8 @@ class SourceArchive:
             raise NotArchived(f"{path} is not archived ({url})")
 
         r = await self.client.get(url, follow_redirects=True)
+        if r.is_error:
+            self.refused[path] = r.content
         r.raise_for_status()
         self.downloaded[path] = r.content
         return r.content
@@ -46,6 +50,16 @@ class SourceArchive:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(content)
         self.downloaded.clear()
+
+    def save_failed(self, dest: Path) -> list[Path]:
+        """Everything this scrape downloaded, error pages included, for a developer to see what changed."""
+        saved = []
+        for path, content in {**self.downloaded, **self.refused}.items():
+            target = dest / path.relative_to(self.root)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(content)
+            saved.append(target)
+        return saved
 
     async def fetch_xml(self, url: str, name: str) -> etree._Element:
         parser = etree.XMLParser(resolve_entities=False, no_network=True, recover=True)

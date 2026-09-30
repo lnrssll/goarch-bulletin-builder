@@ -399,7 +399,10 @@ def fetch_flash(result: sunday.FetchResult) -> Flash:
     if not result.failures:
         return Flash("ok", "Readings downloaded from goarch.org.")
 
-    detail = "\n".join(f"{source.name}: {error!r}" for source, error in result.failures.items())
+    detail = "\n".join(
+        f"{source.name}: {error!r}" + (f"\nWhat it sent is saved in {result.saved[source]}" if source in result.saved else "")
+        for source, error in result.failures.items()
+    )
     if len(result.failures) == len(sunday.SOURCES):
         reasons = "; ".join(sorted({explain(error) for error in result.failures.values()}))
         return Flash("error", f"Couldn't download the readings: {reasons}. Nothing was changed.", detail)

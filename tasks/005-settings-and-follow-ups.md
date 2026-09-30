@@ -165,6 +165,8 @@ When goarch.org changes and a scrape fails, nothing is archived (on purpose, so 
 - **Save failed downloads** to `archive/<date>/failed-<timestamp>/`. They're never read as cache and are reached through a new `SourceArchive.save_failed()`.
 - **Say where it is.** "Technical details" gives the saved path.
 
+Done (2026-09-30), with one change: failed downloads go to `state/failed-downloads/<time>_for_<date>/<source>/` rather than `archive/<date>/failed-<timestamp>/`, since Railway keeps only `state/`. That also puts them in the church's backup zip. Error responses are kept as well (a Cloudflare challenge is itself the evidence), in a separate `refused` dict so that `save()` still can't archive one. The last 20 failures are kept.
+
 ### Render regression hashes
 
 `test_render.py` only checks the page count. Rendering is deterministic, since only embedded fonts are used.

@@ -194,6 +194,7 @@ def test_a_refused_download_changes_nothing(site, network, client):
 
     assert "refused the download" in page.text
     assert "Nothing was changed" in page.text
+    assert "What it sent is saved in state/failed-downloads/" in page.text
     assert len(network) == 2
     assert not (site / "state" / "sundays" / DAY).exists()
     assert not (site / "archive" / DAY).exists()

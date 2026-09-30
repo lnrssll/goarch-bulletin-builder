@@ -1,3 +1,4 @@
+import hashlib
 import json
 import os
 import shutil
@@ -16,11 +17,12 @@ ROOT = Path(__file__).resolve().parent.parent
 SNAPSHOTS = ROOT / "tests" / "snapshots"
 SNAPSHOT_DATES = sorted(p.name for p in SNAPSHOTS.iterdir() if p.is_dir())
 DAY = date(2026, 9, 27)
+PREVIEW_HASHES = "previews.sha256"
 
 
 def build_from_snapshot(site: Path, iso: str) -> Path:
     out_dir = site / "state" / "sundays" / iso
-    shutil.copytree(SNAPSHOTS / iso, out_dir)
+    shutil.copytree(SNAPSHOTS / iso, out_dir, ignore=shutil.ignore_patterns(PREVIEW_HASHES))
     manual.write_template(date.fromisoformat(iso), out_dir)
     return out_dir
 
@@ -31,6 +33,30 @@ def test_archived_sundays_fit_the_booklet(site, iso):
     assert render.ensure_rendered(date.fromisoformat(iso)) == render.BOOKLET_PAGES
     assert (out_dir / "booklet.pdf").read_bytes().startswith(b"%PDF")
     assert (out_dir / "bulletin.pdf").read_bytes().startswith(b"%PDF")
+
+
+@pytest.mark.parametrize("iso", SNAPSHOT_DATES)
+def test_archived_sundays_look_the_same(site, iso, tmp_path_factory):
+    """Rendering is deterministic (embedded fonts only), so any change to a picture is a change in print."""
+    build_from_snapshot(site, iso)
+    render.ensure_rendered(date.fromisoformat(iso))
+    rendered = {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in render.previews(date.fromisoformat(iso))}
+    hashes = SNAPSHOTS / iso / PREVIEW_HASHES
+    if os.environ.get("UPDATE_SNAPSHOTS"):
+        hashes.write_text("".join(f"{digest}  {name}\n" for name, digest in rendered.items()))
+
+    assert hashes.exists(), f"no picture hashes for {iso}; run with UPDATE_SNAPSHOTS=1"
+    expected = dict(reversed(line.split()) for line in hashes.read_text().splitlines())
+    changed = [name for name in expected.keys() | rendered.keys() if expected.get(name) != rendered.get(name)]
+    if changed:
+        saved = tmp_path_factory.mktemp(f"changed-{iso}")
+        for name in changed:
+            if name in rendered:
+                shutil.copy(site / "state" / "sundays" / iso / name, saved / name)
+        pytest.fail(
+            f"{', '.join(sorted(changed))} for {iso} changed; the new pictures are in {saved}. "
+            "If the change is intended, run with UPDATE_SNAPSHOTS=1."
+        )
 
 
 def test_renders_again_only_when_an_input_changes(site):

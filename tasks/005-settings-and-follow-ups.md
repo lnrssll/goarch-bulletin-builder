@@ -174,6 +174,8 @@ Done (2026-09-30), with one change: failed downloads go to `state/failed-downloa
 - **On a mismatch**, write the new PNG to a temp path so it can be looked at.
 - **What it catches:** unintended visual changes from template edits, and from a Typst upgrade.
 
+Done (2026-09-30): `tests/snapshots/<date>/previews.sha256`, in `sha256sum` format, for the snapshot Sundays with the template `manual.yaml` and default settings. Checked that a one-character template change fails it. The hashes are only known to hold on this machine (x86-64 Linux); a different CPU or OS might rasterize differently, and then the first run there needs `UPDATE_SNAPSHOTS=1` after looking at the pictures.
+
 ### Small cleanups
 
 - **AGENTS.md says "older DCS pages are gone"**, but on 2026-09-24 the DCS page for 2026-01-04 downloaded fine. Find out what's actually gone, with a request or two at most, not a bulk download, and correct the wording.

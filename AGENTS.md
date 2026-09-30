@@ -44,7 +44,7 @@ uv run text_sizing.py 2026-09-27            # re-size an existing Sunday (rewrit
 uv run text_sizing.py --explain 2026-09-27  # show the sizing model for one date (read-only, offline)
 uv run text_sizing.py --report              # sizing for every date in state/sundays/ (read-only, offline)
 uv run pytest                               # all tests, offline
-UPDATE_SNAPSHOTS=1 uv run pytest            # regenerate tests/snapshots/ after an intended output change
+UPDATE_SNAPSHOTS=1 uv run pytest            # regenerate tests/snapshots/ (scraped YAML, preview hashes) after an intended change
 
 # render; the date input selects state/sundays/<date>/ (main.py first makes sure state/settings/ exists)
 typst compile --input date=2026-09-27 booklet.typ out/2026-09-27.pdf    # 2-up A5 booklet for printing
@@ -66,7 +66,7 @@ Notes:
   - `test_backup.py`: what goes into the backup zip, and remembering the last download.
   - `test_parish.py`: parish settings: only changes are stored, defaults fill in missing or unreadable ones, typographic quotes, put back the original, undo, history limit, the QR code and uploaded images.
   - `test_manual.py`: `manual.yaml` reading, the template and its carry-over from last week, the "Fr." and "p." prefixes, suggestions, and that `data/hymns.yaml` agrees with the hymnal index.
-  - `test_render.py`: every snapshot Sunday renders to a 2-page booklet with typst-py; re-render only when an input changes; long hymn titles print in short form (read back with `typst.query` on the `<hymn-title>` metadata); settings with Typst-special characters, any number of contacts, no website, a new logo, and an overflowing welcome text.
+  - `test_render.py`: every snapshot Sunday renders to a 2-page booklet with typst-py, and its preview pictures match the hashes in `tests/snapshots/<date>/previews.sha256` (a failure says where the new pictures are; `UPDATE_SNAPSHOTS=1` accepts an intended change, and check the pictures before you do); re-render only when an input changes; long hymn titles print in short form (read back with `typst.query` on the `<hymn-title>` metadata); settings with Typst-special characters, any number of contacts, no website, a new logo, and an overflowing welcome text.
   - `test_web.py`: drives the WSGI app directly (no server): the Sunday workflow, forms, every settings page, logo uploads (multipart, built by the test client), login, cross-site and oversized posts.
   - `conftest.py` has the `site` fixture: a temp copy of the repo root (Typst files, `data/`, `assets/`, `templates/`, `static/`) as the working directory, so tests never touch the real `state/`. Code that reads settings (`parish.load()`, `manual.write_template`) must run under it, or it reads the real `state/settings/`.
 - Don't bulk-download past Sundays. GOARCH is behind Cloudflare and serves bot-check pages to scripted traffic, and older DCS pages are gone. Test against what's already in `archive/`.

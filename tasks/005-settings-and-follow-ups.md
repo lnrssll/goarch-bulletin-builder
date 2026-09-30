@@ -8,7 +8,7 @@ This carries on task 004 (`tasks/done/004-webui.md`), toward the same goal: the 
 
 ## Status (2026-09-30)
 
-**Part 1 is done, and so are the backups from Part 2** (see the end of "Backups a volunteer can see"). The rest of Part 2 is still open. The owner's answers:
+**Part 1 is done.** From Part 2: the Docker build and time zone checks passed (owner, 2026-09-30), and the backups, the handover sheet and the runbook are done. The rest of Part 2 is still open. The owner's answers:
 1. Layout numbers stay out of the UI. 2. No second password. 3. Past Sundays use the current settings. 4. The QR code is generated (`segno`).
 
 Where Part 1 differs from the plan below:
@@ -121,10 +121,10 @@ Why not the layout numbers: `text_metrics.yaml` is calibrated against these exac
 ### First deployment checks (do these first)
 
 Task 004's Docker setup was rehearsed, not built.
-- [ ] **Build and run.** `docker compose up --build` works, and the `bulletin` user can write to the named volumes.
-- [ ] **Time zone.** Check `docker compose exec app date` shows Arizona time. If the slim image has no time zone database, `TZ=America/Phoenix` silently falls back to UTC. Then after 5pm on a Saturday the home page's "next Sunday" is already the week after. Fix it by installing `tzdata` in the Dockerfile, or with `TZ=MST7`: Arizona has no daylight saving time, and a POSIX TZ string needs no database.
-- [ ] **Downloads from the server.** Download one Sunday from the server itself. The live downloads so far ran from a home connection, and goarch.org's Cloudflare may challenge datacenter IPs. If it challenges every time, write down the outcome and pick a workaround: the readings editor, or downloading with `main.py` at home and `docker compose cp` of that build dir.
-- [ ] **Bring over `build/`.** Five older build dirs don't render as they are:
+- [x] **Build and run.** (Owner, 2026-09-30, after the move to `state/`.) `docker compose up --build` works, and the `bulletin` user can write to the named volumes.
+- [x] **Time zone.** (Owner, 2026-09-30: Arizona time.) Check `docker compose exec app date` shows Arizona time. If the slim image has no time zone database, `TZ=America/Phoenix` silently falls back to UTC. Then after 5pm on a Saturday the home page's "next Sunday" is already the week after. Fix it by installing `tzdata` in the Dockerfile, or with `TZ=MST7`: Arizona has no daylight saving time, and a POSIX TZ string needs no database.
+- [ ] **Downloads from the server.** (Waits for the Railway deployment.) Download one Sunday from the server itself. The live downloads so far ran from a home connection, and goarch.org's Cloudflare may challenge datacenter IPs. If it challenges every time, write down the outcome and pick a workaround: the readings editor, or downloading with `main.py` at home and `docker compose cp` of that build dir.
+- [ ] **Bring over `state/`** (was `build/`). Five older Sundays don't render as they are:
   - `2026-01-25` and `2026-02-01` predate the sizing fields: run `uv run text_sizing.py <date>` on each first.
   - `2026-01-11` and `2026-01-18` have no `digital_chant_stand.yaml`, and `2026-04-19` has no readings. The owner decides whether to leave them (they show as missing) or leave them out of the copy.
 
@@ -143,13 +143,15 @@ Over ten years the likely failures aren't code:
 - the certbot notice email goes to nobody;
 - nobody knows the password.
 - **A one-page handover for the church** (`deploy/HANDOVER.md`, plain words): where it runs, who pays for the server and the domain and when they renew, where the password is kept, how to make a backup, and what to tell a developer.
-- **A developer runbook** (in `deploy/README.md`):
+- **A developer runbook** (in `deploy/README.md`, "Maintenance"):
   - **Yearly:** `git pull && docker compose build --pull && docker compose up -d` for base image security fixes.
   - **What expires:**
     - Python 3.13 gets security fixes until about October 2029.
     - Debian 13's security support runs until about 2028, and its LTS until about 2030.
     - After those dates, bump the base image and `requires-python`, then `uv lock --upgrade` and `uv run pytest`.
   - **Upgrading Typst:** typst-py ≥ 0.16 means recalibrating per `tasks/done/001-text-sizing.md`.
+
+Done (2026-09-30): `deploy/HANDOVER.md` is a one-page sheet to print and fill in (web address, where the password is kept, who pays for what and when it renews, who gets the billing emails), with the weekly steps, the monthly backup, what to do when something goes wrong, and how to change the password on Railway. `deploy/README.md` "Maintenance" has the yearly checklist, what expires when, how to move to a newer Python, Debian or Typst, and the likely failures.
 
 ### A text-size override
 

@@ -105,3 +105,38 @@ Restoring replaces files of the same name and leaves others alone, and the Sunda
 The page for each Sunday says what went wrong. If it's temporary (goarch.org sometimes blocks automated downloads, especially from servers), trying again later usually works. Until it does, the readings can be typed in by hand under "type them in yourself" or "Edit the readings", and the bulletin is made from those.
 
 If it keeps failing for every Sunday, goarch.org has probably changed its pages and the program needs fixing (see `AGENTS.md`).
+
+## Maintenance
+
+For whoever looks after the program. The church's side of this is in `HANDOVER.md`: give them a printed copy with the blanks filled in.
+
+### Once a year
+
+Pick a fixed month (January, say) and:
+
+1. **Update the image** for security fixes in the base image:
+   - Your own server: `cd /opt/bulletin && git pull && docker compose build --pull && docker compose up -d && docker image prune -f`.
+   - Railway: redeploy the latest deployment, and check the build log shows `python:3.13-slim-trixie` being pulled rather than all cached.
+2. **Check it still works:** open the next Sunday and download its readings. If goarch.org changed its pages, the Sunday page says the page "didn't have the expected content"; see "Data sources" in `AGENTS.md`, and add that Sunday's pages to `archive/` as a test case once fixed.
+3. **Check the renewals** on the church's handover sheet: the server bill, the domain, and who gets their emails. On your own server, also `sudo certbot renew --dry-run`: certbot's expiry warnings go to the email given when it was set up, which may be nobody's by now.
+4. **Check the backups:** the "Last downloaded" date under Settings, and on your own server that `/var/backups/bulletin` has recent files.
+
+### What expires
+
+| What | Until about | Then |
+|---|---|---|
+| Python 3.13 security fixes | October 2029 | move to a newer Python (below) |
+| Debian 13 "trixie", the base image's system | mid-2028 (security), mid-2030 (LTS) | move to a newer `-slim-<debian>` tag (below) |
+| Typst 0.15 (`typst<0.16`) | doesn't expire: it only reads files and runs offline | upgrade only if something needs it (below) |
+
+**Moving to a newer Python or Debian:** change the `FROM` tag in the `Dockerfile`, `.python-version` and `requires-python` in `pyproject.toml`, and the `uv` version pinned in the `Dockerfile`. Then `uv lock --upgrade`, `uv run pytest`, and build the image. Compare the preview of a few Sundays before and after: nothing should move.
+
+**Upgrading Typst** (typst-py 0.16 or later) changes how text is set, so the text sizing has to be checked again, as in `tasks/done/001-text-sizing.md`: `uv run text_sizing.py --report`, then compile a spread of dates (a short one, a typical one, 2026-05-17) and check each is 2 pages and well filled. Adjust `glyph_advance_em` in `data/text_metrics.yaml` first if they aren't.
+
+### What usually goes wrong
+
+Over ten years the likely failures aren't in the code:
+- **The domain lapses** or **the server bill goes unpaid**: auto-renew, a card that doesn't quietly expire, and more than one person on the billing emails.
+- **Nobody knows the password:** it's kept where the handover sheet says, and changing it needs only the Railway account (or `.env.prod` and `docker compose up -d` on your own server).
+- **goarch.org changes its pages:** the volunteer can type the readings in meanwhile, so it's never urgent. The scrapers are in `goarch_xml_feed.py` and `digital_chant_stand.py`, and the tests replay every Sunday in `archive/`.
+- **goarch.org blocks the server** (Cloudflare bot checks, more common from datacenters): same fallback. If it becomes permanent, downloading with `main.py` from a home connection and copying the Sunday's folder into the volume works too.

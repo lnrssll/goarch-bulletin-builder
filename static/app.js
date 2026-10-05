@@ -183,10 +183,14 @@ function changed(field) {
   if (field.form && "warnUnsaved" in field.form.dataset) unsaved.add(field.form);
 }
 
-// Filling in the rest of a hymn row. Only an empty box, or one filled in
-// here before, is filled; anything typed or picked by hand is kept.
+// Filling in the rest of a hymn row. An empty box, or one filled in here
+// before, is filled. What the page was loaded with (a saved hymn, or the
+// "Example" row's page 0) belonged to the title as it was, so a known value
+// replaces it, but nothing erases it. Anything typed or picked here is kept.
 function autofill(field, value) {
-  if (field.value !== "" && !("autofilled" in field.dataset)) return;
+  const loaded = "loaded" in field.dataset && value;
+  if (field.value !== "" && !("autofilled" in field.dataset) && !loaded) return;
+  delete field.dataset.loaded;
   field.value = value || "";
   if (value) field.dataset.autofilled = "";
   else delete field.dataset.autofilled;
@@ -200,6 +204,9 @@ function setUpHymnRows(hymns) {
   }
   const hymnIn = (row) => byName.get(words(row.querySelector("[name=hymn_title]").value));
   const pageFor = (hymn, mode) => hymn?.data.page || JSON.parse(hymn?.data.pages || "{}")[mode];
+  for (const field of document.querySelectorAll("[name=hymn_mode], [name=hymn_page]")) {
+    if (field.value !== "") field.dataset.loaded = "";
+  }
 
   document.addEventListener("change", (event) => {
     const row = event.target.closest("tr");
@@ -212,6 +219,7 @@ function setUpHymnRows(hymns) {
       autofill(page, pageFor(hymn, mode.value));
     } else if (event.target === mode) {
       delete mode.dataset.autofilled;
+      delete mode.dataset.loaded;
       const hymn = hymnIn(row);
       if (hymn?.data.pages) autofill(page, pageFor(hymn, mode.value));
     }
@@ -225,6 +233,7 @@ function setUpHymnRows(hymns) {
 
 document.addEventListener("input", (event) => {
   delete event.target.dataset.autofilled;
+  delete event.target.dataset.loaded;
   updatePrefix(event.target);
 });
 

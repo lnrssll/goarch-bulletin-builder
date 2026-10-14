@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>Luke the Evangelist</title>
+	<contentid>246</contentid>
+	<displaydate>October 18</displaydate>
+	<date>10/18/2026</date>
+	<month>10</month>
+	<day>18</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>4</classification>
+	<icons>
+		<icon id="1" source="x">
+			<filepath>small/lukeevng.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/small/lukeevng.jpg</url>
+			<copyright>Theologic Systems</copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	<lectionaryreading type="E">
+		<type>E</type>
+		<title>St. Paul's Letter to the Colossians 4:5-11, 14-18</title>
+		<shorttitle>Colossians 4:5-11,14-18</shorttitle>
+		<id>179</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=epistle&amp;code=179&amp;event=246</url>
+	</lectionaryreading>
+	<lectionaryreading type="G">
+		<type>G</type>
+		<title>Luke 10:16-21</title>
+		<shorttitle>Lk. 10:16-21</shorttitle>
+		<id>372</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=gospel&amp;code=372&amp;event=246</url>
+	</lectionaryreading>
+	</lectionary>
+	<readings>
+		<translation xml:lang="en" lang="en" source="htm">
+			<title>Reading</title>
+			<shorttitle>Reading</shorttitle>
+			<body><![CDATA[<p>This Apostle was an Antiochean, a physician by trade, and a disciple and companion of Paul.  He wrote his Gospel in Greek after Matthew and Mark, after which he wrote the Acts of the Apostles, and dedicated both works to Theophilus, who, according to some, was Governor of Achaia.  He lived some eighty-six years and died in Achaia, perhaps in Patras, the capital of this district.  His emblem is the calf, the third symbolical beast mentioned by Ezekiel (1:10), which is a symbol of Christ's sacrificial and priestly office, as Saint Irenaeus says.</p>]]></body>
+			<copyright>Holy Transfiguration Monastery - Brookline, MA</copyright>
+		</translation>
+	</readings><hymns>		<hymn>
+			<type>apolytikion</type>
+			<title>Apolytikion of Luke the Evangelist in the Third Tone</title>
+			<shorttitle>Apolytikion of Luke the Evangelist</shorttitle>
+			<tone>Third Tone</tone>
+			<translation xml:lang="en" lang="en" source="npr">
+				<body>O Holy Apostle and Evangelist Luke, intercede to our merciful God, that He may grant our souls forgiveness of sins.</body>
+				<copyright>Narthex Press</copyright>
+			</translation>
+		</hymn>
+		<hymn>
+			<type>kontakion</type>
+			<title>Kontakion of Luke the Evangelist in the Fourth Tone</title>
+			<shorttitle>Kontakion of Luke the Evangelist</shorttitle>
+			<tone>Fourth Tone</tone>
+			<translation xml:lang="en" lang="en" source="npr">
+				<body>As a disciple of the Word of God, with Paul you illuminated all the earth and dispelled the gloom in writing Christ's divine Gospel.</body>
+				<copyright>Narthex Press</copyright>
+			</translation>
+		</hymn>
+</hymns>
+</saintfeast>

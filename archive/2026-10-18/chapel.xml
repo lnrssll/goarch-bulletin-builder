@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlinechapel>
+	<feedtype>daily</feedtype>
+	<date>10/18/2026</date>
+	<formatteddate>Sunday, October 18, 2026</formatteddate>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<icon source='ths'>http://onlinechapel.goarch.org/images/small/lukeevng.jpg</icon>
+	<fasting></fasting>
+	<tone>Tone Three</tone>
+	<eothinon>9</eothinon>
+	<readings>		<reading id="8">
+			<type>MG</type>
+			<typebb>mg</typebb>
+			<event>1905</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=MG&amp;code=8&amp;event=1905&amp;date=10/18/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=MG&amp;code=8&amp;event=1905&amp;date=10/18/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>John 20:19-31</title>
+				<shorttitle>John 20:19-31</shorttitle>
+				<clip>On the evening of that day, the first day of the week, the doors being shut where the disciples were</clip>
+				<body>Full Orthros Gospel Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="179">
+			<type>E</type>
+			<typebb>epistle</typebb>
+			<event>246</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=E&amp;code=179&amp;event=246&amp;date=10/18/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=E&amp;code=179&amp;event=246&amp;date=10/18/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>St. Paul's Letter to the Colossians 4:5-11, 14-18</title>
+				<shorttitle>St. Paul's Letter to the Colossians 4:5-11, 14-18</shorttitle>
+				<clip>Brethren, conduct yourselves wisely toward outsiders, making the most of the time. Lot your speech always</clip>
+				<body>Epistle Full Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="372">
+			<type>G</type>
+			<typebb>gospel</typebb>
+			<event>246</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=G&amp;code=372&amp;event=246&amp;date=10/18/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=G&amp;code=372&amp;event=246&amp;date=10/18/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>Luke 10:16-21</title>
+				<shorttitle>Luke 10:16-21</shorttitle>
+				<clip>The Lord said to his disciples, "He who hears you hears me, and he who rejects you rejects me, and</clip>
+				<body>Gospel Full reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+</readings>
+	<lectionarytitle>Luke the Evangelist</lectionarytitle>
+	<saintsfeasts>
+	<saintfeast>
+		<title>Luke the Evangelist</title>
+		<id>246</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=246&amp;PCode=3LS&amp;D=S&amp;date=10/18/2026</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=246&amp;PCode=3LS&amp;D=S&amp;date=10/18/2026</publicurl>
+		<classification>4</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Marinos the Martyr</title>
+		<id>753</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=753</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=753</publicurl>
+		<classification>10</classification>
+		<moreinfo>0</moreinfo>
+	</saintfeast>
+	</saintsfeasts>
+</onlinechapel>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlinechapel>
+	<feedtype>reading</feedtype>
+	<id>372</id>
+	<type>Gospel</type>
+	<displaytitle>Gospel Reading</displaytitle>
+	<event>Luke the Evangelist</event>
+	<prokeimenon></prokeimenon>
+	<icon>
+		<url>http://onlinechapel.goarch.org/images/small/jclifegv.jpg</url>
+		<title>Icons</title>
+		<copyright>Greek Orthodox Archdiocese of America</copyright>
+	</icon>
+	<translation xml:lang="en">
+		<title>Luke 10:16-21</title>
+		<shorttitle>Lk. 10:16-21</shorttitle>
+		<clip>The Lord said to his disciples, "He who hears you hears me, and he who rejects you rejects me, and</clip>
+		<body><![CDATA[<p>The Lord said to his disciples, "He who hears you hears me, and he who rejects you rejects me, and he who rejects me rejects him who sent me." The seventy returned with joy, saying, "Lord, even the demons are subject to us in your name!" And he said to them, "I saw Satan fall like lightning from heaven. Behold, I have given you authority to tread upon serpents and scorpions, and over all the power of the enemy; and nothing shall hurt you. Nevertheless do not rejoice in this, that the spirits are subject to you; but rejoice that your names are written in heaven." In that same hour he rejoiced in the Holy Spirit and said, "I thank you, Father, Lord of heaven and earth, that you have hidden these things from the wise and understanding and revealed them to babes; yes, Father, for such was your gracious will."</p>]]></body>
+		<language>en</language>
+	</translation>
+	<translation xml:lang="el">
+		<title>&#922;&#945;&#964;&#8048; &#923;&#959;&#965;&#954;&#8118;&#957; 10:16-21</title>
+		<shorttitle>&#923;&#959;&#965;&#954;. 10:16-21</shorttitle>
+		<clip>&#917;&#7990;&#960;&#949;&#957; &#8001; &#922;&#8016;&#961;&#953;&#959;&#962; &#964;&#959;&#8150;&#962; &#7953;&#945;&#965;&#964;&#959;&#8166; &#956;&#945;&#952;&#951;&#964;&#945;&#8150;&#962;&#903;</clip>
+		<body><![CDATA[<p>Εἶπεν ὁ Κὐριος τοῖς ἑαυτοῦ μαθηταῖς· ῾Ο ἀκούων ὑμῶν ἐμοῦ ἀκούει, καὶ ὁ ἀθετῶν ὑμᾶς ἐμὲ ἀθετεῖ· ὁ δὲ ἐμὲ ἀθετῶν ἀθετεῖ τὸν ἀποστείλαντά με. ῾Υπέστρεψαν δὲ οἱ ἑβδομήκοντα μετὰ χαρᾶς λέγοντες· Κύριε, καὶ τὰ δαιμόνια ὑποτάσσεται ἡμῖν ἐν τῷ ὀνόματί σου. Εἶπε δὲ αὐτοῖς· ἐθεώρουν τὸν σατανᾶν ὡς ἀστραπὴν ἐκ τοῦ οὐρανοῦ πεσόντα. ἰδοὺ δίδωμι ὑμῖν τὴν ἐξουσίαν τοῦ πατεῖν ἐπάνω ὄφεων καὶ σκορπίων καὶ ἐπὶ πᾶσαν τὴν δύναμιν τοῦ ἐχθροῦ, καὶ οὐδὲν ὑμᾶς οὐ μὴ ἀδικήσῃ. πλὴν ἐν τούτῳ μὴ χαίρετε, ὅτι τὰ πνεύματα ὑμῖν ὑποτάσσεται· χαίρετε δὲ ὅτι τὰ ὀνόματα ὑμῶν ἐγράφη ἐν τοῖς οὐρανοῖς. ᾿Εν αὐτῇ τῇ ὥρᾳ ἠγαλλιάσατο τῷ πνεύματι ὁ ᾿Ιησοῦς καὶ εἶπεν· ἐξομολογοῦμαί σοι, πάτερ, κύριε τοῦ οὐρανοῦ καὶ τῆς γῆς, ὅτι ἀπέκρυψας ταῦτα ἀπὸ σοφῶν καὶ συνετῶν, καὶ ἀπεκάλυψας αὐτὰ νηπίοις· ναί, ὁ πατήρ, ὅτι οὕτως ἐγένετο εὐδοκία ἔμπροσθέν σου.</p>]]></body>
+		<language>el</language>
+	</translation>
+	<translation xml:lang="ar">
+		<title>&#1604;&#1608;&#1602;&#1575; 10: 16-21</title>
+		<shorttitle>&#1604;&#1608;&#1602;&#1575; 10: 16-21</shorttitle>
+		<clip>&#1602;&#1575;&#1604; &#1575;&#1604;&#1585;&#1576; &#1604;&#1578;&#1604;&#1575;&#1605;&#1610;&#1584;&#1607;: &#1575;&#1614;&#1604;&#1614;&#1617;&#1584;&#1616;&#1610; &#1610;&#1614;&#1587;&#1618;&#1605;&#1614;&#1593;&#1615; &#1605;&#1616;&#1606;&#1618;&#1603;&#1615;&#1605;&#1618; &#1610;&#1614;&#1587;&#1618;&#1605;&#1614;&#1593;&#1615; &#1605;&#1616;&#1606;&#1616;&#1617;&#1610; </clip>
+		<body><![CDATA[<p><sup>16 </sup>قال الرب لتلاميذه: اَلَّذِي يَسْمَعُ مِنْكُمْ يَسْمَعُ مِنِّي ، وَالَّذِي يُرْذِلُكُمْ يُرْذِلُنِي ، وَالَّذِي يُرْذِلُنِي يُرْذِلُ الَّذِي أَرْسَلَنِي)).<sup>17</sup>فَرَجَعَ السَّبْعُونَ بِفَرَحٍ قَائِلِينَ: ((يَا رَبُّ ، حَتَّى الشَّيَاطِينُ تَخْضَعُ لَنَا بِاسْمِكَ!)). <sup>18</sup>فَقَالَ لَهُمْ: ((رَأَيْتُ الشَّيْطَانَ سَاقِطاً مِثْلَ الْبَرْقِ مِنَ السَّمَاءِ. <sup>19</sup>هَا أَنَا أُعْطِيكُمْ سُلْطَاناً لِتَدُوسُوا الْحَيَّاتِ وَالْعَقَارِبَ وَكُلَّ قُوَّةِ الْعَدُوِّ ، وَلاَ يَضُرُّكُمْ شَيْءٌ. <sup>20</sup>وَلَكِنْ لاَ تَفْرَحُوا بِهَذَا : أَنَّ الأَرْوَاحَ تَخْضَعُ لَكُمْ ، بَلِ افْرَحُوا بِالْحَرِيِّ أَنَّ أَسْمَاءَكُمْ كُتِبَتْ فِي السَّمَاوَاتِ)).<sup>21</sup>وَفِي تِلْكَ السَّاعَةِ تَهَلَّلَ يَسُوعُ بِالرُّوحِ وَقَالَ: ((أَحْمَدُكَ أَيُّهَا الآبُ ، رَبُّ السَّمَاءِ وَالأَرْضِ ، لأَنَّكَ أَخْفَيْتَ هَذِهِ عَنِ الْحُكَمَاءِ وَالْفُهَمَاءِ وَأَعْلَنْتَهَا لِلأَطْفَالِ. نَعَمْ أَيُّهَا الآبُ ، لأَنْ هَكَذَا صَارَتِ الْمَسَرَّةُ أَمَامَكَ)).</p><p> </p><p> </p>]]></body>
+		<language>ar</language>
+	</translation>
+</onlinechapel>

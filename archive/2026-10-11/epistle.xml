@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlinechapel>
+	<feedtype>reading</feedtype>
+	<id>365</id>
+	<type>Epistle</type>
+	<displaytitle>Epistle Reading</displaytitle>
+	<event>Sunday of the 7th Ecumenical Council</event>
+	<prokeimenon></prokeimenon>
+	<icon>
+		<url>http://onlinechapel.goarch.org/images/clark/pet_paul.jpg</url>
+		<title>Icons</title>
+		<copyright>Greek Orthodox Archdiocese of America</copyright>
+	</icon>
+	<translation xml:lang="en">
+		<title>St. Paul's Letter to Titus 3:8-15</title>
+		<shorttitle>Titus 3:8-15</shorttitle>
+	 <prokmode>4</prokmode>
+	 <prokpsalm>Daniel 3.26,27</prokpsalm>
+	 <prokprokeimenon>Blessed are you, O Lord, the God of our fathers.</prokprokeimenon>
+	 <prokverse>Verse: For you are just in all you have done.</prokverse>
+		<clip>Titus, my son, the saying is sure.  I desire you to insist on these things, so that those who have believed in God may be careful to apply themselves to good deeds</clip>
+		<body><![CDATA[<p>Titus, my son, the saying is sure.  I desire you to insist on these things, so that those who have believed in God may be careful to apply themselves to good deeds; these are excellent and profitable to men.  But avoid stupid controversies, genealogies, dissensions, and quarrels over the law, for they are unprofitable and futile.  As for a man who is factious, after admonishing him once or twice, have nothing more to do with him, knowing that such a person is perverted and sinful; he is self-condemned.</p><p>When I send Artemas or Tychicos to you, do your best to come to me at Nicopolis, for I have decided to spend the winter there.  Do your best to speed Zenas the lawyer and Apollos on their way; see that they lack nothing.  And let our people learn to apply themselves to good deeds, so as to help cases of urgent need, and not to be unfruitful.</p><p>All who are with me send greeting to you. Greet those who love us in the faith. Grace be with you all. Amen.</p>]]></body>
+		<language>en</language>
+	</translation>
+	<translation xml:lang="el">
+		<title>&#928;&#961;&#8056;&#962; &#932;&#943;&#964;&#959;&#957; 3:8-15</title>
+		<shorttitle>&#932;&#943;&#964;&#959;&#957; 3:8-15</shorttitle>
+	 <prokmode>4</prokmode>
+	 <prokpsalm>&#916;&#945;&#957;&#953;&#942;&#955; 3.26-27</prokpsalm>
+	 <prokprokeimenon>&#917;&#8016;&#955;&#959;&#947;&#951;&#964;&#8056;&#962; &#949;&#7990;, &#922;&#973;&#961;&#953;&#949;, &#8001; &#920;&#949;&#8056;&#962; &#964;&#8182;&#957; &#928;&#945;&#964;&#941;&#961;&#969;&#957; &#7969;&#956;&#8182;&#957;.</prokprokeimenon>
+	 <prokverse>&#931;&#964;&#943;&#967;. &#8013;&#964;&#953; &#948;&#943;&#954;&#945;&#953;&#959;&#962; &#949;&#7990; &#7952;&#960;&#8054; &#960;&#8118;&#963;&#953;&#957;, &#959;&#7991;&#962; &#7952;&#960;&#959;&#943;&#951;&#963;&#945;&#962; &#7969;&#956;&#8150;&#957;.</prokverse>
+		<clip>&#932;&#941;&#954;&#957;&#959;&#957; &#932;&#943;&#964;&#949;, &#928;&#953;&#963;&#964;&#8056;&#962; &#8001; &#955;&#8057;&#947;&#959;&#962;, &#954;&#945;&#8054; &#960;&#949;&#961;&#8054; &#964;&#959;&#8059;&#964;&#969;&#957; </clip>
+		<body><![CDATA[<p>Τέκνον Τίτε, πιστὸς ὁ λόγος, καὶ περὶ τούτων βούλομαί σε διαβεβαιοῦσθαι, ἵνα φροντίζωσιν καλῶν ἔργων προΐστασθαι οἱ πεπιστευκότες θεῷ. ταῦτά ἐστιν καλὰ καὶ ὠφέλιμα   τοῖς ἀνθρώποις · μωρὰς δὲ ζητήσεις καὶ γενεαλογίας καὶ ἔριν καὶ μάχας   νομικὰς περιΐστασο, εἰσὶν γὰρ ἀνωφελεῖς καὶ μάταιοι. αιῥετικὸν ἄνθρωπον μετὰ μίαν καὶ δευτέραν νουθεσίαν παραιτοῦ, εἰδὼς ὅτι ἐξέστραπται ὁ τοιοῦτος καὶ ἁμαρτάνει, ὢν αὐτοκατάκριτος. Ὅταν πέμψω Ἀρτεμᾶν πρὸς σὲ ἢ Τυχικόν,   σπούδασον ἐλθεῖν πρός με εἰς Νικόπολιν, ἐκεῖ γὰρ κέκρικα παραχειμάσαι.     Ζηνᾶν τὸν νομικὸν καὶ Ἀπολλῶν σπουδαίως πρόπεμψον, ἵνα μηδὲν αὐτοῖς λείπῃ. μανθανέτωσαν δὲ καὶ οἱ ἡμέτεροι καλῶν ἔργων προΐστασθαι εἰς τὰς ἀναγκαίας   χρείας, ἵνα μὴ ὦσιν ἄκαρποι. Ἀσπάζονταί σε οἱ μετ ᾽ἐμοῦ πάντες.  Ἄσπασαι   τοὺς φιλοῦντας ἡμᾶς ἐν πίστει. ἡ χάρις μετὰ πάντων ὑμῶν.</p>]]></body>
+		<language>el</language>
+	</translation>
+	<translation xml:lang="ar">
+		<title>&#1585;&#1587;&#1575;&#1604;&#1577; &#1576;&#1608;&#1604;&#1587; &#1575;&#1604;&#1609; &#1578;&#1616;&#1610;&#1591;&#1615;&#1587;&#1614; 3: 8-15</title>
+		<shorttitle>&#1578;&#1616;&#1610;&#1591;&#1615;&#1587; 3: 8-15</shorttitle>
+	 <prokmode>4</prokmode>
+	 <prokpsalm>&#1583;&#1575;&#1606;&#1610;&#1575;&#1604; 3: 26-27</prokpsalm>
+	 <prokprokeimenon>&#1605;&#1576;&#1575;&#1585;&#1603; &#1571;&#1606;&#1578; &#1610;&#1575;&#1585;&#1576; &#1573;&#1604;&#1607; &#1570;&#1576;&#1575;&#1574;&#1606;&#1575;</prokprokeimenon>
+	 <prokverse>Verse: &#1604;&#1571;&#1606;&#1603; &#1593;&#1583;&#1604; &#1601;&#1610; &#1603;&#1604; &#1605;&#1575; &#1589;&#1606;&#1593;&#1578;</prokverse>
+		<clip>&#1610;&#1614;&#1575; &#1608;&#1614;&#1604;&#1614;&#1583;&#1610; &#1578;&#1616;&#1610;&#1591;&#1615;&#1587;&#1614;&#1548; &#1589;&#1614;&#1575;&#1583;&#1616;&#1602;&#1614;&#1577;&#1612; &#1607;&#1616;&#1610;&#1614; &#1575;&#1604;&#1618;&#1603;&#1614;&#1604;&#1616;&#1605;&#1614;&#1577;&#1615;. &#1608;&#1614;&#1571;&#1615;&#1585;&#1616;&#1610;&#1583;&#1615; &#1571;&#1614;&#1606;&#1618; &#1578;&#1615;&#1602;&#1614;&#1585;&#1617;&#1616;&#1585;&#1614; &#1607;&#1614;&#1584;&#1616;&#1607;&#1616; &#1575;&#1604;&#1571;&#1615;&#1605;&#1615;&#1608;&#1585;&#1614;</clip>
+		<body><![CDATA[<p>يَا وَلَدي تِيطُسَ، صَادِقَةٌ هِيَ الْكَلِمَةُ. وَأُرِيدُ أَنْ تُقَرِّرَ هَذِهِ الأُمُورَ، لِكَيْ يَهْتَمَّ الَّذِينَ آمَنُوا بِاللهِ أَنْ يُمَارِسُوا أَعْمَالاً حَسَنَةً. فَإِنَّ هَذِهِ الأُمُورَ هِيَ الْحَسَنَةُ وَالنَّافِعَةُ لِلنَّاسِ. وَأَمَّا الْمُبَاحَثَاتُ الْغَبِيَّةُ وَالأَنْسَابُ وَالْخُصُومَاتُ وَالْمُنَازَعَاتُ النَّامُوسِيَّةُ فَاجْتَنِبْهَا، لأَنَّهَا غَيْرُ نَافِعَةٍ، وَبَاطِلَةٌ. اَلرَّجُلُ الْمُبْتَدِعُ بَعْدَ الإِنْذَارِ مَرَّةً وَمَرَّتَيْنِ أَعْرِضْ عَنْهُ. عَالِماً أَنَّ مِثْلَ هَذَا قَدِ انْحَرَفَ، وَهُوَ يُخْطِئُ مَحْكُوماً عَلَيْهِ مِنْ نَفْسِهِ. حِينَمَا أُرْسِلُ إِلَيْكَ أَرْتِيمَاسَ أَوْ تِيخِيكُسَ بَادِرْ أَنْ تَأْتِيَ إِلَيَّ إِلَى نِيكُوبُولِيسَ، لأَنِّي عَزَمْتُ أَنْ أُشَتِّيَ هُنَاكَ. جَهِّزْ زِينَاسَ النَّامُوسِيَّ وَأَبُلُّوسَ بِاجْتِهَادٍ لِلسَّفَرِ حَتَّى لاَ يُعْوِزَهُمَا شَيْءٌ. وَلْيَتَعَلَّمْ مَنْ لَنَا أَيْضاً أَنْ يُمَارِسُوا أَعْمَالاً حَسَنَةً لِلْحَاجَاتِ الضَّرُورِيَّةِ، حَتَّى لاَ يَكُونُوا بِلاَ ثَمَرٍ. يُسَلِّمُ عَلَيْكَ الَّذِينَ مَعِي جَمِيعاً. سَلِّمْ عَلَى الَّذِينَ يُحِبُّونَنَا فِي الإِيمَانِ. النِّعْمَةُ مَعَ جَمِيعِكُمْ. آمِينَ.</p>]]></body>
+		<language>ar</language>
+	</translation>
+</onlinechapel>

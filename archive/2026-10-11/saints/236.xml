@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>Philip the Apostle of the 70, one of the 7 Deacons</title>
+	<contentid>236</contentid>
+	<displaydate>October 11</displaydate>
+	<date>10/11</date>
+	<month>10</month>
+	<day>11</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>10</classification>
+	<icons>
+		<icon id="1" source="x">
+			<filepath>small/philipap.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/small/philipap.jpg</url>
+			<copyright>Theologic Systems</copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	<lectionaryreading type="E">
+		<type>E</type>
+		<title>Acts of the Apostles 8:26-39</title>
+		<shorttitle>Acts 8:26-39</shorttitle>
+		<id>49</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=epistle&amp;code=49&amp;event=236</url>
+	</lectionaryreading>
+	</lectionary>
+	<readings>
+		<translation xml:lang="en" lang="en" source="htm">
+			<title>Reading</title>
+			<shorttitle>Reading</shorttitle>
+			<body><![CDATA[<p>Saint Philip, who had four daughters that prophesied, was from Caesarea of Palestine. He preached throughout Samaria; it was he also who met the eunuch of Candace, the Queen of the Ethiopians, as the eunuch was reading the Prophet Esaias, and he instructed and baptized him (Acts 8:26-39). He reposed in Tralles of Asia Minor while preaching the Gospel.</p>]]></body>
+			<copyright>Holy Transfiguration Monastery - Brookline, MA</copyright>
+		</translation>
+	</readings><hymns>		<hymn>
+			<type>apolytikion</type>
+			<title>Apolytikion of Philip of the 7 Deacons in the Third Tone</title>
+			<shorttitle>Apolytikion of Philip of the 7 Deacons</shorttitle>
+			<tone>Third Tone</tone>
+			<translation xml:lang="en" lang="en" source="npr">
+				<body>O Holy Apostle Philip, intercede to our merciful God, that He may grant our souls forgiveness of sins.</body>
+				<copyright>Narthex Press</copyright>
+			</translation>
+		</hymn>
+		<hymn>
+			<type>kontakion</type>
+			<title>Kontakion of Philip of the 7 Deacons in the Fourth Tone</title>
+			<shorttitle>Kontakion of Philip of the 7 Deacons</shorttitle>
+			<tone>Fourth Tone</tone>
+			<translation xml:lang="en" lang="en" source="htm">
+				<body>Since thou wast enlightened by the Holy Spirit, thou enlightenest the earth and all its fullness with the beams of thy wise teachings and miracles, Apostle Philip, thou sacred initiate.</body>
+				<copyright>Holy Transfiguration Monastery</copyright>
+			</translation>
+		</hymn>
+</hymns>
+</saintfeast>

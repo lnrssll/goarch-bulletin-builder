@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>Theophanes the Confessor, Bishop of Nicaea</title>
+	<contentid>237</contentid>
+	<displaydate>October 11</displaydate>
+	<date>10/11</date>
+	<month>10</month>
+	<day>11</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>10</classification>
+	<icons>
+		<icon id="1" source="x">
+			<filepath>small/allsaint.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/small/allsaint.jpg</url>
+			<copyright></copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	</lectionary>
+	<readings>
+		<translation xml:lang="en" lang="en" source="htm">
+			<title>Reading</title>
+			<shorttitle>Reading</shorttitle>
+			<body><![CDATA[<p>Saint Theophanes, the brother of Saint Theodore the Branded, was a Palestinian by race. Both were monks at the Monastery of Saint Sabbas. They were called "the Branded" because Theophilus, the last of the Iconoclast emperors, had twelve iambic verses branded by hot irons on their foreheads and then sent them into exile, where Theodore died in the year 838. After the death of Theophilus in 842, Theophanes was elected Bishop of Nicaea. Both brothers composed many canons and hymns, thereby adorning the services of the Church.</p>]]></body>
+			<copyright>Holy Transfiguration Monastery - Brookline, MA</copyright>
+		</translation>
+	</readings><hymns>		<hymn>
+			<type>apolytikion</type>
+			<title>Apolytikion of Theophanes the Confessor in the Plagal of the Fourth Tone</title>
+			<shorttitle>Apolytikion of Theophanes the Confessor</shorttitle>
+			<tone>Plagal of the Fourth Tone</tone>
+			<translation xml:lang="en" lang="en" source="npr">
+				<body>You are a guide of Orthodoxy, a teacher of piety and modesty, a luminary of the world, the God inspired pride of monastics. O wise Theophanes, you have enlightened everyone by your teachings. You are the harp of the Spirit. Intercede to Christ our God for the salvation of our souls.</body>
+				<copyright>Narthex Press</copyright>
+			</translation>
+		</hymn>
+		<hymn>
+			<type>kontakion</type>
+			<title>Kontakion of Theophanes the Confessor in the Fourth Tone</title>
+			<shorttitle>Kontakion of Theophanes the Confessor</shorttitle>
+			<tone>Fourth Tone</tone>
+			<translation xml:lang="en" lang="en" source="htm">
+				<body>To the Church thou hast appeared like a new daystar, for thou dost enlighten her with all thy doctrines' brilliant beams, O righteous Father Theophanes, since thou indeed art a true priest of Christ our God.</body>
+				<copyright>Holy Transfiguration Monastery</copyright>
+			</translation>
+		</hymn>
+</hymns>
+</saintfeast>

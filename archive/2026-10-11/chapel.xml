@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlinechapel>
+	<feedtype>daily</feedtype>
+	<date>10/11/2026</date>
+	<formatteddate>Sunday, October 11, 2026</formatteddate>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<icon source='sti'>http://onlinechapel.goarch.org/images/skete/symeonnewspious.jpg</icon>
+	<fasting></fasting>
+	<tone>Tone Two</tone>
+	<eothinon>8</eothinon>
+	<readings>		<reading id="342">
+			<type>MG</type>
+			<typebb>mg</typebb>
+			<event>1904</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=MG&amp;code=342&amp;event=1904&amp;date=10/11/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=MG&amp;code=342&amp;event=1904&amp;date=10/11/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>John 20:11-18</title>
+				<shorttitle>John 20:11-18</shorttitle>
+				<clip>At that time, Mary stood weeping outside the tomb, and as she wept she stooped to look into the tomb;</clip>
+				<body>Full Orthros Gospel Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="365">
+			<type>E</type>
+			<typebb>epistle</typebb>
+			<event>883</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=E&amp;code=365&amp;event=883&amp;date=10/11/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=E&amp;code=365&amp;event=883&amp;date=10/11/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>St. Paul's Letter to Titus 3:8-15</title>
+				<shorttitle>St. Paul's Letter to Titus 3:8-15</shorttitle>
+				<clip>Titus, my son, the saying is sure.  I desire you to insist on these things, so that those who have believed in God may be careful to apply themselves to good deeds</clip>
+				<body>Epistle Full Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="189">
+			<type>G</type>
+			<typebb>gospel</typebb>
+			<event>883</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=G&amp;code=189&amp;event=883&amp;date=10/11/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=G&amp;code=189&amp;event=883&amp;date=10/11/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>Luke 8:5-15</title>
+				<shorttitle>Luke 8:5-15</shorttitle>
+				<clip>The Lord said this parable: "A sower went out to sow his seed; and as he sowed, some fell along</clip>
+				<body>Gospel Full reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+</readings>
+	<lectionarytitle>Sunday of the 7th Ecumenical Council</lectionarytitle>
+	<saintsfeasts>
+	<saintfeast>
+		<title>Sunday of the 7th Ecumenical Council</title>
+		<id>883</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=883&amp;PCode=4LS&amp;D=S&amp;date=10/11/2026</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=883&amp;PCode=4LS&amp;D=S&amp;date=10/11/2026</publicurl>
+		<classification>5</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Philip the Apostle of the 70, one of the 7 Deacons</title>
+		<id>236</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=236</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=236</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Theophanes the Confessor, Bishop of Nicaea</title>
+		<id>237</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=237</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=237</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Holy Martyrs Zenais and Philonilla</title>
+		<id>745</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=745</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=745</publicurl>
+		<classification>10</classification>
+		<moreinfo>0</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Nectarios, Arsakios, Sisinios and Philotheos Kokkinos, Patriarchs of Constantinople</title>
+		<id>746</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=746</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=746</publicurl>
+		<classification>10</classification>
+		<moreinfo>0</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Ethelburga, Abbess of Barking</title>
+		<id>2740</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=2740</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=2740</publicurl>
+		<classification>10</classification>
+		<moreinfo>0</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Our righteous Father Kenneth, Founder of the Monastery of Aghaboe in Ireland.</title>
+		<id>2741</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=2741</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=2741</publicurl>
+		<classification>10</classification>
+		<moreinfo>0</moreinfo>
+	</saintfeast>
+	</saintsfeasts>
+</onlinechapel>

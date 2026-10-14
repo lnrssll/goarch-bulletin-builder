@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>Sunday of the 7th Ecumenical Council</title>
+	<contentid>883</contentid>
+	<displaydate>October 11</displaydate>
+	<date>10/11/2026</date>
+	<month>10</month>
+	<day>11</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>5</classification>
+	<icons>
+		<icon id="1" source="x">
+			<filepath>small/allsaint.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/small/allsaint.jpg</url>
+			<copyright></copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	<lectionaryreading type="E">
+		<type>E</type>
+		<title>St. Paul's Letter to Titus 3:8-15</title>
+		<shorttitle>Titus 3:8-15</shorttitle>
+		<id>365</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=epistle&amp;code=365&amp;event=883</url>
+	</lectionaryreading>
+	<lectionaryreading type="G">
+		<type>G</type>
+		<title>Luke 8:5-15</title>
+		<shorttitle>Lk. 8:5-15</shorttitle>
+		<id>189</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=gospel&amp;code=189&amp;event=883</url>
+	</lectionaryreading>
+	</lectionary>
+	<readings>
+		<translation xml:lang="en" lang="en" source="htm">
+			<title>Reading</title>
+			<shorttitle>Reading</shorttitle>
+			<body><![CDATA[<p>On the Sunday that falls on or immediately after the eleventh of this month, we chant the Service to the 350 holy Fathers of the Seventh Ecumenical Council, which gathered in Nicaea in 787 under the holy Patriarch Tarasius and during the reign of the Empress Irene and her son, Constantine Porphyrogenitus, to refute the Iconoclast heresy, which had received imperial support beginning with the Edict issued in 726 by Emperor Leo the Isaurian.  Many of the holy Fathers who condemned Iconoclasm at this holy Council later died as Confessors and Martyrs for the holy Icons during the second assult of Iconoclasm in the ninth century, especially during the reigns of Leo the Armenian and Theophilus.</p>]]></body>
+			<copyright>Holy Transfiguration Monastery - Brookline, MA</copyright>
+		</translation>
+	</readings><hymns>		<hymn>
+			<type>apolytikion</type>
+			<title>Apolytikion of Sun. of the 7th Ecumenical Council in the Plagal of the Fourth Tone</title>
+			<shorttitle>Apolytikion of Sun. of the 7th Ecumenical Council</shorttitle>
+			<tone>Plagal of the Fourth Tone</tone>
+			<translation xml:lang="en" lang="en" source="npr">
+				<body>You are greatly glorified, O Christ our God, who established our Fathers as luminaries upon the earth, and through them led us all to the true Faith. O Most compassionate, glory to You.</body>
+				<copyright>Narthex Press</copyright>
+			</translation>
+		</hymn>
+		<hymn>
+			<type>kontakion</type>
+			<title>Kontakion of Sun. of the 7th Ecumenical Council in the Plagal of the Fourth Tone</title>
+			<shorttitle>Kontakion of Sun. of the 7th Ecumenical Council</shorttitle>
+			<tone>Plagal of the Fourth Tone</tone>
+			<translation xml:lang="en" lang="en" source="npr">
+				<body>The Son who shone forth from the Father, was born of woman in two natures. Having beheld Him, we do not deny the image of His form. Devoutly depicting it we honor it in faith. Therefore the Church, maintaining the true faith, venerates the icon of Christ's incarnation.</body>
+				<copyright>Narthex Press</copyright>
+			</translation>
+		</hymn>
+</hymns>
+</saintfeast>

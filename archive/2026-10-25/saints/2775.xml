@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>Martyr Chrysanthe</title>
+	<contentid>2775</contentid>
+	<displaydate>October 25</displaydate>
+	<date>10/25</date>
+	<month>10</month>
+	<day>25</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>10</classification>
+	<icons>
+		<icon id="1" source="x">
+			<filepath>small/allsaint.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/small/allsaint.jpg</url>
+			<copyright></copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	</lectionary>
+	<readings></readings><hymns>		<hymn>
+			<type>apolytikion</type>
+			<title>Apolytikion of Martyr Chrysanthe in the Fourth Tone</title>
+			<shorttitle>Apolytikion of Martyr Chrysanthe</shorttitle>
+			<tone>Fourth Tone</tone>
+			<translation xml:lang="en" lang="en" source="htm">
+				<body>O Lord Jesus, unto Thee Thy lamb doth cry with a great voice:  O my Bridegroom, Thee I love; and seeking Thee, I now contest, and with Thy baptism am crucified and buried.  I suffer for Thy sake, that I may reign with Thee; for Thy sake I die, that I may live in Thee:  accept me offered out of longing to Thee as a spotless sacrifice.  Lord, save our souls through her intercessions, since Thou art great in mercy.</body>
+				<copyright>Holy Transfiguration Monastery</copyright>
+			</translation>
+		</hymn>
+</hymns>
+</saintfeast>

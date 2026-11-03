@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>5th Sunday of Luke</title>
+	<contentid>911</contentid>
+	<displaydate>November 01</displaydate>
+	<date>11/01/2026</date>
+	<month>11</month>
+	<day>01</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>5</classification>
+	<icons>
+		<icon id="1" source="goa">
+			<filepath>october/18_lukewriting.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/october/18_lukewriting.jpg</url>
+			<copyright>Greek Orthodox Archdiocese of America</copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	<lectionaryreading type="G">
+		<type>G</type>
+		<title>Luke 16:19-31</title>
+		<shorttitle>Lk. 16:19-31</shorttitle>
+		<id>196</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=gospel&amp;code=196&amp;event=911</url>
+	</lectionaryreading>
+	</lectionary>
+	<readings></readings><hymns></hymns>
+</saintfeast>

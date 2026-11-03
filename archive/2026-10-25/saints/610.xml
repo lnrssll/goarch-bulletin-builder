@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>Tabitha, who was raised from the dead by Peter the Apostle</title>
+	<contentid>610</contentid>
+	<displaydate>October 25</displaydate>
+	<date>10/25</date>
+	<month>10</month>
+	<day>25</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>10</classification>
+	<icons>
+		<icon id="1" source="sti">
+			<filepath>skete/tabitha.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/skete/tabitha.jpg</url>
+			<copyright>St. Isaac of Syria Skete</copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	</lectionary>
+	<readings></readings><hymns></hymns>
+</saintfeast>

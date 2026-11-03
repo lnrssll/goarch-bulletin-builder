@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlinechapel>
+	<feedtype>daily</feedtype>
+	<date>10/25/2026</date>
+	<formatteddate>Sunday, October 25, 2026</formatteddate>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<icon source='ths'>http://onlinechapel.goarch.org/images/small/demetrio.jpg</icon>
+	<fasting></fasting>
+	<tone>Tone Four</tone>
+	<eothinon>10</eothinon>
+	<readings>		<reading id="341">
+			<type>MG</type>
+			<typebb>mg</typebb>
+			<event>1906</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=MG&amp;code=341&amp;event=1906&amp;date=10/25/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=MG&amp;code=341&amp;event=1906&amp;date=10/25/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>John 21:1-14</title>
+				<shorttitle>John 21:1-14</shorttitle>
+				<clip>At that time, Jesus revealed Himself again to the disciples by the Sea of Tiberias</clip>
+				<body>Full Orthros Gospel Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="206">
+			<type>E</type>
+			<typebb>epistle</typebb>
+			<event>2932</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=E&amp;code=206&amp;event=2932&amp;date=10/25/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=E&amp;code=206&amp;event=2932&amp;date=10/25/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>St. Paul's Letter to the Galatians 2:16-20</title>
+				<shorttitle>St. Paul's Letter to the Galatians 2:16-20</shorttitle>
+				<clip>Brethren, knowing that a man is not justified by works of the law but through faith in Jesus Christ,</clip>
+				<body>Epistle Full Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="203">
+			<type>G</type>
+			<typebb>gospel</typebb>
+			<event>939</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=G&amp;code=203&amp;event=939&amp;date=10/25/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=G&amp;code=203&amp;event=939&amp;date=10/25/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>Luke 8:26-39</title>
+				<shorttitle>Luke 8:26-39</shorttitle>
+				<clip>At that time, as Jesus arrived at the country of the Gadarenes, there met him a man from the city who</clip>
+				<body>Gospel Full reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+</readings>
+	<lectionarytitle>6th Sunday of Luke</lectionarytitle>
+	<saintsfeasts>
+	<saintfeast>
+		<title>6th Sunday of Luke</title>
+		<id>939</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=939&amp;PCode=6LS&amp;D=S&amp;date=10/25/2026</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=939&amp;PCode=6LS&amp;D=S&amp;date=10/25/2026</publicurl>
+		<classification>5</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>The Holy Martyrs Marcian and Martyrius the Notaries</title>
+		<id>256</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=256</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=256</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Tabitha, who was raised from the dead by Peter the Apostle</title>
+		<id>610</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=610</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=610</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Chrysaphios (or Chrysaphos) the Martyr</title>
+		<id>2769</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=2769</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=2769</publicurl>
+		<classification>10</classification>
+		<moreinfo>0</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Martyr Chrysanthe</title>
+		<id>2775</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=2775</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=2775</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	</saintsfeasts>
+</onlinechapel>

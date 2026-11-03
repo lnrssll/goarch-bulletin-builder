@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>David the Righteous of Evia</title>
+	<contentid>612</contentid>
+	<displaydate>November 1</displaydate>
+	<date>11/1</date>
+	<month>11</month>
+	<day>1</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>10</classification>
+	<icons>
+		<icon id="1" source="sti">
+			<filepath>skete/davideuboia.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/skete/davideuboia.jpg</url>
+			<copyright>St. Isaac of Syria Skete</copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	</lectionary>
+	<readings></readings><hymns></hymns>
+</saintfeast>

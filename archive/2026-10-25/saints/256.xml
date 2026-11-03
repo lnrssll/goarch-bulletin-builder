@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>Marcianos and Martyrios the Notaries</title>
+	<contentid>256</contentid>
+	<displaydate>October 25</displaydate>
+	<date>10/25</date>
+	<month>10</month>
+	<day>25</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>10</classification>
+	<icons>
+		<icon id="1" source="x">
+			<filepath>small/allsaint.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/small/allsaint.jpg</url>
+			<copyright></copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	<lectionaryreading type="E">
+		<type>E</type>
+		<title>St. Paul's Letter to the Colossians 3:4-11</title>
+		<shorttitle>Colossians 3:4-11</shorttitle>
+		<id>176</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=epistle&amp;code=176&amp;event=256</url>
+	</lectionaryreading>
+	<lectionaryreading type="G">
+		<type>G</type>
+		<title>Luke 12:2-12</title>
+		<shorttitle>Lk. 12:2-12</shorttitle>
+		<id>208</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=gospel&amp;code=208&amp;event=256</url>
+	</lectionaryreading>
+	</lectionary>
+	<readings>
+		<translation xml:lang="en" lang="en" source="htm">
+			<title>Reading</title>
+			<shorttitle>Reading</shorttitle>
+			<body><![CDATA[<p>These Martyrs were disciples of Saint Paul the Confessor (see Nov. 6). Martyrius was a subdeacon, Marcian a chanter and reader. They were beheaded by the Arians in the year 346. Miracles were wrought at their tomb, and demons were cast out; Saint John Chrysostom began the building of the church in their honour in Constantinople, and it was completed by patriarch Sisinius.</p>]]></body>
+			<copyright>Holy Transfiguration Monastery - Brookline, MA</copyright>
+		</translation>
+	</readings><hymns>		<hymn>
+			<type>apolytikion</type>
+			<title>Apolytikion of Martyrs Marcian and Martyrius in the Fourth Tone</title>
+			<shorttitle>Apolytikion of Martyrs Marcian and Martyrius</shorttitle>
+			<tone>Fourth Tone</tone>
+			<translation xml:lang="en" lang="en" source="htm">
+				<body>Thy Martyrs, O Lord, in their courageous contest for Thee received as the prize the crowns of incorruption and life from Thee, our immortal God. For since they possessed Thy strength, they cast down the tyrants and wholly destroyed the demons' strengthless presumption. O Christ God, by their prayers, save our souls, since Thou art merciful.</body>
+				<copyright>Holy Transfiguration Monastery</copyright>
+			</translation>
+		</hymn>
+		<hymn>
+			<type>kontakion</type>
+			<title>Kontakion of Martyrs Marcian and Martyrius in the Fourth Tone</title>
+			<shorttitle>Kontakion of Martyrs Marcian and Martyrius</shorttitle>
+			<tone>Fourth Tone</tone>
+			<translation xml:lang="en" lang="en" source="htm">
+				<body>Ye struggled well even from earliest childhood, O wise Martyrius and all-blessed Marcian, and kept unchanged the Faith held by the Orthodox; for ye cast down Arius, the blaspheming apostate, as ye followed after Paul, your divinely-wise teacher.  Wherefore with him ye also have found life, as God the Trinity's excellent champions.</body>
+				<copyright>Holy Transfiguration Monastery</copyright>
+			</translation>
+		</hymn>
+</hymns>
+</saintfeast>

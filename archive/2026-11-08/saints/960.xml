@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>7th Sunday of Luke</title>
+	<contentid>960</contentid>
+	<displaydate>November 08</displaydate>
+	<date>11/08/2026</date>
+	<month>11</month>
+	<day>08</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>5</classification>
+	<icons>
+		<icon id="1" source="grn">
+			<filepath>miracles/jairus.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/miracles/jairus.jpg</url>
+			<copyright>Department of Religious Education</copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	<lectionaryreading type="G">
+		<type>G</type>
+		<title>Luke 8:41-56</title>
+		<shorttitle>Lk. 8:41-56</shorttitle>
+		<id>210</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=gospel&amp;code=210&amp;event=960</url>
+	</lectionaryreading>
+	</lectionary>
+	<readings></readings><hymns></hymns>
+</saintfeast>

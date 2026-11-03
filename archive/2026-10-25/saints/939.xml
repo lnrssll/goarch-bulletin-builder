@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>6th Sunday of Luke</title>
+	<contentid>939</contentid>
+	<displaydate>October 25</displaydate>
+	<date>10/25/2026</date>
+	<month>10</month>
+	<day>25</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>5</classification>
+	<icons>
+		<icon id="1" source="grn">
+			<filepath>miracles/gadarene.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/miracles/gadarene.jpg</url>
+			<copyright>Department of Religious Education</copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	<lectionaryreading type="G">
+		<type>G</type>
+		<title>Luke 8:26-39</title>
+		<shorttitle>Lk. 8:26-39</shorttitle>
+		<id>203</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=gospel&amp;code=203&amp;event=939</url>
+	</lectionaryreading>
+	</lectionary>
+	<readings></readings><hymns></hymns>
+</saintfeast>

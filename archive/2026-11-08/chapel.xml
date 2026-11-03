@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlinechapel>
+	<feedtype>daily</feedtype>
+	<date>11/08/2026</date>
+	<formatteddate>Sunday, November 08, 2026</formatteddate>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<icon source='ths'>http://onlinechapel.goarch.org/images/small/archangl.jpg</icon>
+	<fasting></fasting>
+	<tone>Plagal of the Second Tone</tone>
+	<eothinon>1</eothinon>
+	<readings>		<reading id="411">
+			<type>MG</type>
+			<typebb>mg</typebb>
+			<event>1897</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=MG&amp;code=411&amp;event=1897&amp;date=11/08/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=MG&amp;code=411&amp;event=1897&amp;date=11/08/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>Matthew 28:16-20</title>
+				<shorttitle>Matthew 28:16-20</shorttitle>
+				<clip>At that time, the eleven disciples went to Galilee, to the mountain to which Jesus had directed them.  And when they saw him they worshiped him</clip>
+				<body>Full Orthros Gospel Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="229">
+			<type>E</type>
+			<typebb>epistle</typebb>
+			<event>279</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=E&amp;code=229&amp;event=279&amp;date=11/08/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=E&amp;code=229&amp;event=279&amp;date=11/08/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>St. Paul's Letter to the Hebrews 2:2-10</title>
+				<shorttitle>St. Paul's Letter to the Hebrews 2:2-10</shorttitle>
+				<clip>Brethren, if the message declared by angels was valid and every transgression or disobedience received</clip>
+				<body>Epistle Full Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="210">
+			<type>G</type>
+			<typebb>gospel</typebb>
+			<event>960</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=G&amp;code=210&amp;event=960&amp;date=11/08/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=G&amp;code=210&amp;event=960&amp;date=11/08/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>Luke 8:41-56</title>
+				<shorttitle>Luke 8:41-56</shorttitle>
+				<clip>At that time, there came to Jesus a man named Jairus, who was a ruler of the synagogue; and falling at</clip>
+				<body>Gospel Full reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+</readings>
+	<lectionarytitle>7th Sunday of Luke</lectionarytitle>
+	<saintsfeasts>
+	<saintfeast>
+		<title>7th Sunday of Luke</title>
+		<id>960</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=960&amp;PCode=7LS&amp;D=S&amp;date=11/08/2026</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=960&amp;PCode=7LS&amp;D=S&amp;date=11/08/2026</publicurl>
+		<classification>5</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Synaxis of the Archangel Michael &amp; the other Bodiless Powers: Gabriel, Raphael, Uriel, Salaphiel, Jegudiel, &amp; Barachiel</title>
+		<id>279</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=279</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=279</publicurl>
+		<classification>4</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	</saintsfeasts>
+</onlinechapel>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlinechapel>
+	<feedtype>daily</feedtype>
+	<date>11/01/2026</date>
+	<formatteddate>Sunday, November 01, 2026</formatteddate>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<icon source='sti'>http://onlinechapel.goarch.org/images/skete/unmercenaries.jpg</icon>
+	<fasting></fasting>
+	<tone>Plagal of the First Tone</tone>
+	<eothinon>11</eothinon>
+	<readings>		<reading id="49">
+			<type>MG</type>
+			<typebb>mg</typebb>
+			<event>1907</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=MG&amp;code=49&amp;event=1907&amp;date=11/01/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=MG&amp;code=49&amp;event=1907&amp;date=11/01/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>John 21:14-25</title>
+				<shorttitle>John 21:14-25</shorttitle>
+				<clip>At that time, Jesus revealed himself to the disciples after he was raised from the dead. And he said to Simon Peter</clip>
+				<body>Full Orthros Gospel Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="89">
+			<type>E</type>
+			<typebb>epistle</typebb>
+			<event>269</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=E&amp;code=89&amp;event=269&amp;date=11/01/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=E&amp;code=89&amp;event=269&amp;date=11/01/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>St. Paul's First Letter to the Corinthians 12:27-31; 13:1-8</title>
+				<shorttitle>St. Paul's First Letter to the Corinthians 12:27-31; 13:1-8</shorttitle>
+				<clip>Brethren, you are the body of Christ and individually members of it.  And God has appointed in the church</clip>
+				<body>Epistle Full Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="196">
+			<type>G</type>
+			<typebb>gospel</typebb>
+			<event>911</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=G&amp;code=196&amp;event=911&amp;date=11/01/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=G&amp;code=196&amp;event=911&amp;date=11/01/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>Luke 16:19-31</title>
+				<shorttitle>Luke 16:19-31</shorttitle>
+				<clip>The Lord said, "There was a rich man, who was clothed in purple and fine linen and who feasted</clip>
+				<body>Gospel Full reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+</readings>
+	<lectionarytitle>5th Sunday of Luke</lectionarytitle>
+	<saintsfeasts>
+	<saintfeast>
+		<title>5th Sunday of Luke</title>
+		<id>911</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=911&amp;PCode=5LS&amp;D=S&amp;date=11/01/2026</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=911&amp;PCode=5LS&amp;D=S&amp;date=11/01/2026</publicurl>
+		<classification>5</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Cosmas and Damian the Holy Unmercenaries of Asia, and their mother Theodota</title>
+		<id>269</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=269</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=269</publicurl>
+		<classification>8</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>David the Righteous of Evia</title>
+		<id>612</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=612</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=612</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	</saintsfeasts>
+</onlinechapel>

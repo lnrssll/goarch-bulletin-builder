@@ -171,6 +171,23 @@ def test_new_sunday_page_offers_the_download(client):
     assert "Not saved yet" in page.text
 
 
+def pages_elsewhere(page: Result) -> dict[str, str]:
+    links = re.findall(r'<a class="button small" href="([^"]*)" target="_blank" rel="noopener">([^<]*) <span', page.text)
+    return {name: html.unescape(url) for url, name in links}
+
+
+def test_the_pages_elsewhere_can_be_opened(archived, network, client):
+    expected = {
+        "Online Chapel": "https://onlinechapel.goarch.org/daily?date=9/27/2026",
+        "Digital Chant Stand": "https://dcs.goarch.org/goa/dcs/h/s/2026/09/27/li2/en/",
+        "Church calendar": "https://www.lakehavasuorthodoxchurch.org/calendar",
+    }
+    assert pages_elsewhere(client.get("/sundays/2026-11-08"))["Digital Chant Stand"].endswith("/2026/11/08/li2/en/")
+    client.post(f"/sundays/{DAY}/fetch")
+    assert network == []
+    assert pages_elsewhere(client.get(f"/sundays/{DAY}")) == expected
+
+
 def test_download_makes_the_booklet(archived, network, client):
     page = client.follow(client.post(f"/sundays/{DAY}/fetch"))
 
@@ -452,6 +469,16 @@ def test_the_two_contacts(client):
     }
     client.post("/settings/contacts", form)
     assert parish.load().contacts == [parish.Contact(name="Fr. B", email="b@example.org")]
+
+
+def test_the_calendar(client):
+    client.post("/settings/calendar", {"calendar": "example.org/events"})
+    assert parish.load().calendar == "example.org/events"
+    assert pages_elsewhere(client.get(f"/sundays/{DAY}"))["Church calendar"] == "https://example.org/events"
+    assert client.post("/settings/calendar", {"calendar": "two words"}).status == 400
+
+    client.post("/settings/calendar", {"calendar": ""})
+    assert "Church calendar" not in pages_elsewhere(client.get(f"/sundays/{DAY}"))
 
 
 def test_website_and_liturgy_day(client):

@@ -80,7 +80,7 @@ Every fetch goes through `utils.SourceArchive(root, client, refresh)`, which cac
 
 Each source module has `async scrape(run_date, archive)`, which returns dataclasses, and `write(data, out_dir)`, which writes the YAML. A page that doesn't parse raises `utils.ScrapeError`, naming the source, the URL and what was missing.
 
-`sunday.fetch_readings` is the one pipeline, used by `main.py`, the web UI and the snapshot tests. It lists the sources in `sunday.SOURCES` (name, what it provides, the files it writes) and scrapes them concurrently, each with its own `SourceArchive`. A source that fails (`ScrapeError` or `httpx.HTTPError`) archives and writes nothing, and its existing files are kept; the other source is still archived and written. That way a site change on one side leaves only that part to type in by hand. If every source fails, nothing is written at all. Afterwards it writes the `manual.yaml` template if there is none, and runs `text_sizing` once all four readings files exist. It returns a `FetchResult` with the failures. `main.py` prints them and exits 1; the web UI explains them in plain words (`web.explain`).
+`sunday.fetch_readings` is the one pipeline, used by `main.py`, the web UI and the snapshot tests. It lists the sources in `sunday.SOURCES` (name, what it provides, the files it writes, and `page_url(date)`, the page a person can open to compare; the Sunday page links to it under "On goarch.org") and scrapes them concurrently, each with its own `SourceArchive`. A source that fails (`ScrapeError` or `httpx.HTTPError`) archives and writes nothing, and its existing files are kept; the other source is still archived and written. That way a site change on one side leaves only that part to type in by hand. If every source fails, nothing is written at all. Afterwards it writes the `manual.yaml` template if there is none, and runs `text_sizing` once all four readings files exist. It returns a `FetchResult` with the failures. `main.py` prints them and exits 1; the web UI explains them in plain words (`web.explain`).
 
 ### GOARCH Online Chapel XML feed (`goarch_xml_feed.py`)
 - Index: `https://onlinechapel.goarch.org/daily?date=M/D/YYYY` returns an `<onlinechapel>` XML doc with the lectionary title, formatted date, reading URLs (`reading[type="E"|"G"]`), saint/feast URLs, and the icon URL.
@@ -127,7 +127,7 @@ Re-running `main.py` for a date overwrites every other file in that date's folde
 
 ## Parish settings (`parish.py`, `state/settings/`)
 
-Everything the bulletin prints that isn't the week's readings, hymns or services, plus when the Liturgy is served and the hymnal index. Past Sundays pick up the current settings when they're rendered again.
+Everything the bulletin prints that isn't the week's readings, hymns or services, plus when the Liturgy is served, the hymnal index, and the church calendar the Sunday page links to (`calendar`, for finding who serves; not printed). Past Sundays pick up the current settings when they're rendered again.
 
 - **Defaults** are committed in `data/parish.yaml` (and `data/table-of-contents.txt` for `hymnal_index`). They are the real Lake Havasu values.
 - **The church's changes** are in `state/settings/parish.yaml`, which holds **only the keys that differ** from the defaults: `parish.save` drops a key whose value equals the default. So a corrected default reaches every setting the church hasn't changed. `bulletin.typ` and `bulletin_back.typ` merge the two files the same way (`inputs.typ`: `yaml(defaults) + yaml(changes)`), and `parish.load()` does it in Python, falling back to the default for a missing or unreadable value.
@@ -170,7 +170,7 @@ Flow: each change is a form POST that does its work and redirects to the Sunday 
 | `GET`/`POST /sundays/<date>/readings` | the readings editor, which also works when nothing was fetched |
 | `GET /sundays/<date>/{booklet,bulletin}.pdf` | `?download=1` for an attachment |
 | `GET /settings` | the settings sections (linked only from the page footer, on purpose), Advanced collapsed, and "Undo the last change" |
-| `GET`/`POST /settings/<section>` | one small form per section (`web.SECTIONS`: welcome, contacts, website, logo, liturgy-day, wording, hymnal), with a picture of the booklet for the next printable Sunday so a change can be checked; a refused form is shown again with what was typed. The logo form is `multipart/form-data` |
+| `GET`/`POST /settings/<section>` | one small form per section (`web.SECTIONS`: welcome, contacts, website, calendar, logo, liturgy-day, wording, hymnal), with a picture of the booklet for the next printable Sunday so a change can be checked; a refused form is shown again with what was typed. The logo form is `multipart/form-data` |
 | `POST /settings/<section>/original` | puts back the defaults for that section |
 | `POST /settings/undo` | undoes the last settings change, then returns to `next` |
 | `GET /settings/logo-picture` | the current logo, for the logo page |

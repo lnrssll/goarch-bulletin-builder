@@ -143,6 +143,24 @@ button.link {
 }
 button:disabled { opacity: 0.6; cursor: progress; }
 
+/* pages on other sites, opened in a new tab */
+.elsewhere {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.button.small {
+  padding: 0.2rem 0.6rem;
+  border-color: var(--line);
+  background: transparent;
+  color: var(--accent);
+}
+.button.small:hover { border-color: var(--accent); }
+
 .actions {
   display: flex;
   flex-wrap: wrap;

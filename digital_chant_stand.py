@@ -234,8 +234,12 @@ def process_liturgy_variables_page(tree: HTMLParser) -> LiturgyVariablesPageData
     return LiturgyVariablesPageData(dismissal_hymns=dismissal_hymns, alleluia=alleluia)
 
 
+def page_url(run_date: date) -> str:
+    return f"https://dcs.goarch.org/goa/dcs/h/s/{run_date:%Y/%m/%d}/li2/en/"
+
+
 async def scrape(run_date: date, archive: SourceArchive) -> LiturgyVariablesPageData:
-    url = f"https://dcs.goarch.org/goa/dcs/h/s/{run_date:%Y/%m/%d}/li2/en/"
+    url = page_url(run_date)
     tree = await archive.fetch_html(url, "dcs.html")
     try:
         return process_liturgy_variables_page(tree)

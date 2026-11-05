@@ -200,6 +200,10 @@ SECTIONS = (
         ("website", "website_lines"),
     ),
     Section(
+        "calendar", "Church calendar", "The calendar each Sunday's page links to, for finding which priest serves. Not printed.",
+        ("calendar",), sides=0,
+    ),
+    Section(
         "logo", "Logo", "The picture at the top of the front page and at the bottom of the back page.",
         ("logo",),
     ),
@@ -441,6 +445,12 @@ def open_sunday(req: Request) -> Response:
     return redirect(req, sunday_url(sunday.sunday_on_or_after(day)))
 
 
+def web_address(address: str) -> str:
+    if not address or re.match(r"[a-z][a-z0-9+.-]*://", address, re.IGNORECASE):
+        return address
+    return f"https://{address}"
+
+
 def sunday_page(req: Request, iso: str) -> Response:
     try:
         day = date.fromisoformat(iso)
@@ -477,6 +487,8 @@ def sunday_page(req: Request, iso: str) -> Response:
         readings=sunday.load_readings(day, out_dir),
         missing=missing,
         nothing_fetched=len(missing) == len(sunday.SOURCES),
+        source_pages=[{"name": source.name, "url": source.page_url(day)} for source in sunday.SOURCES],
+        calendar=web_address(settings.calendar),
         font_size_pt=feed.get("font_size_pt"),
         layout=LAYOUT_DESCRIPTIONS.get(feed.get("layout"), ""),
         details_saved=details is not None,
@@ -747,6 +759,14 @@ def read_website(req: Request) -> dict:
     return updates
 
 
+def read_calendar(req: Request) -> dict:
+    calendar = req.field("calendar")
+    updates = {"calendar": calendar}
+    if len(calendar) > MAX_WEBSITE_CHARS or any(char.isspace() for char in calendar):
+        raise Invalid("The calendar's address should be one address with no spaces, like example.org/calendar.", updates)
+    return updates
+
+
 def read_liturgy_day(req: Request) -> dict:
     day = req.field("liturgy_day")
     if day not in LITURGY_DAY_CHOICES:
@@ -794,6 +814,7 @@ SETTINGS_READERS: dict[str, Callable[[Request], dict]] = {
     "welcome": read_welcome,
     "contacts": read_contacts,
     "website": read_website,
+    "calendar": read_calendar,
     "logo": read_logo,
     "liturgy-day": read_liturgy_day,
     "wording": read_wording,

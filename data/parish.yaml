@@ -36,6 +36,10 @@ website_lines:
   - orthodox
   - church.org
 
+# Not printed: the Sunday page links to it, for finding which priest serves
+# each week.
+calendar: https://www.lakehavasuorthodoxchurch.org/calendar
+
 # Under the repo root; an uploaded logo is kept in state/settings/images/.
 logo: assets/logo.webp
 

@@ -141,13 +141,16 @@ class ChapelData:
     icon: bytes | None
 
 
-async def scrape(run_date: date, archive: SourceArchive) -> ChapelData:
-    index_page_url = (
+def page_url(run_date: date) -> str:
+    return (
         "https://onlinechapel.goarch.org/daily"
         f"?date={run_date.month}/{run_date.day}/{run_date.year}"
     )
+
+
+async def scrape(run_date: date, archive: SourceArchive) -> ChapelData:
     feed = await fetch_and_process(
-        archive, index_page_url, "chapel.xml", process_daily_feed_page
+        archive, page_url(run_date), "chapel.xml", process_daily_feed_page
     )
     icon_title, epistle, gospel, icon = await asyncio.gather(
         identify_icon(archive, feed.icon_src, feed.saint_and_feast_urls),

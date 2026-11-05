@@ -50,6 +50,7 @@ class Settings:
     contacts: list[Contact] = field(default_factory=list)
     website: str = ""
     website_lines: list[str] = field(default_factory=list)
+    calendar: str = ""
     logo: str = ""
     commemorate: str = ""
     hymns_heading: str = ""

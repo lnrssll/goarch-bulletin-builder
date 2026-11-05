@@ -51,6 +51,12 @@
       </form>
     </div>
   {% endif %}
+  <p class="elsewhere">
+    On goarch.org:
+    {% for source in source_pages %}
+    <a class="button small" href="{{ source.url }}" target="_blank" rel="noopener">{{ source.name }} <span aria-hidden="true">↗</span></a>
+    {% endfor %}
+  </p>
 </section>
 
 <section class="step" id="details">
@@ -93,6 +99,12 @@
     <p class="hint">Write the page number, or “Choir” or “Handout”. Long titles are shortened in print when they don't fit on one line (Apol., Kont., Sun.). To remove a hymn, clear its title.</p>
 
     <h3>Upcoming services <small>back page</small></h3>
+    {% if calendar %}
+    <p class="elsewhere">
+      Who serves:
+      <a class="button small" href="{{ calendar }}" target="_blank" rel="noopener">Church calendar <span aria-hidden="true">↗</span></a>
+    </p>
+    {% endif %}
     <table class="rows services">
       <thead>
         <tr><th>Date</th><th>Priest</th></tr>

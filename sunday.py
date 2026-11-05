@@ -32,6 +32,7 @@ class Source:
     files: tuple[str, ...]
     scrape: Callable[[date, SourceArchive], Awaitable[Any]]
     write: Callable[[Any, Path], None]
+    page_url: Callable[[date], str]
 
 
 SOURCES = (
@@ -41,6 +42,7 @@ SOURCES = (
         ("feed.yaml", "epistle.yaml", "gospel.yaml"),
         goarch_xml_feed.scrape,
         goarch_xml_feed.write,
+        goarch_xml_feed.page_url,
     ),
     Source(
         "Digital Chant Stand",
@@ -48,6 +50,7 @@ SOURCES = (
         ("digital_chant_stand.yaml",),
         digital_chant_stand.scrape,
         digital_chant_stand.write,
+        digital_chant_stand.page_url,
     ),
 )
 

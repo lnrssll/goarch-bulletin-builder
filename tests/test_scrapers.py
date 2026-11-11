@@ -136,3 +136,12 @@ def test_a_day_without_an_icon_keeps_its_readings(tmp_path):
     assert data.feed.lectionary_title == "1st Sunday of Luke"
     assert data.feed.icon_src is None and data.icon is None
     assert data.epistle.text and data.gospel.text
+
+
+@pytest.mark.parametrize("end", ["Trisagios Hymn", "Instead of Holy God", "The Epistle"])
+def test_dismissal_hymns_end_before_the_trisagion_or_what_replaces_it(end):
+    # on the Sunday of the Cross, Pascha and Pentecost (2026-03-15, 04-12, 05-31) the Chant Stand has
+    # "Instead of Holy God" in place of the Trisagion, and the Epistle, Gospel and Dismissal were listed as hymns
+    titles = ["Hymns after the Entrance.", "Apolytikion of the Feast.", "Kontakion of the Feast.", end, "The Gospel", "DISMISSAL"]
+    sections = [(title, [title]) for title in titles]
+    assert digital_chant_stand.dismissal_hymn_sections(sections) == [["Apolytikion of the Feast."], ["Kontakion of the Feast."]]

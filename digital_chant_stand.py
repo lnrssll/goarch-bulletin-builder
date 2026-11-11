@@ -95,11 +95,16 @@ def group_by_sections(items: list[RowItem]) -> DcsSections:
 ################################################################################
 
 
+# The Trisagion follows the hymns after the Entrance, but on the Sunday of the Cross, Pascha and Pentecost
+# a hymn is sung "Instead of Holy God"; the Epistle is a backstop.
+AFTER_THE_ENTRANCE_HYMNS = ("Trisagios Hymn", "Instead of Holy God", "The Epistle")
+
+
 def dismissal_hymn_sections(sections: DcsSections) -> list[list[RowItem]]:
     found = False
     hymn_sections: list[list[RowItem]] = []
     for title, rows in sections:
-        if title == "Trisagios Hymn":
+        if title in AFTER_THE_ENTRANCE_HYMNS:
             break
         if found:
             hymn_sections.append(rows)

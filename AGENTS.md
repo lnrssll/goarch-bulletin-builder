@@ -60,7 +60,7 @@ Notes:
 - `cli.parse_run_options` rejects dates that aren't Sundays and years before the current year.
 - Tests (`tests/`), no linter config or CI. All offline, ~6s:
   - `test_text_sizing.py`: synthetic tests of the sizing model.
-  - `test_scrapers.py`: replays every Sunday in `archive/` offline through `sunday.fetch_readings`, then compares the scraped YAML with `tests/snapshots/<date>/`. A snapshot diff after a scraper change is either a regression or an intended change; regenerate the snapshots only for the latter. To add a regression case, commit its `archive/<date>/` and generate its snapshot.
+  - `test_scrapers.py`: replays every Sunday in `archive/` offline through `sunday.fetch_readings`, then compares the scraped YAML with `tests/snapshots/<date>/`. A snapshot diff after a scraper change is either a regression or an intended change; regenerate the snapshots only for the latter. To add a regression case, commit its `archive/<date>/` and generate its snapshot. Only folders with `chapel.xml` are replayed: most of 2026 (01-04 to 10-04) has only its `dcs.html`, fetched for task 002, and those pages are checked for their Alleluia and Resurrectional Apolytikion.
   - `test_source_archive.py`: archive caching, using `httpx.MockTransport`.
   - `test_commemorations.py`: the saints and feasts from the archive, in order, and which Chant Stand hymn each archived Sunday's goarch.org hymns match (a table checked by hand), mode numbers, reading old Sundays from `archive/`, a bot-checked saint page, and titles saved before (on a made-up history in `tmp_path`).
   - `test_sunday.py`: the fetch pipeline (one source failing, bot-check pages, keeping what a failed download sent) and the readings editor's load/save.

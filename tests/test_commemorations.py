@@ -14,7 +14,8 @@ from yaml_io import write_yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 ARCHIVE = ROOT / "archive"
-ARCHIVED_DATES = sorted(p.name for p in ARCHIVE.iterdir() if p.is_dir())
+# the Sundays with both sources; the rest of 2026 has only its Chant Stand page (task 002)
+ARCHIVED_DATES = sorted(p.name for p in ARCHIVE.iterdir() if (p / "chapel.xml").exists())
 
 # Chant Stand title -> the goarch.org hymn it is, checked by hand against both texts
 SAME_HYMNS = {

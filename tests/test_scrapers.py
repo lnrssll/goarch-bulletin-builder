@@ -17,7 +17,16 @@ from yaml_io import read_yaml
 ROOT = Path(__file__).resolve().parent.parent
 ARCHIVE = ROOT / "archive"
 SNAPSHOTS = ROOT / "tests" / "snapshots"
-ARCHIVED_DATES = sorted(p.name for p in ARCHIVE.iterdir() if p.is_dir())
+# the Sundays with both sources; the rest of 2026 has only its Chant Stand page (task 002)
+ARCHIVED_DATES = sorted(p.name for p in ARCHIVE.iterdir() if (p / "chapel.xml").exists())
+CHANT_STAND_DATES = sorted(p.name for p in ARCHIVE.iterdir() if (p / "dcs.html").exists())
+# their own apolytikia take its place
+NO_RESURRECTIONAL_APOLYTIKION = {
+    "2026-04-05": "Palm Sunday",
+    "2026-04-12": "Pascha",
+    "2026-04-19": "Thomas Sunday",
+    "2026-05-31": "Pentecost",
+}
 
 
 def offline(run_date: str) -> SourceArchive:
@@ -85,6 +94,11 @@ def test_readings_are_complete(run_date):
     assert 2 <= len(liturgy.alleluia) <= 3
 
 
+@pytest.mark.parametrize("run_date", CHANT_STAND_DATES)
+def test_every_chant_stand_page_has_its_alleluia(run_date):
+    assert 2 <= len(scrape_dcs(run_date).alleluia) <= 3
+
+
 @pytest.mark.parametrize(
     "run_date, mode",
     [("2026-09-13", 1), ("2026-09-20", 7), ("2026-09-27", 8)],
@@ -96,8 +110,9 @@ def test_alleluia_mode(run_date, mode):
     assert dcs.get_alleluia_mode(sections.alleluia_section) == mode
 
 
-
-@pytest.mark.parametrize("run_date", ARCHIVED_DATES)
+@pytest.mark.parametrize(
+    "run_date", [d for d in CHANT_STAND_DATES if d not in NO_RESURRECTIONAL_APOLYTIKION]
+)
 def test_dismissal_hymns_start_with_the_resurrectional_apolytikion(run_date):
     # its title also comes before the Entrance on most Sundays, which once hid this one
     first = scrape_dcs(run_date).dismissal_hymns[0]
@@ -114,6 +129,8 @@ def test_grave_mode():
     assert digital_chant_stand.parse_mode("Grave Mode.") == "Grave"
     assert digital_chant_stand.parse_mode("Mode pl. 1.") == "Plagal 1"
     assert digital_chant_stand.parse_mode("Mode 1. Simple melody.") == "1"
+
+
 def test_bot_check_page_is_a_scrape_error(tmp_path):
     (tmp_path / "dcs.html").write_text("<html><body>Just a moment...</body></html>")
     with pytest.raises(ScrapeError, match="Alleluia"):

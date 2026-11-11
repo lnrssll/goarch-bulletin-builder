@@ -125,7 +125,9 @@ def process_epistle_page(tree: etree._Element) -> EpistlePageData:
 
     data.prokeimenon = xpath_text(tree, "prokprokeimenon/text()")
     data.verse = xpath_text(tree, "prokverse/text()").removeprefix("Verse: ")
-    data.mode = int(xpath_text(tree, "prokmode/text()"))
+    # not printed, so it mustn't fail the readings
+    mode = optional_text(tree, "prokmode/text()").strip()
+    data.mode = int(mode) if mode.isdigit() else None
     data.text = paragraphs(xpath_text(tree, "body/text()"))
 
     return data

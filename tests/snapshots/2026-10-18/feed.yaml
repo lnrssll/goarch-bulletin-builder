@@ -1,0 +1,21 @@
+alleluia_page_break: false
+epistle_page_url: http://onlinechapel.goarch.org/lectionary.asp?type=E&code=179&event=246&date=10/18/2026
+font_size_pt: 9.5
+formatted_date: October 18, 2026
+gospel_page_break: false
+gospel_page_url: http://onlinechapel.goarch.org/lectionary.asp?type=G&code=372&event=246&date=10/18/2026
+icon_filename: lukeevng.jpg
+icon_src: http://onlinechapel.goarch.org/images/small/lukeevng.jpg
+icon_title: ''
+layout: flow
+layout_override: null
+lectionary_title: Luke the Evangelist
+page_fill:
+- 1.0
+- 0.889
+saint_and_feast_urls:
+- http://onlinechapel.goarch.org/saints.asp?contentid=246&PCode=3LS&D=S&date=10/18/2026
+- http://onlinechapel.goarch.org/saints.asp?contentid=753
+size_override_pt: null
+text_size_factor: 95.0
+

@@ -1,0 +1,25 @@
+alleluia:
+- The heavens shall confess Your wonders, O Lord.
+- God is glorified in the counsel of saints.
+dismissal_hymns:
+- mode: '3'
+  source: Octoechos
+  text: Let the heavens be glad. Let the earth rejoice exceedingly. For the Lord has
+    shown strength with his arm. He trampled death by death. He became the first-born
+    of the dead. Out of the belly of Hades, He has rescued us, and to the world He
+    has granted the great mercy.
+  title: Resurrectional Apolytikion
+- mode: '3'
+  source: null
+  text: O holy Apostle and Evangelist Luke, make intercession to our merciful God,
+    that He grant our souls forgiveness of offenses.
+  title: For the Evangelist
+- mode: null
+  source: null
+  text: O Protection of Christians that never falls, intercession with the Creator
+    that never fails, we sinners beg you, do not ignore the voices of our prayers.
+    O good Lady, we implore you, quickly come unto our aid, when we cry out to you
+    with faith. Hurry to intercession, and hasten to supplication, O Theotokos who
+    protect now and ever those who honor you.
+  title: Kontakion Mode 2
+

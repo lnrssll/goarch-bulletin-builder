@@ -1,0 +1,35 @@
+commemorations:
+- hymns: []
+  public_url: http://www.goarch.org/chapel/saints?contentid=978&PCode=8LS&D=S&date=11/15/2026
+  title: 8th Sunday of Luke
+  url: http://onlinechapel.goarch.org/saints.asp?contentid=978&PCode=8LS&D=S&date=11/15/2026
+- hymns: []
+  public_url: http://www.goarch.org/chapel/saints?contentid=2774
+  title: Nativity Fast Begins
+  url: http://onlinechapel.goarch.org/saints.asp?contentid=2774
+- hymns:
+  - body: Since Thou hast given us the miracles of Thy holy Martyrs as an invincible
+      battlement, by their entreaties, scatter the counsels of the heathen, O Christ
+      our God, and strengthen the faith of Orthodox Christians, since Thou alone art
+      good and the Friend of man.
+    short_title: Apolytikion of Martyrs Gouria, Shamuna, and Habib
+    title: Apolytikion of Martyrs Gouria, Shamuna, and Habib in the Plagal of the
+      First Tone
+    tone: Plagal of the First Tone
+    type: apolytikion
+  - body: Ye gained from on high * much grace, O wise, all-lauded Saints; * and thus,
+      ye protect * all them found in ordeals and trials; * for this cause, O Martyrs,
+      did ye save a young woman from bitter death, * in that ye are in very truth
+      * the glory of Edessa and joy of all.
+    short_title: Kontakion of Martyrs Gouria, Shamuna, and Habib
+    title: Kontakion of Martyrs Gouria, Shamuna, and Habib in the Second Tone
+    tone: Second Tone
+    type: kontakion
+  public_url: http://www.goarch.org/chapel/saints?contentid=293
+  title: Guria, Shamuna, and Habib, Martyrs and Confessors of Edessa
+  url: http://onlinechapel.goarch.org/saints.asp?contentid=293
+- hymns: []
+  public_url: http://www.goarch.org/chapel/saints?contentid=768
+  title: Thomas II the New, Archbishop of Constantinople
+  url: http://onlinechapel.goarch.org/saints.asp?contentid=768
+

@@ -1,0 +1,24 @@
+alleluia_page_break: false
+epistle_page_url: http://onlinechapel.goarch.org/lectionary.asp?type=E&code=206&event=2932&date=10/25/2026
+font_size_pt: 8.9
+formatted_date: October 25, 2026
+gospel_page_break: false
+gospel_page_url: http://onlinechapel.goarch.org/lectionary.asp?type=G&code=203&event=939&date=10/25/2026
+icon_filename: demetrio.jpg
+icon_src: http://onlinechapel.goarch.org/images/small/demetrio.jpg
+icon_title: ''
+layout: flow
+layout_override: null
+lectionary_title: 6th Sunday of Luke
+page_fill:
+- 1.0
+- 0.93
+saint_and_feast_urls:
+- http://onlinechapel.goarch.org/saints.asp?contentid=939&PCode=6LS&D=S&date=10/25/2026
+- http://onlinechapel.goarch.org/saints.asp?contentid=256
+- http://onlinechapel.goarch.org/saints.asp?contentid=610
+- http://onlinechapel.goarch.org/saints.asp?contentid=2769
+- http://onlinechapel.goarch.org/saints.asp?contentid=2775
+size_override_pt: null
+text_size_factor: 89.0
+

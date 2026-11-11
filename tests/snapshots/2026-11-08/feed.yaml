@@ -1,0 +1,22 @@
+alleluia_page_break: false
+epistle_page_url: http://onlinechapel.goarch.org/lectionary.asp?type=E&code=229&event=279&date=11/08/2026
+font_size_pt: 8.3
+formatted_date: November 8, 2026
+gospel_page_break: true
+gospel_page_url: http://onlinechapel.goarch.org/lectionary.asp?type=G&code=210&event=960&date=11/08/2026
+icon_filename: archangl.jpg
+icon_src: http://onlinechapel.goarch.org/images/small/archangl.jpg
+icon_title: 'Synaxis of the Archangel Michael & the other Bodiless Powers: Gabriel,
+  Raphael, Uriel, Salaphiel, Jegudiel, & Barachiel'
+layout: split_before_gospel
+layout_override: null
+lectionary_title: 7th Sunday of Luke
+page_fill:
+- 0.962
+- 0.931
+saint_and_feast_urls:
+- http://onlinechapel.goarch.org/saints.asp?contentid=960&PCode=7LS&D=S&date=11/08/2026
+- http://onlinechapel.goarch.org/saints.asp?contentid=279
+size_override_pt: null
+text_size_factor: 83.0
+

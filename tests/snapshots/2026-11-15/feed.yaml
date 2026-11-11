@@ -1,0 +1,23 @@
+alleluia_page_break: false
+epistle_page_url: http://onlinechapel.goarch.org/lectionary.asp?type=E&code=186&event=2953&date=11/15/2026
+font_size_pt: 9.2
+formatted_date: November 15, 2026
+gospel_page_break: true
+gospel_page_url: http://onlinechapel.goarch.org/lectionary.asp?type=G&code=217&event=978&date=11/15/2026
+icon_filename: mattevng.jpg
+icon_src: http://onlinechapel.goarch.org/images/small/mattevng.jpg
+icon_title: ''
+layout: split_before_gospel
+layout_override: null
+lectionary_title: 8th Sunday of Luke
+page_fill:
+- 0.967
+- 0.965
+saint_and_feast_urls:
+- http://onlinechapel.goarch.org/saints.asp?contentid=978&PCode=8LS&D=S&date=11/15/2026
+- http://onlinechapel.goarch.org/saints.asp?contentid=2774
+- http://onlinechapel.goarch.org/saints.asp?contentid=293
+- http://onlinechapel.goarch.org/saints.asp?contentid=768
+size_override_pt: null
+text_size_factor: 92.0
+

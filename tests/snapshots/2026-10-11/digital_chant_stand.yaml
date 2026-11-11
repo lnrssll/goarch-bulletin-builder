@@ -1,0 +1,26 @@
+alleluia:
+- O God, we heard with our ears; our fathers proclaimed it to us.
+- You saved us from those who afflict us.
+dismissal_hymns:
+- mode: '2'
+  source: Octoechos
+  text: When You descended unto Death, O Lord, You who are immortal Life put Hades
+    to death, by the lightning of Your divinity. And when You raised the dead from
+    the netherworld, all the hosts of heaven sang aloud to You, “O Christ God, Giver
+    of life, glory to You!”
+  title: Resurrectional Apolytikion
+- mode: Plagal 4
+  source: null
+  text: Supremely glorified are You, O Christ our God, who established the holy Fathers
+    on earth as beacons, and through them guided us all to the true Faith. Most compassionate
+    Lord, glory be to You!
+  title: For the Fathers
+- mode: null
+  source: null
+  text: O Protection of Christians that never falls, intercession with the Creator
+    that never fails, we sinners beg you, do not ignore the voices of our prayers.
+    O good Lady, we implore you, quickly come unto our aid, when we cry out to you
+    with faith. Hurry to intercession, and hasten to supplication, O Theotokos who
+    protect now and ever those who honor you.
+  title: Kontakion Mode 2
+

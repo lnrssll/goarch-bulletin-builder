@@ -1,0 +1,25 @@
+alleluia:
+- O Lord, I will sing of Your mercies forever.
+- For You said, “Mercy shall be built up forever.”
+dismissal_hymns:
+- mode: Plagal 1
+  source: Octoechos
+  text: As the Father and Spirit are unoriginate, * so the Word, who was born from
+    the Virgin for us. * Let us praise Him, O believers, and let us worship Him. *
+    For our salvation He was pleased * to be crucified in the flesh, * and to undergo
+    death, * and to resurrect the dead, by His glorious resurrection.
+  title: Resurrectional Apolytikion
+- mode: Plagal 4
+  source: null
+  text: Holy Unmercenaries and Wonderworkers, visit our infirmities. Freely you received;
+    freely give to us.
+  title: For the Saints
+- mode: null
+  source: Menaion
+  text: O Protection of Christians that never falls, intercession with the Creator
+    that never fails, we sinners beg you, do not ignore the voices of our prayers.
+    O good Lady, we implore you, quickly come unto our aid, when we cry out to you
+    with faith. Hurry to intercession, and hasten to supplication, O Theotokos who
+    protect now and ever those who honor you.
+  title: Kontakion Mode 2
+

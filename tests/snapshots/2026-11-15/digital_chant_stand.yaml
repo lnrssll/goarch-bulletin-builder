@@ -1,0 +1,24 @@
+alleluia:
+- It is good to give thanks to the Lord and to sing to Your name, O Most High.
+- To proclaim Your mercy in the morning and Your truth at night.
+dismissal_hymns:
+- mode: Grave
+  source: Octoechos
+  text: You destroyed death by Your Cross, You opened Paradise to the Robber. You
+    turned the Myrrh-bearing Women’s lament into joy, and You commanded Your Apostles
+    to preach that You rose, O Christ God, granting the world the great mercy.
+  title: Resurrectional Apolytikion
+- mode: Plagal 1
+  source: null
+  text: You have given us the miracles of Your holy Martyrs as an impregnable fortress,
+    O Christ our God. At their entreaties, frustrate the plots of foreign enemies,
+    and strengthen our nation, for You alone are good and benevolent.
+  title: For the Saints
+- mode: '4'
+  source: Menaion
+  text: The Savior’s most pure and immaculate temple, the very precious bridal chamber
+    and Virgin, who is the sacred treasure of the glory of God, on this day is introduced
+    into the House of the Lord, and with herself she brings the grace in the divine
+    Spirit. She is extolled by the Angels of God. A heavenly tabernacle is she.
+  title: Kontakion
+

@@ -62,6 +62,7 @@ Notes:
   - `test_text_sizing.py`: synthetic tests of the sizing model.
   - `test_scrapers.py`: replays every Sunday in `archive/` offline through `sunday.fetch_readings`, then compares the scraped YAML with `tests/snapshots/<date>/`. A snapshot diff after a scraper change is either a regression or an intended change; regenerate the snapshots only for the latter. To add a regression case, commit its `archive/<date>/` and generate its snapshot.
   - `test_source_archive.py`: archive caching, using `httpx.MockTransport`.
+  - `test_commemorations.py`: the saints and feasts from the archive, in order, and which Chant Stand hymn each archived Sunday's goarch.org hymns match (a table checked by hand), mode numbers, reading old Sundays from `archive/`, a bot-checked saint page, and titles saved before (on a made-up history in `tmp_path`).
   - `test_sunday.py`: the fetch pipeline (one source failing, bot-check pages, keeping what a failed download sent) and the readings editor's load/save.
   - `test_backup.py`: what goes into the backup zip, and remembering the last download.
   - `test_parish.py`: parish settings: only changes are stored, defaults fill in missing or unreadable ones, typographic quotes, put back the original, undo, history limit, the QR code and uploaded images.
@@ -85,14 +86,16 @@ Each source module has `async scrape(run_date, archive)`, which returns dataclas
 ### GOARCH Online Chapel XML feed (`goarch_xml_feed.py`)
 - Index: `https://onlinechapel.goarch.org/daily?date=M/D/YYYY` returns an `<onlinechapel>` XML doc with the lectionary title, formatted date, reading URLs (`reading[type="E"|"G"]`), saint/feast URLs, and the icon URL.
 - The epistle and gospel URLs return XML. The English text is under `translation[@xml:lang="en"]`, and the body is an HTML string parsed with selectolax.
-- `identify_icon` fetches every saint/feast XML at the same time (all of them are archived) and returns the title of whichever one uses the day's icon. That title becomes `icon_title`, or `''` if it matches the lectionary title.
+- Every saint/feast XML is fetched at the same time and archived (`fetch_commemorations`). Each becomes a commemoration in `commemorations.yaml`, in the feed's order: the feed's title, its XML and public URLs, and its hymns (`process_saint_feast_page`: type, title, short title, tone, English text). A page that fails or isn't a `<saintfeast>` (a bot check, which `SourceArchive.discard` keeps out of the archive) leaves that commemoration's `hymns` null and doesn't fail the source.
+- `identify_icon` returns the title of whichever saint/feast page uses the day's icon. That title becomes `icon_title`, or `''` if it matches the lectionary title.
 - XML is parsed with `recover=True` because the feed is sometimes malformed.
 - The icon of the day (`icon_src`) is downloaded, archived, and copied into the Sunday's folder as `icon_filename`. It is deliberately **not** printed in the bulletin: an icon is holy and must be burned or buried rather than thrown away, and bulletins get thrown away. It's kept so an icon can someday be printed separately. Don't remove the icon code. A failed icon download only warns.
 
 ### Digital Chant Stand (`digital_chant_stand.py`)
 - URL: `https://dcs.goarch.org/goa/dcs/h/s/YYYY/MM/DD/li2/en/`, the Divine Liturgy service HTML.
 - `iter_row_items` flattens `tbody > tr > td > *` into `RowItem(kind, text, node)`. `kind` is the `<p>`'s CSS class with non-letters removed (e.g. `designation`, `source`, `mode`, `hymn`, `dialog`, `chapverse`, `reading`, `verse`, `mixed`), or `media`.
-- `group_by_sections` splits the rows into sections keyed by `designation` text or by a `mixed` row starting with "Alleluia". A `source` row comes *before* its title, so it is held back and attached to the next section.
+- `group_by_sections` splits the rows into a list of `(title, rows)` sections, in page order, each starting at a `designation` row or a `mixed` row starting with "Alleluia". It's a list because titles repeat: on most Sundays "Resurrectional Apolytikion." comes once before the Entrance and again after it (a dict keyed by title once hid the second one). A `source` row is held back and attached to the next section.
+- `parse_mode` gives "4", "Plagal 1" or "Grave".
 - Extraction depends on exact section titles from the page: `"Hymns after the Entrance."` ... `"Trisagios Hymn"` for dismissal hymns; `"The Epistle"`, `Alleluia*`, `"The Gospel"` ... `"Hymn to the Theotokos."` for readings. Also on `data-key*=` attribute selectors (`alleluia`, `Epistle`, `Gospel`, `prokeimenon`). A missing Alleluia is a `ScrapeError`. A failure in the unrendered dismissal hymns only prints a warning.
 - Only `alleluia` from DCS is actually rendered. Epistle and gospel text come from the XML feed. `get_scripture_reading_data`, `get_reading`, `get_prokeimenon` and `get_alleluia_mode` exist but aren't wired in, and `get_prokeimenon` no longer matches the live markup (see `tasks/002`).
 - `get_alleluia_mode` numbers modes 1-8: "pl. N" is N+4, and "Grave" is 7.
@@ -110,8 +113,9 @@ The Python side writes these files and the Typst side reads them. Keep field nam
 | `feed.yaml` | `goarch_xml_feed.write` (`DailyFeedPageData`), then `text_sizing.run` fills in the sizing fields | `lectionary_title`, `formatted_date`, `icon_title`, `text_size_factor` (percent of `base_size_pt`), `alleluia_page_break`, `gospel_page_break`. Diagnostics only: `font_size_pt`, `layout`, `page_fill`. Read by `text_sizing` only: `size_override_pt`, `layout_override` (chosen by hand in the readings editor; null for automatic) |
 | `epistle.yaml` | `EpistlePageData` | `book`, `chapverse`, `prokeimenon`, `verse`, `text[]` |
 | `gospel.yaml` | `GospelPageData` | `book`, `chapverse`, `text[]` |
-| `digital_chant_stand.yaml` | `LiturgyVariablesPageData` | `alleluia[]` (`dismissal_hymns` is scraped but not rendered) |
+| `digital_chant_stand.yaml` | `LiturgyVariablesPageData` | `alleluia[]` (`dismissal_hymns` isn't printed, but the Sunday page shows them next to the commemorations) |
 | `manual.yaml` | `manual.write_template`, then the web form (`manual.write`) or a text editor | `dismissal_hymns[] {title, mode, page}` (`mode` may be null), `upcoming_services[] {date, priest}` |
+| `commemorations.yaml` | `goarch_xml_feed.write` | not printed. `commemorations[] {title, url, public_url, hymns[] {type, title, short_title, tone, body}}`; `hymns` is null when the page couldn't be read. Shown on the Sunday page (`commemorations.py`). Not in `Source.files`, so a Sunday without it isn't "missing" anything |
 | `<icon_filename>` (jpg) | `goarch_xml_feed.write` | not printed on purpose (see the icon note above). `feed.yaml` has `icon_filename` and `icon_title` |
 | `booklet.pdf`, `bulletin.pdf`, `preview-N.png` | `render.py` | outputs, not read by anything; the booklet's mtime marks the render as current |
 
@@ -124,6 +128,8 @@ The readings files can also be written by the web UI's readings editor (`sunday.
 **Prefixes.** The form shows priests without "Fr." and pages without "p."; `manual.priest_label` and `manual.page_label` add them back on save (removing any typed anyway), except for `NO_PRIEST` ("Reader Service", "TBD") and `NOT_A_PAGE` ("Choir", "Handout"). `manual.yaml` keeps the prefixed text, so Typst is unaffected.
 
 Re-running `main.py` for a date overwrites every other file in that date's folder.
+
+**Commemorations (`commemorations.py`).** To help title the Hymns of the Day, the Sunday page shows the Chant Stand's hymns after the Entrance (`dismissal_hymns` in `digital_chant_stand.yaml`) next to goarch.org's saints and feasts, each collapsible to its hymns. `compare` marks a pair as the same hymn when the shorter text shares at least `SAME_HYMN` of its words with the other, after turning "Thy", "hast" and the like into modern English, since the two sites use different translations. In the archived Sundays the same hymn shares 0.42 or more and different hymns 0.31 or less; `test_commemorations.py` holds the expected pairs, so add each new archived Sunday there. `mode_number` turns "Plagal 1" and "Plagal of the First Tone" into the bulletin's 5. A Chant Stand hymn with no goarch.org match (usually the kontakion) gets `used_before` from `add_past_titles`: the titles saved on the last 52 Sundays whose Chant Stand had the same text (`SAME_TEXT`, the Chant Stand's own translation). The saved rows don't line up with the Chant Stand's row by row, so a saved title is paired with a Chant Stand hymn of the same kind (kontakion, resurrectional, other apolytikion) and mode; titles are shown in the hymn list's spelling. Each hymn has an "Add to Hymns of the Day" button (`static/app.js`) that fills the first empty row, or the "Example" one, with the goarch.org title when there's a match, else a title saved before, else the Chant Stand's, and the Chant Stand's mode, which is what the parish prints when the two disagree; the page then fills in from `data/hymns.yaml` as for a picked suggestion. A Sunday downloaded before `commemorations.yaml` existed is read from its `archive/` folder instead (`load`), or shows none.
 
 ## Parish settings (`parish.py`, `state/settings/`)
 
@@ -156,7 +162,7 @@ The stack follows the user's `stablestack` template, translated to Python: few d
 - **A plain WSGI app on the standard library.** `ROUTES` is a table of `(method, regex, handler)`. Handlers are functions `handler(req, *url_groups) -> Response` and raise `NotFound` for a 404. Helpers: `page` (render a template), `redirect` (303, with an optional one-time message), `plain`. No web framework: WSGI (PEP 3333) runs unchanged on any Python server.
 - **`waitress`** serves it (pure Python, no dependencies of its own). **`jinja2`** renders `templates/*.html` with autoescaping and `StrictUndefined`.
 - **No database.** The files under `state/` are the state, the same files the CLI reads and writes.
-- **No client-side framework, no JS or CSS build.** Plain forms and full page loads. `static/app.js` only adds conveniences (disables buttons while a form is sent, confirms before re-downloading, warns about unsaved changes, and turns each `<input list=…>` into a suggestion box that completes on Tab, lists everything on click, and fills in a hymn row's mode and page without replacing anything typed by hand; a value the page was loaded with, such as a saved hymn's page or the "Example" row's 0, is replaced by a known one but never erased); every page works without it, falling back to the plain datalists. It has no automated tests. `static/style.css` is hand-written, with a dark mode.
+- **No client-side framework, no JS or CSS build.** Plain forms and full page loads. `static/app.js` only adds conveniences (disables buttons while a form is sent, confirms before re-downloading, warns about unsaved changes, and turns each `<input list=…>` into a suggestion box that completes on Tab, lists everything on click, and fills in a hymn row's mode and page without replacing anything typed by hand; a value the page was loaded with, such as a saved hymn's page or the "Example" row's 0, is replaced by a known one but never erased; and shows the "Add to Hymns of the Day" buttons beside the day's hymns, hidden without it); every page works without it, falling back to the plain datalists. It has no automated tests. `static/style.css` is hand-written, with a dark mode.
 
 Flow: each change is a form POST that does its work and redirects to the Sunday page. The redirect carries a one-time message (`Flash`) in the `bulletin_flash` cookie. The Sunday page re-renders the PDFs when they're stale. Scrapes, saves and renders take turns on `WORK_LOCK`, since they all rewrite files under `state/`. The scrape runs inside the request (`asyncio.run`) and takes ~10s, up to a minute, so nginx's timeout is raised in `deploy/`.
 
@@ -164,7 +170,7 @@ Flow: each change is a form POST that does its work and redirects to the Sunday 
 |---|---|
 | `GET /` | next Sunday, a date picker, every Sunday in `state/sundays/` with a status |
 | `GET /sundays?date=` | opens the Sunday on or after a date (a service Saturday opens its Sunday) |
-| `GET /sundays/<date>` | the three steps: readings, hymns and services, print (preview images of both booklet sides) |
+| `GET /sundays/<date>` | the three steps: readings, hymns and services, print (preview images of both booklet sides). Step 2 starts with the day's hymns from the Chant Stand next to goarch.org's commemorations (see "Commemorations") |
 | `POST /sundays/<date>/fetch` | `sunday.download_readings`; `refresh=yes` re-downloads |
 | `POST /sundays/<date>/details` | writes `manual.yaml` from the form; a row with no title (hymns) or no date and priest (services) is dropped; "p." and "Fr." are added, and abbreviations in titles expanded |
 | `GET`/`POST /sundays/<date>/readings` | the readings editor, which also works when nothing was fetched |
@@ -193,7 +199,7 @@ Conventions: wording on the pages is for a volunteer, not a developer (no "YAML"
 
 ## Known quirks / rough edges
 
-- Several scraped fields and helpers aren't rendered yet: saint/feast hymns (`process_saint_feast_page`), DCS readings and prokeimenon, and `EpistlePageData.mode`. Task 002 decides whether to wire them in or delete them. The icon is different: it's unrendered on purpose and stays.
+- Several scraped fields and helpers aren't rendered yet: DCS readings and prokeimenon, and `EpistlePageData.mode`. Task 002 decides whether to wire them in or delete them. The icon is different: it's unrendered on purpose and stays.
 - `ipdb`/`ipython` are in the dev dependency group for debugging.
 - The defaults in `data/parish.yaml` are real and specific to this parish. Change them only when asked; the church changes its own copy under Settings.
 - A server in a datacenter may get Cloudflare bot checks from goarch.org more often than a home connection. The web UI reports that plainly, and the readings editor is the fallback.

@@ -18,7 +18,8 @@ class RowItem:
     node: Node
 
 
-type DcsSections = dict[str, list[RowItem]]
+# in page order: a title can come more than once (the Resurrectional Apolytikion, before and after the Entrance)
+type DcsSections = list[tuple[str, list[RowItem]]]
 
 
 @dataclass
@@ -66,8 +67,8 @@ def is_section_title(item: RowItem) -> bool:
 
 
 def group_by_sections(items: list[RowItem]) -> DcsSections:
-    current_section = "__preamble__"
-    out: DcsSections = {current_section: []}
+    rows: list[RowItem] = []
+    out: DcsSections = [("__preamble__", rows)]
     source: RowItem | None = None
 
     for it in items:
@@ -77,14 +78,14 @@ def group_by_sections(items: list[RowItem]) -> DcsSections:
             continue
 
         if is_section_title(it):
-            current_section = it.text
-            out.setdefault(current_section, []).append(it)
+            rows = [it]
+            out.append((it.text, rows))
             if source:
-                out[current_section].append(source)
+                rows.append(source)
                 source = None
             continue
 
-        out[current_section].append(it)
+        rows.append(it)
 
     return out
 
@@ -97,7 +98,7 @@ def group_by_sections(items: list[RowItem]) -> DcsSections:
 def dismissal_hymn_sections(sections: DcsSections) -> list[list[RowItem]]:
     found = False
     hymn_sections: list[list[RowItem]] = []
-    for title, rows in sections.items():
+    for title, rows in sections:
         if title == "Trisagios Hymn":
             break
         if found:
@@ -107,7 +108,9 @@ def dismissal_hymn_sections(sections: DcsSections) -> list[list[RowItem]]:
 
 
 def parse_mode(text: str) -> str:
-    prefix = "Plagal " if "pl" in text else ""
+    if "Grave" in text:
+        return "Grave"
+    prefix = "Plagal " if re.search(r"\bpl\b", text) else ""
     match = re.search(r"\d", text)
     return prefix + (match.group() if match else "")
 
@@ -140,7 +143,7 @@ def get_scripture_reading_sections(sections: DcsSections) -> ScriptureReadingSec
     data = ScriptureReadingSections(gospel_section=[])
 
     found_gospel = False
-    for section_title, rows in sections.items():
+    for section_title, rows in sections:
         if section_title == "The Epistle":
             data.epistle_section = rows
         if section_title.startswith("Alleluia"):

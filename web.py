@@ -26,12 +26,13 @@ import jinja2
 import waitress
 
 import backup
+import commemorations
 import manual
 import parish
 import render
 import sunday
 import text_sizing
-from classes import ManualData, ManualHymnData, UpcomingServiceData
+from classes import LiturgyVariablesPageData, ManualData, ManualHymnData, UpcomingServiceData
 from yaml_io import read_yaml
 
 STATIC_DIR = Path("static")
@@ -477,6 +478,11 @@ def sunday_page(req: Request, iso: str) -> Response:
     previews = [f"{sunday_url(day)}/preview-{n}.png?v={version}" for n in range(1, pages + 1)]
     settings = parish.load()
     shown = details or manual.template(day, manual.previous(day, sunday.SUNDAYS_DIR), settings)
+    chant_stand = sunday.read_or_default(out_dir / "digital_chant_stand.yaml", LiturgyVariablesPageData())
+    chant_stand_hymns, day_commemorations = commemorations.compare(
+        chant_stand.get("dismissal_hymns") or [], commemorations.load(day, out_dir)
+    )
+    commemorations.add_past_titles(chant_stand_hymns, day, sunday.SUNDAYS_DIR)
 
     return page(
         req,
@@ -507,6 +513,9 @@ def sunday_page(req: Request, iso: str) -> Response:
         no_priest=manual.NO_PRIEST,
         suggestions=manual.suggestions(sunday.SUNDAYS_DIR),
         hymnal=manual.hymnal_index(settings.hymnal_index),
+        chant_stand_hymns=chant_stand_hymns,
+        example_title=manual.EXAMPLE_HYMN_TITLE,
+        commemorations=day_commemorations,
         render_error=render_error,
         pages=pages,
         expected_pages=render.BOOKLET_PAGES,

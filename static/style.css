@@ -277,6 +277,42 @@ details.hymnal summary { cursor: pointer; color: var(--accent); }
 details.hymnal h4 { margin: 1rem 0 0.25rem; }
 details.hymnal td:last-child { white-space: nowrap; text-align: right; }
 
+details.day-hymns {
+  margin: 0 0 1rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+}
+details.day-hymns > summary { cursor: pointer; color: var(--accent); }
+details.day-hymns .hint { margin-bottom: 0.25rem; }
+.side-by-side {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 0 1.5rem;
+}
+.side-by-side h4 { margin: 1rem 0 0.5rem; }
+.side-by-side h4 small { color: var(--muted); font-weight: 400; }
+.hymn { margin: 0 0 0.9rem; }
+.hymn p { margin: 0 0 0.2rem; }
+.hymn-text { color: var(--muted); font-size: 0.9rem; }
+.same-hymn { color: var(--ok); font-size: 0.9rem; }
+.add-hymn { font-size: 0.9rem; }
+.add-hymn small, .same-hymn small { color: var(--muted); }
+details.commemoration { border-top: 1px solid var(--line); padding: 0.4rem 0; }
+details.commemoration > summary { cursor: pointer; }
+details.commemoration[open] > summary { margin-bottom: 0.5rem; }
+details.commemoration summary small { color: var(--muted); }
+.tag {
+  display: inline-block;
+  padding: 0 0.45rem;
+  border-radius: 999px;
+  background: var(--ok-bg);
+  color: var(--ok);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
 figure.preview { margin: 1.25rem 0 0; }
 figure.preview img {
   display: block;

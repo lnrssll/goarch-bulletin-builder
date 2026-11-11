@@ -245,3 +245,50 @@ for (const input of document.querySelectorAll("input[list]")) {
   if (input.name === "hymn_title") hymnSuggestions = suggestions;
 }
 if (hymnSuggestions.length > 0) setUpHymnRows(hymnSuggestions);
+
+// "Add to Hymns of the Day" beside the day's hymns: puts the title in the
+// first empty row (or the "Example" one) with the Chant Stand's mode, and the
+// page fills in from the hymn list as if the title had been picked.
+function say(button, text) {
+  button.textContent = text;
+  button.disabled = true;
+  setTimeout(() => {
+    button.textContent = "Add to Hymns of the Day";
+    button.disabled = false;
+  }, 2500);
+}
+
+function addHymn(button, placeholder) {
+  const inputs = [...document.querySelectorAll("[name=hymn_title]")];
+  const wanted = words(button.dataset.title);
+  if (inputs.some((input) => words(input.value) === wanted)) return say(button, "Already in the list");
+  const input = inputs.find((input) => input.value.trim() === "" || input.value.trim() === placeholder);
+  if (!input) return say(button, "No empty row left: clear one first");
+
+  const row = input.closest("tr");
+  const mode = row.querySelector("[name=hymn_mode]");
+  const page = row.querySelector("[name=hymn_page]");
+  for (const field of [mode, page]) {
+    field.value = "";
+    delete field.dataset.loaded;
+    delete field.dataset.autofilled;
+    changed(field);
+  }
+  input.value = button.dataset.title;
+  changed(input);
+  input.dispatchEvent(new Event("change", { bubbles: true }));
+  if (button.dataset.mode) {
+    mode.value = button.dataset.mode;
+    mode.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+  say(button, "Added ✓");
+}
+
+const dayHymns = document.querySelector("details.day-hymns");
+if (dayHymns) {
+  for (const holder of dayHymns.querySelectorAll(".add-hymn")) holder.hidden = false;
+  dayHymns.addEventListener("click", (event) => {
+    const button = event.target.closest(".add-hymn button");
+    if (button) addHymn(button, dayHymns.dataset.replace);
+  });
+}

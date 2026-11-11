@@ -2,6 +2,12 @@ alleluia:
 - Come, let us greatly rejoice in the Lord; let us shout aloud to God our savior.
 - Let us come before His face with thanksgiving.
 dismissal_hymns:
+- mode: Plagal 4
+  source: Octoechos
+  text: You descended from on high, O compassionate One, and consented to a three-day
+    burial, to free us from the passions. O Lord, our life and resurrection, glory
+    to You!
+  title: Resurrectional Apolytikion
 - mode: '4'
   source: null
   text: Your Martyrs, O Lord, were worthily awarded by You * the crowns of incorruption,

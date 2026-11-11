@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block title %}{{ day | long_date }}{% endblock %}
 {% block content %}
+{% macro add_hymn(title, mode) %}
+<p class="add-hymn" hidden>
+  <button type="button" class="link" data-title="{{ title }}" data-mode="{{ mode or '' }}">Add to Hymns of the Day</button>
+  <small>“{{ title }}”{% if mode %}, Mode {{ mode }}{% endif %}</small>
+</p>
+{% endmacro %}
 <p class="breadcrumb"><a href="/">← Sundays</a></p>
 <h1>{{ day | long_date }}</h1>
 <p class="lede">
@@ -66,6 +72,73 @@
   {% endfor %}
   {% if not details_saved %}
   <p class="notice">Not saved yet. The services below are suggestions based on last week; check them and save.</p>
+  {% endif %}
+
+  {% if chant_stand_hymns or commemorations %}
+  <details class="day-hymns" data-replace="{{ example_title }}"{% if not details_saved or unfinished %} open{% endif %}>
+    <summary>Which hymns are these? The Chant Stand next to goarch.org</summary>
+    <div class="side-by-side">
+      <div>
+        <h4>In the Digital Chant Stand <small>after the Entrance</small></h4>
+        {% for hymn in chant_stand_hymns %}
+        <div class="hymn">
+          <p><strong>{{ hymn.title }}</strong>{% if hymn.mode_number %} · Mode {{ hymn.mode_number }}{% endif %}</p>
+          {% for found in hymn.on_goarch %}
+          <p class="same-hymn">On goarch.org: {{ found.hymn.short_title or found.hymn.title }}{% if found.hymn.mode_number %} · Mode {{ found.hymn.mode_number }}{% endif %}</p>
+          {% endfor %}
+          <p class="hymn-text">{{ hymn.text }}</p>
+          {% if hymn.on_goarch %}
+          {{ add_hymn(hymn.on_goarch[0].hymn.short_title or hymn.on_goarch[0].hymn.title, hymn.mode_number) }}
+          {% elif hymn.used_before %}
+          {% for used in hymn.used_before[:3] %}
+          <p class="same-hymn">Saved before as: {{ used.title }} <small>({{ used.when }})</small></p>
+          {{ add_hymn(used.title, hymn.mode_number) }}
+          {% endfor %}
+          {% else %}
+          {{ add_hymn(hymn.title, hymn.mode_number) }}
+          {% endif %}
+        </div>
+        {% else %}
+        <p class="hint">Not downloaded.</p>
+        {% endfor %}
+      </div>
+      <div>
+        <h4>Commemorated <small>on goarch.org, in order</small></h4>
+        {% for commemoration in commemorations %}
+        <details class="commemoration">
+          <summary>
+            {{ commemoration.title }}
+            <small>
+              {%- if commemoration.hymns is none %} · couldn't be downloaded
+              {%- elif not commemoration.hymns %} · no hymns
+              {%- else %} · {{ commemoration.hymns | length }} hymn{% if commemoration.hymns | length != 1 %}s{% endif %}
+              {%- endif -%}
+            </small>
+            {% if commemoration.hymns and commemoration.hymns | selectattr("in_chant_stand") | list %}
+            <span class="tag">in the Chant Stand</span>
+            {% endif %}
+          </summary>
+          {% for hymn in commemoration.hymns or [] %}
+          <div class="hymn">
+            <p><strong>{{ hymn.short_title or hymn.title }}</strong>{% if hymn.mode_number %} · Mode {{ hymn.mode_number }}{% elif hymn.tone %} · {{ hymn.tone }}{% endif %}</p>
+            {% for chanted in hymn.in_chant_stand %}
+            <p class="same-hymn">In the Chant Stand as “{{ chanted.title }}”</p>
+            {% endfor %}
+            <p class="hymn-text">{{ hymn.body }}</p>
+            {{ add_hymn(hymn.short_title or hymn.title, (hymn.in_chant_stand[0].mode_number if hymn.in_chant_stand else none) or hymn.mode_number) }}
+          </div>
+          {% endfor %}
+          {% if commemoration.public_url %}
+          <p><a href="{{ commemoration.public_url }}" target="_blank" rel="noopener">Open on goarch.org <span aria-hidden="true">↗</span></a></p>
+          {% endif %}
+        </details>
+        {% else %}
+        <p class="hint">Not downloaded.</p>
+        {% endfor %}
+      </div>
+    </div>
+    <p class="hint">The two sites use different translations. Hymns are matched by the words they share, so check the text before trusting a match.<span class="add-hymn" hidden> “Add” uses the goarch.org title when there is one, otherwise a title it was saved under before, and the Chant Stand's mode.</span></p>
+  </details>
   {% endif %}
 
   <form method="post" action="{{ url }}/details" data-warn-unsaved>

@@ -44,6 +44,12 @@ class SourceArchive:
         self.downloaded[path] = r.content
         return r.content
 
+    def discard(self, name: str) -> None:
+        """Don't archive a download that turned out not to be the page asked for."""
+        path = self.root / name
+        if path in self.downloaded:
+            self.refused[path] = self.downloaded.pop(path)
+
     def save(self) -> None:
         # only after the scrape parsed everything, so an error or bot-check page is never archived
         for path, content in self.downloaded.items():

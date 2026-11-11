@@ -79,3 +79,12 @@ class SaintFeastHymnData:
     tone: str | None = None
     type: str | None = None
     body: str | None = None
+
+
+@dataclass
+class CommemorationData:
+    title: str = ""
+    url: str = ""
+    public_url: str = ""
+    # None when its page couldn't be downloaded or read
+    hymns: list[SaintFeastHymnData] | None = None

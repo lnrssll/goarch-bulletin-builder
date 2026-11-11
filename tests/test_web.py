@@ -206,6 +206,23 @@ def test_download_makes_the_booklet(archived, network, client):
     assert client.get(f"/sundays/{DAY}/preview-1.png").body.startswith(b"\x89PNG")
 
 
+def test_the_days_hymns_are_shown_next_to_goarch(archived, network, client):
+    page = client.follow(client.post(f"/sundays/{DAY}/fetch")).text
+
+    assert '<details class="day-hymns" data-replace="Example" open>' in page
+    assert "Callistratus the Martyr &amp; his 49 Companions" in page
+    assert "Gideon the Righteous" in page and "no hymns" in page
+    assert "On goarch.org: Apolytikion of Martyr Callistratus &amp; his Companions · Mode 4" in page
+    assert "In the Chant Stand as “For the Martyrs”" in page
+
+    added = re.findall(r'<button type="button" class="link" data-title="([^"]*)" data-mode="(\d*)">', page)
+    assert [(html.unescape(title), mode) for title, mode in added[:3]] == [
+        ("Resurrectional Apolytikion", "8"),
+        ("Apolytikion of Martyr Callistratus & his Companions", "4"),
+        ("Kontakion Mode 2", "2"),
+    ]
+
+
 def test_a_refused_download_changes_nothing(site, network, client):
     page = client.follow(client.post(f"/sundays/{DAY}/fetch"))
 

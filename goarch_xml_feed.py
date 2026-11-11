@@ -12,6 +12,7 @@ from lxml import etree
 from selectolax.parser import HTMLParser
 
 from classes import (
+    CommemorationData,
     DailyFeedPageData,
     EpistlePageData,
     GospelPageData,
@@ -19,6 +20,13 @@ from classes import (
 )
 from utils import NotArchived, ScrapeError, SourceArchive, xpath_text
 from yaml_io import write_yaml
+
+COMMEMORATIONS_FILE = "commemorations.yaml"
+
+
+def optional_text(tree: etree._Element, path: str) -> str:
+    matches = tree.xpath(path)
+    return str(matches[0]) if matches else ""
 
 
 def paragraphs(body_html: str) -> list[str]:
@@ -48,24 +56,56 @@ def process_daily_feed_page(tree: etree._Element) -> DailyFeedPageData:
     return data
 
 
-def saint_feast_archive_name(url: str) -> str:
-    content_id = parse_qs(urlparse(url).query)["contentid"][0]
-    return f"saints/{content_id}.xml"
+def process_commemorations(tree: etree._Element) -> list[CommemorationData]:
+    return [
+        CommemorationData(
+            title=optional_text(item, "title/text()"),
+            url=optional_text(item, "url/text()"),
+            public_url=optional_text(item, "publicurl/text()"),
+        )
+        for item in tree.xpath("/onlinechapel/saintsfeasts/saintfeast")
+    ]
 
 
-async def identify_icon(
-    archive: SourceArchive, icon_src: str, saint_feast_urls: list[str]
-) -> str:
-    trees = await asyncio.gather(
-        *(archive.fetch_xml(url, saint_feast_archive_name(url)) for url in saint_feast_urls),
-        return_exceptions=True,
+def process_chapel_page(
+    tree: etree._Element,
+) -> tuple[DailyFeedPageData, list[CommemorationData]]:
+    return process_daily_feed_page(tree), process_commemorations(tree)
+
+
+async def fetch_saint_feast_page(
+    archive: SourceArchive, url: str
+) -> etree._Element | None:
+    content_id = parse_qs(urlparse(url).query).get("contentid")
+    if not content_id:
+        return None
+    name = f"saints/{content_id[0]}.xml"
+    try:
+        tree = await archive.fetch_xml(url, name)
+    except (httpx.HTTPError, NotArchived, etree.XMLSyntaxError):
+        return None
+    if tree is None or tree.tag != "saintfeast":
+        # a bot-check page, which must not be archived
+        archive.discard(name)
+        return None
+    return tree
+
+
+async def fetch_commemorations(
+    archive: SourceArchive, commemorations: list[CommemorationData]
+) -> list[etree._Element | None]:
+    pages = await asyncio.gather(
+        *(fetch_saint_feast_page(archive, c.url) for c in commemorations)
     )
-    for tree in trees:
-        if isinstance(tree, Exception):
-            continue
-        if xpath_text(tree, "/saintfeast/icons/icon/url/text()") == icon_src:
-            return xpath_text(tree, "/saintfeast/title/text()")
+    for commemoration, page in zip(commemorations, pages, strict=True):
+        commemoration.hymns = None if page is None else process_saint_feast_page(page)
+    return pages
 
+
+def identify_icon(icon_src: str, saint_feast_pages: list[etree._Element | None]) -> str:
+    for page in saint_feast_pages:
+        if page is not None and optional_text(page, "/saintfeast/icons/icon/url/text()") == icon_src:
+            return optional_text(page, "/saintfeast/title/text()")
     return ""
 
 
@@ -102,11 +142,11 @@ def process_gospel_page(tree: etree._Element) -> GospelPageData:
 def process_saint_feast_page(tree: etree._Element) -> list[SaintFeastHymnData]:
     return [
         SaintFeastHymnData(
-            title=xpath_text(hymn, "title/text()"),
-            short_title=xpath_text(hymn, "shorttitle/text()"),
-            tone=xpath_text(hymn, "tone/text()"),
-            type=xpath_text(hymn, "type/text()"),
-            body=xpath_text(hymn, 'translation[@lang="en"]/body/text()'),
+            title=optional_text(hymn, "title/text()"),
+            short_title=optional_text(hymn, "shorttitle/text()"),
+            tone=optional_text(hymn, "tone/text()"),
+            type=optional_text(hymn, "type/text()"),
+            body=optional_text(hymn, 'translation[@lang="en"]/body/text()').strip(),
         )
         for hymn in tree.xpath("/saintfeast/hymns/hymn")
     ]
@@ -139,6 +179,7 @@ class ChapelData:
     epistle: EpistlePageData
     gospel: GospelPageData
     icon: bytes | None
+    commemorations: list[CommemorationData]
 
 
 def page_url(run_date: date) -> str:
@@ -149,11 +190,11 @@ def page_url(run_date: date) -> str:
 
 
 async def scrape(run_date: date, archive: SourceArchive) -> ChapelData:
-    feed = await fetch_and_process(
-        archive, page_url(run_date), "chapel.xml", process_daily_feed_page
+    feed, commemorations = await fetch_and_process(
+        archive, page_url(run_date), "chapel.xml", process_chapel_page
     )
-    icon_title, epistle, gospel, icon = await asyncio.gather(
-        identify_icon(archive, feed.icon_src, feed.saint_and_feast_urls),
+    saint_feast_pages, epistle, gospel, icon = await asyncio.gather(
+        fetch_commemorations(archive, commemorations),
         fetch_and_process(
             archive, feed.epistle_page_url, "epistle.xml", process_epistle_page
         ),
@@ -162,14 +203,29 @@ async def scrape(run_date: date, archive: SourceArchive) -> ChapelData:
         ),
         fetch_icon(archive, feed),
     )
+    icon_title = identify_icon(feed.icon_src, saint_feast_pages)
     feed.icon_title = icon_title if icon_title != feed.lectionary_title else ""
 
-    return ChapelData(feed, epistle, gospel, icon)
+    return ChapelData(feed, epistle, gospel, icon, commemorations)
+
+
+async def scrape_commemorations(
+    run_date: date, archive: SourceArchive
+) -> list[CommemorationData]:
+    _feed, commemorations = await fetch_and_process(
+        archive, page_url(run_date), "chapel.xml", process_chapel_page
+    )
+    await fetch_commemorations(archive, commemorations)
+    return commemorations
 
 
 def write(data: ChapelData, out_dir: Path) -> None:
     write_yaml(asdict(data.feed), out_dir / "feed.yaml")
     write_yaml(asdict(data.epistle), out_dir / "epistle.yaml")
     write_yaml(asdict(data.gospel), out_dir / "gospel.yaml")
+    write_yaml(
+        {"commemorations": [asdict(c) for c in data.commemorations]},
+        out_dir / COMMEMORATIONS_FILE,
+    )
     if data.icon:
         (out_dir / data.feed.icon_filename).write_bytes(data.icon)

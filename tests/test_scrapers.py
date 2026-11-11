@@ -42,6 +42,7 @@ def test_build_matches_snapshot(run_date, tmp_path, monkeypatch):
 
     snapshot_dir = SNAPSHOTS / run_date
     scraped = [out_dir / name for source in sunday.SOURCES for name in source.files]
+    scraped.append(out_dir / goarch_xml_feed.COMMEMORATIONS_FILE)
     if os.environ.get("UPDATE_SNAPSHOTS"):
         snapshot_dir.mkdir(parents=True, exist_ok=True)
         for built in scraped:
@@ -94,6 +95,19 @@ def test_alleluia_mode(run_date, mode):
 
 
 
+@pytest.mark.parametrize("run_date", ARCHIVED_DATES)
+def test_dismissal_hymns_start_with_the_resurrectional_apolytikion(run_date):
+    # its title also comes before the Entrance on most Sundays, which once hid this one
+    first = scrape_dcs(run_date).dismissal_hymns[0]
+    assert first.title == "Resurrectional Apolytikion"
+    assert first.source == "Octoechos"
+    assert first.mode
+
+
+def test_grave_mode():
+    assert digital_chant_stand.parse_mode("Grave Mode.") == "Grave"
+    assert digital_chant_stand.parse_mode("Mode pl. 1.") == "Plagal 1"
+    assert digital_chant_stand.parse_mode("Mode 1. Simple melody.") == "1"
 def test_bot_check_page_is_a_scrape_error(tmp_path):
     (tmp_path / "dcs.html").write_text("<html><body>Just a moment...</body></html>")
     with pytest.raises(ScrapeError, match="Alleluia"):

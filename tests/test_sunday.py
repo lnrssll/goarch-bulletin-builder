@@ -132,3 +132,15 @@ def test_a_stray_byte_in_the_chant_stand_page_is_read_past(site):
     fetched = fetch(site / "out", archive_root)
 
     assert fetched.failures == {}
+
+
+def test_changed_chant_stand_markup_fails_only_its_own_source(site):
+    archive_root = site / "archive" / DAY.isoformat()
+    shutil.copytree(ROOT / "archive" / DAY.isoformat(), archive_root)
+    dcs = archive_root / "dcs.html"
+    dcs.write_text(dcs.read_text().replace("alleluia", "renamed"))
+
+    fetched = fetch(site / "out", archive_root)
+
+    assert [source.name for source in fetched.failures] == ["Digital Chant Stand"]
+    assert (site / "out" / "feed.yaml").exists()

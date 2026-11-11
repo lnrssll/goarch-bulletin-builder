@@ -246,8 +246,9 @@ async def scrape(run_date: date, archive: SourceArchive) -> LiturgyVariablesPage
     tree = await archive.fetch_html(url, "dcs.html")
     try:
         return process_liturgy_variables_page(tree)
-    except ScrapeError as e:
-        raise ScrapeError(f"Digital Chant Stand {url}: {e}") from e
+    # as in goarch_xml_feed.fetch_and_process: changed markup shows up as a missing node
+    except (ScrapeError, AttributeError, IndexError, ValueError) as e:
+        raise ScrapeError(f"Digital Chant Stand {url}: {e!r}") from e
 
 
 def write(data: LiturgyVariablesPageData, out_dir: Path) -> None:

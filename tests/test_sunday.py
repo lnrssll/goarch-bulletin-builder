@@ -144,3 +144,18 @@ def test_changed_chant_stand_markup_fails_only_its_own_source(site):
 
     assert [source.name for source in fetched.failures] == ["Digital Chant Stand"]
     assert (site / "out" / "feed.yaml").exists()
+
+
+def test_readings_typed_in_are_saved_as_printed(site):
+    out_dir = site / "out"
+    readings = sunday.Readings(
+        epistle_book="St. Paul's Letter",
+        prokeimenon="The Lord  will give\nstrength.",
+        epistle_text=['He said, "Come."', "  ", "Second."],
+    )
+    sunday.save_readings(DAY, out_dir, readings)
+
+    saved = sunday.load_readings(DAY, out_dir)
+    assert saved.epistle_book == "St. Paul’s Letter"
+    assert saved.prokeimenon == "The Lord will give strength."
+    assert saved.epistle_text == ["He said, “Come.”", "Second."]

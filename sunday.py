@@ -1,6 +1,6 @@
 import asyncio
 from collections.abc import Awaitable, Callable
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 import re
 import shutil
 from datetime import date, datetime, timedelta
@@ -14,6 +14,7 @@ import goarch_xml_feed
 import manual
 import text_sizing
 from classes import DailyFeedPageData, EpistlePageData, GospelPageData, LiturgyVariablesPageData
+from typography import printed
 from utils import ARCHIVE_DIR, ScrapeError, SourceArchive, http_client
 from yaml_io import read_yaml, write_yaml
 
@@ -79,6 +80,13 @@ class Readings:
     gospel_text: list[str] = field(default_factory=list)
     size_override_pt: float | None = None
     layout_override: str = ""
+
+
+PRINTED_TEXT = (
+    "lectionary_title", "formatted_date", "icon_title", "epistle_book", "epistle_chapverse",
+    "prokeimenon", "verse", "gospel_book", "gospel_chapverse",
+)
+PRINTED_PARAGRAPHS = ("epistle_text", "alleluia", "gospel_text")
 
 
 ################################################################################
@@ -225,7 +233,17 @@ def load_readings(run_date: date, out_dir: Path) -> Readings:
     )
 
 
+def as_printed(readings: Readings) -> Readings:
+    """Single spaces and curly quotes, as the scraped readings have."""
+    return replace(
+        readings,
+        **{name: printed(getattr(readings, name)) for name in PRINTED_TEXT},
+        **{name: [text for item in getattr(readings, name) if (text := printed(item))] for name in PRINTED_PARAGRAPHS},
+    )
+
+
 def save_readings(run_date: date, out_dir: Path, readings: Readings) -> text_sizing.SizingResult:
+    readings = as_printed(readings)
     out_dir.mkdir(parents=True, exist_ok=True)
     feed = read_or_default(out_dir / "feed.yaml", DailyFeedPageData())
     epistle = read_or_default(out_dir / "epistle.yaml", EpistlePageData())

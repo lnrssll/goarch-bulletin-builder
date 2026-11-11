@@ -18,6 +18,7 @@ from classes import (
     GospelPageData,
     SaintFeastHymnData,
 )
+from typography import printed
 from utils import NotArchived, ScrapeError, SourceArchive, xpath_text
 from yaml_io import write_yaml
 
@@ -30,13 +31,13 @@ def optional_text(tree: etree._Element, path: str) -> str:
 
 
 def paragraphs(body_html: str) -> list[str]:
-    return [p.text() for p in HTMLParser(body_html).css("p")]
+    return [text for p in HTMLParser(body_html).css("p") if (text := printed(p.text()))]
 
 
 def process_daily_feed_page(tree: etree._Element) -> DailyFeedPageData:
     data = DailyFeedPageData()
 
-    data.lectionary_title = xpath_text(tree, "/onlinechapel/lectionarytitle/text()")
+    data.lectionary_title = printed(xpath_text(tree, "/onlinechapel/lectionarytitle/text()"))
     _weekday, _, formatted_date = xpath_text(
         tree, "/onlinechapel/formatteddate/text()"
     ).partition(" ")
@@ -118,13 +119,13 @@ def process_epistle_page(tree: etree._Element) -> EpistlePageData:
 
     tree = tree.xpath('/onlinechapel/translation[@xml:lang="en"]')[0]
 
-    title = xpath_text(tree, "title/text()")
+    title = printed(xpath_text(tree, "title/text()"))
     first_digit = re.search(r"\d", title).start()
     data.book = title[:first_digit].rstrip()
     data.chapverse = title[first_digit:].lstrip()
 
-    data.prokeimenon = xpath_text(tree, "prokprokeimenon/text()")
-    data.verse = xpath_text(tree, "prokverse/text()").removeprefix("Verse: ")
+    data.prokeimenon = printed(xpath_text(tree, "prokprokeimenon/text()"))
+    data.verse = printed(xpath_text(tree, "prokverse/text()")).removeprefix("Verse: ")
     # not printed, so it mustn't fail the readings
     mode = optional_text(tree, "prokmode/text()").strip()
     data.mode = int(mode) if mode.isdigit() else None
@@ -138,7 +139,7 @@ def process_gospel_page(tree: etree._Element) -> GospelPageData:
 
     tree = tree.xpath('/onlinechapel/translation[@xml:lang="en"]')[0]
 
-    author, _, data.chapverse = xpath_text(tree, "title/text()").partition(" ")
+    author, _, data.chapverse = printed(xpath_text(tree, "title/text()")).partition(" ")
     data.book = "The Holy Gospel According to St. " + author
     data.text = paragraphs(xpath_text(tree, "body/text()"))
 
@@ -212,7 +213,7 @@ async def scrape(run_date: date, archive: SourceArchive) -> ChapelData:
         ),
         fetch_icon(archive, feed),
     )
-    icon_title = identify_icon(feed.icon_src, saint_feast_pages) if feed.icon_src else ""
+    icon_title = printed(identify_icon(feed.icon_src, saint_feast_pages)) if feed.icon_src else ""
     feed.icon_title = icon_title if icon_title != feed.lectionary_title else ""
 
     return ChapelData(feed, epistle, gospel, icon, commemorations)

@@ -672,6 +672,17 @@ def test_cross_site_forms_are_refused(site, client):
     assert not (site / "state" / "sundays" / DAY).exists()
 
 
+def test_without_a_password_only_this_computer_is_served(site, client, locked):
+    # a page whose own name was pointed at 127.0.0.1 (DNS rebinding) sends its name as the Host
+    result = client.post(f"/sundays/{DAY}/details", details_form(hymn_title=["x"]), HTTP_HOST="attacker.example:8000")
+    assert result.status == 403
+    assert not (site / "state" / "sundays" / DAY).exists()
+    for host in ("localhost:8000", "127.0.0.1", "[::1]:8000", "LOCALHOST"):
+        assert client.request("GET", "/", HTTP_HOST=host).status == 200, host
+    # with a password, the server is meant to be reached under any name
+    assert locked.request("GET", "/login", HTTP_HOST="bulletin.example.org").status == 200
+
+
 def test_oversized_forms_are_refused(client):
     result = client.post(f"/sundays/{DAY}/readings", {"gospel_text": "x" * (web.MAX_BODY_BYTES + 1)})
     assert result.status == 413

@@ -324,6 +324,12 @@ def not_found(req: Request) -> Response:
     return page(req, "error.html", 404, heading="Page not found", message="There's nothing at this address.")
 
 
+def is_local_host(host: str) -> bool:
+    """Whether a Host header names this computer: "localhost:8000", "127.0.0.1", "[::1]:8000"."""
+    name = host if host.endswith("]") else host.rpartition(":")[0] or host
+    return name.strip("[]").lower() in LOCAL_HOSTS
+
+
 def safe_next(target: str) -> str:
     # a plain local path only: browsers drop tabs and newlines, so "/\t/x.org" would become "//x.org"
     return target if re.fullmatch(r"(/[\w.-]+)*/?", target) else "/"
@@ -971,6 +977,10 @@ class App:
         return hmac.compare_digest(attempt.encode(), self.password.encode())
 
     def respond(self, req: Request, environ: dict) -> Response:
+        # without a password only this computer may use it, and a web page that points its own
+        # name at 127.0.0.1 (DNS rebinding) would otherwise count as this site
+        if not self.password and not is_local_host(environ.get("HTTP_HOST", "")):
+            return plain(403, "Without a password, this is only served as localhost or 127.0.0.1.")
         fetch_site = environ.get("HTTP_SEC_FETCH_SITE", "same-origin")
         if req.method == "POST" and fetch_site not in ("same-origin", "none"):
             return plain(403, "Forms can only be sent from this site.")

@@ -1,5 +1,7 @@
 import asyncio
 import os
+import re
+import shutil
 from datetime import date
 from pathlib import Path
 
@@ -122,3 +124,15 @@ def test_malformed_feed_is_a_scrape_error(tmp_path):
     (tmp_path / "chapel.xml").write_text("<onlinechapel><formatteddate>x</formatteddate></onlinechapel>")
     with pytest.raises(ScrapeError, match="chapel.xml"):
         asyncio.run(goarch_xml_feed.scrape(date(2026, 9, 27), SourceArchive(tmp_path)))
+
+
+def test_a_day_without_an_icon_keeps_its_readings(tmp_path):
+    shutil.copytree(ARCHIVE / "2026-09-27", tmp_path, dirs_exist_ok=True)
+    chapel = tmp_path / "chapel.xml"
+    chapel.write_text(re.sub(r"<icon[^>]*>.*?</icon>", "", chapel.read_text(), flags=re.S))
+
+    data = asyncio.run(goarch_xml_feed.scrape(date(2026, 9, 27), SourceArchive(tmp_path)))
+
+    assert data.feed.lectionary_title == "1st Sunday of Luke"
+    assert data.feed.icon_src is None and data.icon is None
+    assert data.epistle.text and data.gospel.text

@@ -52,8 +52,10 @@ def process_daily_feed_page(tree: etree._Element) -> DailyFeedPageData:
         str(url)
         for url in tree.xpath("/onlinechapel/saintsfeasts/saintfeast/url/text()")
     ]
-    data.icon_src = xpath_text(tree, "/onlinechapel/icon/text()")
-    data.icon_filename = Path(urlparse(data.icon_src).path).name
+    # optional: the icon isn't printed, so a day without one mustn't lose the readings
+    data.icon_src = optional_text(tree, "/onlinechapel/icon/text()").strip() or None
+    if data.icon_src:
+        data.icon_filename = Path(urlparse(data.icon_src).path).name or None
 
     return data
 
@@ -155,6 +157,9 @@ def process_saint_feast_page(tree: etree._Element) -> list[SaintFeastHymnData]:
 
 
 async def fetch_icon(archive: SourceArchive, feed: DailyFeedPageData) -> bytes | None:
+    if not (feed.icon_src and feed.icon_filename):
+        print("warning: no icon for this day", file=sys.stderr)
+        return None
     try:
         return await archive.fetch(feed.icon_src, f"icon/{feed.icon_filename}")
     except (httpx.HTTPError, NotArchived) as e:
@@ -205,7 +210,7 @@ async def scrape(run_date: date, archive: SourceArchive) -> ChapelData:
         ),
         fetch_icon(archive, feed),
     )
-    icon_title = identify_icon(feed.icon_src, saint_feast_pages)
+    icon_title = identify_icon(feed.icon_src, saint_feast_pages) if feed.icon_src else ""
     feed.icon_title = icon_title if icon_title != feed.lectionary_title else ""
 
     return ChapelData(feed, epistle, gospel, icon, commemorations)
@@ -229,5 +234,5 @@ def write(data: ChapelData, out_dir: Path) -> None:
         {"commemorations": [asdict(c) for c in data.commemorations]},
         out_dir / COMMEMORATIONS_FILE,
     )
-    if data.icon:
+    if data.icon and data.feed.icon_filename:
         (out_dir / data.feed.icon_filename).write_bytes(data.icon)

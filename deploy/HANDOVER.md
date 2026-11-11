@@ -47,7 +47,7 @@ If any of these lapse, the website stops working. Make sure each one renews auto
 | Forgot the password | Only someone with access to the Railway account can see or change it (below). |
 | The website doesn't open at all | Check the bills above first: an unpaid server or an expired web address are the most likely causes. Then call a helper. |
 
-**Changing the password** (needs the Railway account): open the project on railway.com, then the service, then **Variables**, and change `BULLETIN_PASSWORD`. If Railway then shows a **Deploy** button, click it. The website restarts, and everyone logs in again with the new password.
+**Changing the password** (needs the Railway account): open the project on railway.com, then the service, then **Variables**, and change `BULLETIN_PASSWORD`. Make it long: four or five ordinary words in a row are easier to remember and much harder to guess than a short password with symbols. If Railway then shows a **Deploy** button, click it. The website restarts, and everyone logs in again with the new password.
 
 ## For a helper or developer
 

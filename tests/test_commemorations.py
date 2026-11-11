@@ -133,12 +133,25 @@ def test_a_match_is_marked_on_both_sides():
         ("Plagal of the First Tone", 5),
         ("Plagal of the Fourth Tone", 8),
         ("Grave Tone", 7),
+        ("Apolytikion for the Temple, Mode 4", 4),
         ("", None),
         (None, None),
     ],
 )
 def test_mode_number(text, number):
     assert commemorations.mode_number(text) == number
+
+
+@pytest.mark.parametrize(
+    "hymn, number",
+    [
+        ({"title": "Kontakion Mode 2", "mode": None}, 2),
+        ({"title": "Kontakion", "mode": "Plagal 4"}, 8),
+        ({"title": "Kontakion for the First Sunday of Lent", "mode": None}, None),
+    ],
+)
+def test_chant_stand_mode(hymn, number):
+    assert commemorations.chant_stand_mode(hymn) == number
 
 
 def test_old_sundays_are_read_from_the_archive(tmp_path, monkeypatch):

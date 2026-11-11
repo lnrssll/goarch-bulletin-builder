@@ -85,12 +85,15 @@ def mode_number(text: str | None) -> int | None:
     number = int(digit.group()) if digit else ordinal
     if number is None:
         return None
-    return number + 4 if "pl" in text else number
+    # "pl." or "Plagal", not the "pl" in "Temple"
+    return number + 4 if re.search(r"\bpl", text) else number
 
 
 def chant_stand_mode(hymn: dict) -> int | None:
-    # "Kontakion Mode 2" has its mode in the title
-    return mode_number(hymn.get("mode")) or mode_number(hymn.get("title"))
+    # "Kontakion Mode 2" has its mode in the title, but "First" in "Kontakion for the First Sunday" isn't one
+    title = hymn.get("title") or ""
+    from_title = mode_number(title) if re.search(r"\b(?:mode|grave)\b", title, re.IGNORECASE) else None
+    return mode_number(hymn.get("mode")) or from_title
 
 
 def compare(chant_stand: list[dict], commemorations: list[dict]) -> tuple[list[dict], list[dict]]:

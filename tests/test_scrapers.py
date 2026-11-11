@@ -104,6 +104,10 @@ def test_dismissal_hymns_start_with_the_resurrectional_apolytikion(run_date):
     assert first.mode
 
 
+def test_formatted_date_is_not_zero_padded():
+    assert scrape_feed("2026-11-08").feed.formatted_date == "November 8, 2026"
+
+
 def test_grave_mode():
     assert digital_chant_stand.parse_mode("Grave Mode.") == "Grave"
     assert digital_chant_stand.parse_mode("Mode pl. 1.") == "Plagal 1"

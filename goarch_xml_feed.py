@@ -37,9 +37,11 @@ def process_daily_feed_page(tree: etree._Element) -> DailyFeedPageData:
     data = DailyFeedPageData()
 
     data.lectionary_title = xpath_text(tree, "/onlinechapel/lectionarytitle/text()")
-    _weekday, _, data.formatted_date = xpath_text(
+    _weekday, _, formatted_date = xpath_text(
         tree, "/onlinechapel/formatteddate/text()"
     ).partition(" ")
+    # "November 08, 2026" as "November 8, 2026", like sunday.long_date
+    data.formatted_date = re.sub(r" 0(\d),", r" \1,", formatted_date)
     data.epistle_page_url = xpath_text(
         tree, '/onlinechapel/readings/reading[type="E"]/url/text()'
     )

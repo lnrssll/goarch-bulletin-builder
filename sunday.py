@@ -3,6 +3,8 @@ from collections.abc import Awaitable, Callable
 from dataclasses import asdict, dataclass, field
 import re
 import shutil
+import sys
+import traceback
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -23,6 +25,8 @@ SUNDAYS_DIR = STATE_DIR / "sundays"
 FAILED_DIR = STATE_DIR / "failed-downloads"
 FAILED_KEPT = 20
 SUNDAY = 6
+# a page that isn't what was expected, or goarch.org not answering
+EXPECTED_FAILURES = (ScrapeError, httpx.HTTPError)
 
 
 @dataclass(frozen=True)
@@ -146,7 +150,12 @@ async def fetch_readings(
 
     fetched = FetchResult()
     for source, result in zip(SOURCES, results, strict=True):
-        if isinstance(result, (ScrapeError, httpx.HTTPError)):
+        if isinstance(result, Exception):
+            # anything else is a site change nobody foresaw, or a bug: still only this source's failure,
+            # with its pages kept below, and the traceback for whoever looks after the program
+            if not isinstance(result, EXPECTED_FAILURES):
+                print(f"{source.name} failed unexpectedly:", file=sys.stderr)
+                traceback.print_exception(result, file=sys.stderr)
             fetched.failures[source] = result
         elif isinstance(result, BaseException):
             raise result

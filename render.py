@@ -5,6 +5,7 @@ import typst
 
 import parish
 from sunday import sunday_dir
+from yaml_io import write_atomic
 
 BOOKLET_PAGES = 2
 PREVIEW_PPI = 150
@@ -55,12 +56,6 @@ def compile_document(run_date: date, document: str, **options) -> bytes | list[b
     except typst.TypstError as e:
         hints = [f"hint: {hint}" for hint in getattr(e, "hints", [])]
         raise RenderError("\n".join([str(e), *hints])) from e
-
-
-def write_atomic(path: Path, content: bytes) -> None:
-    partial = path.with_name(path.name + ".partial")
-    partial.write_bytes(content)
-    partial.replace(path)
 
 
 def render(run_date: date) -> None:

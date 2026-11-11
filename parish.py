@@ -8,7 +8,7 @@ from typing import Any
 
 import segno
 
-from yaml_io import read_yaml, write_yaml
+from yaml_io import read_yaml, write_atomic, write_yaml
 
 DEFAULTS_PATH = Path("data/parish.yaml")
 HYMNAL_INDEX_PATH = Path("data/table-of-contents.txt")
@@ -245,9 +245,7 @@ def write_if_changed(path: Path, content: bytes) -> None:
     # an unchanged file keeps its mtime, so the Sundays aren't all rendered again
     if path.exists() and path.read_bytes() == content:
         return
-    partial = path.with_name(path.name + ".partial")
-    partial.write_bytes(content)
-    partial.replace(path)
+    write_atomic(path, content)
 
 
 def image_suffix(data: bytes) -> str | None:

@@ -374,6 +374,11 @@ def lines(text: str) -> list[str]:
     return [line.strip() for line in text.splitlines() if line.strip()]
 
 
+def one_line(text: str) -> str:
+    # a line break pasted into a box that prints as one paragraph would print as a break
+    return " ".join(text.split())
+
+
 def paragraphs(text: str) -> list[str]:
     blocks = re.split(r"\n\s*\n", text.replace("\r\n", "\n"))
     return [" ".join(block.split()) for block in blocks if block.strip()]
@@ -595,8 +600,8 @@ def save_readings(req: Request, iso: str) -> Response:
         icon_title=req.field("icon_title"),
         epistle_book=req.field("epistle_book"),
         epistle_chapverse=req.field("epistle_chapverse"),
-        prokeimenon=req.field("prokeimenon"),
-        verse=req.field("verse"),
+        prokeimenon=one_line(req.field("prokeimenon")),
+        verse=one_line(req.field("verse")),
         epistle_text=paragraphs(req.field("epistle_text")),
         alleluia=paragraphs(req.field("alleluia")),
         gospel_book=req.field("gospel_book"),

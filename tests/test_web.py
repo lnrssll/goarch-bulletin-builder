@@ -318,7 +318,7 @@ def test_readings_can_be_typed_in_by_hand(site, client):
             "icon_title": "",
             "epistle_book": "St. Paul's Letter to the Galatians",
             "epistle_chapverse": "1:11-19",
-            "prokeimenon": "The Lord will give strength to his people.",
+            "prokeimenon": "The Lord will give strength\r\nto his people.",
             "verse": "Bring to the Lord, O sons of God.",
             "epistle_text": "Brethren, I would have you know\r\nthat the gospel.\r\n\r\n  For you have heard. ",
             "alleluia": "The heavens will confess your wonders.\n\nGod is glorified.",
@@ -335,6 +335,7 @@ def test_readings_can_be_typed_in_by_hand(site, client):
         "Brethren, I would have you know that the gospel.",
         "For you have heard.",
     ]
+    assert read_yaml(out_dir / "epistle.yaml")["prokeimenon"] == "The Lord will give strength to his people."
     assert read_yaml(out_dir / "digital_chant_stand.yaml")["alleluia"] == [
         "The heavens will confess your wonders.",
         "God is glorified.",

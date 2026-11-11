@@ -69,10 +69,16 @@ class SourceArchive:
 
     async def fetch_xml(self, url: str, name: str) -> etree._Element:
         parser = etree.XMLParser(resolve_entities=False, no_network=True, recover=True)
-        return etree.fromstring(await self.fetch(url, name), parser=parser)
+        content = await self.fetch(url, name)
+        try:
+            return etree.fromstring(content, parser=parser)
+        except etree.XMLSyntaxError as e:
+            # recover=True still refuses an empty or all-garbage page
+            raise ScrapeError(f"{name} {url}: not XML: {e}") from e
 
     async def fetch_html(self, url: str, name: str) -> HTMLParser:
-        return HTMLParser((await self.fetch(url, name)).decode("utf-8"))
+        # one stray byte shouldn't lose the whole page
+        return HTMLParser((await self.fetch(url, name)).decode("utf-8", "replace"))
 
 
 def to_alphanumeric(s: str) -> str:

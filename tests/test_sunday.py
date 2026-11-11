@@ -108,3 +108,27 @@ def test_saved_readings_load_back_and_keep_the_rest(site):
     assert feed["font_size_pt"] == sizing.font_size_pt
     assert read_yaml(out_dir / "epistle.yaml")["mode"] == 8
     assert read_yaml(out_dir / "digital_chant_stand.yaml")["dismissal_hymns"]
+
+
+def test_an_empty_page_fails_only_its_own_source(site):
+    archive_root = site / "archive" / DAY.isoformat()
+    shutil.copytree(ROOT / "archive" / DAY.isoformat(), archive_root)
+    (archive_root / "chapel.xml").write_bytes(b"")
+    out_dir = site / "state" / "sundays" / DAY.isoformat()
+
+    fetched = fetch(out_dir, archive_root)
+
+    assert [source.name for source in fetched.failures] == ["Online Chapel"]
+    assert "chapel.xml" in str(fetched.failures[sunday.SOURCES[0]])
+    assert (out_dir / "digital_chant_stand.yaml").exists()
+
+
+def test_a_stray_byte_in_the_chant_stand_page_is_read_past(site):
+    archive_root = site / "archive" / DAY.isoformat()
+    shutil.copytree(ROOT / "archive" / DAY.isoformat(), archive_root)
+    with open(archive_root / "dcs.html", "ab") as f:
+        f.write(b"<p>caf\xe9</p>")
+
+    fetched = fetch(site / "out", archive_root)
+
+    assert fetched.failures == {}

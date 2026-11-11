@@ -82,7 +82,7 @@ async def fetch_saint_feast_page(
     name = f"saints/{content_id[0]}.xml"
     try:
         tree = await archive.fetch_xml(url, name)
-    except (httpx.HTTPError, NotArchived, etree.XMLSyntaxError):
+    except (httpx.HTTPError, NotArchived, ScrapeError):
         return None
     if tree is None or tree.tag != "saintfeast":
         # a bot-check page, which must not be archived

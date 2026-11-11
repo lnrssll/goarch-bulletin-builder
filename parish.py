@@ -1,6 +1,5 @@
 import hashlib
 import io
-import re
 from dataclasses import asdict, dataclass, field, fields
 from datetime import datetime
 from pathlib import Path
@@ -8,6 +7,7 @@ from typing import Any
 
 import segno
 
+from typography import typographic
 from yaml_io import read_yaml, write_atomic, write_yaml
 
 DEFAULTS_PATH = Path("data/parish.yaml")
@@ -174,11 +174,6 @@ def as_yaml(name: str, value: Any) -> Any:
 
 def tidy_lines(text: str) -> str:
     return "\n".join(line.strip() for line in text.strip().splitlines()) + "\n"
-
-
-def typographic(text: str) -> str:
-    text = re.sub(r"(^|[\s(\[{])'", "\\1‘", text).replace("'", "’")
-    return re.sub(r'(^|[\s(\[{])"', "\\1“", text).replace('"', "”")
 
 
 def remember() -> None:

@@ -7,6 +7,7 @@ from pathlib import Path
 from selectolax.parser import HTMLParser, Node
 
 from classes import DismissalHymnData, LiturgyVariablesPageData
+from typography import printed
 from utils import ScrapeError, SourceArchive, to_alpha, to_alphanumeric
 from yaml_io import write_yaml
 
@@ -203,7 +204,7 @@ def get_alleluia_mode(rows: list[RowItem]) -> int | None:
 
 def get_alleluia(rows: list[RowItem]) -> list[str]:
     return [
-        row.node.css_first('[data-key*="alleluia"]').text()
+        printed(row.node.css_first('[data-key*="alleluia"]').text())
         for row in rows
         if row.kind == "verse"
     ]

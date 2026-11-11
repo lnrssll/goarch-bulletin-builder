@@ -65,7 +65,7 @@ def test_feed_fields():
     assert feed.icon_title == ""
     assert feed.icon_filename == "johntheo.jpg"
     assert data.icon.startswith(b"\xff\xd8")
-    assert epistle.book == "St. Paul's Second Letter to the Corinthians"
+    assert epistle.book == "St. Paul’s Second Letter to the Corinthians"
     assert epistle.chapverse == "6:16-18; 7:1"
     assert epistle.verse == "God is known in Judah; his name is great in Israel."
     assert gospel.book == "The Holy Gospel According to St. Luke"

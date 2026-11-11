@@ -371,7 +371,7 @@ def test_an_overflowing_sunday_can_be_fixed_by_hand(ready, client):
 def test_readings_form_shows_the_downloaded_text(archived, network, client):
     client.post(f"/sundays/{DAY}/fetch")
     page = client.get(f"/sundays/{DAY}/readings").text
-    assert 'value="St. Paul&#39;s Second Letter to the Corinthians"' in page
+    assert 'value="St. Paul’s Second Letter to the Corinthians"' in page
     assert "Make your vows to the Lord our God" in page
 
 

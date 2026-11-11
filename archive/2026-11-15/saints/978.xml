@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>8th Sunday of Luke</title>
+	<contentid>978</contentid>
+	<displaydate>November 15</displaydate>
+	<date>11/15/2026</date>
+	<month>11</month>
+	<day>15</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>5</classification>
+	<icons>
+		<icon id="1" source="sti">
+			<filepath>skete/goodsamaritan.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/skete/goodsamaritan.jpg</url>
+			<copyright>St. Isaac of Syria Skete</copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	<lectionaryreading type="G">
+		<type>G</type>
+		<title>Luke 10:25-37</title>
+		<shorttitle>Lk. 10:25-37</shorttitle>
+		<id>217</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=gospel&amp;code=217&amp;event=978</url>
+	</lectionaryreading>
+	</lectionary>
+	<readings></readings><hymns></hymns>
+</saintfeast>

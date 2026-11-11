@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>Gurias, Samonas, and Avivos, Martyrs and Confessors of Edessa</title>
+	<contentid>293</contentid>
+	<displaydate>November 15</displaydate>
+	<date>11/15</date>
+	<month>11</month>
+	<day>15</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>10</classification>
+	<icons>
+		<icon id="1" source="x">
+			<filepath>small/allsaint.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/small/allsaint.jpg</url>
+			<copyright></copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	<lectionaryreading type="E">
+		<type>E</type>
+		<title>St. Paul's Letter to the Ephesians 6:10-17</title>
+		<shorttitle>Ephesians 6:10-17</shorttitle>
+		<id>200</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=epistle&amp;code=200&amp;event=293</url>
+	</lectionaryreading>
+	<lectionaryreading type="G">
+		<type>G</type>
+		<title>Luke 20:46-47, 21:1-4</title>
+		<shorttitle>Lk. 20:46-47, 21:1-4</shorttitle>
+		<id>380</id>
+		<url>http://onlinechapel.goarch.org/lectionary.asp?type=gospel&amp;code=380&amp;event=293</url>
+	</lectionaryreading>
+	</lectionary>
+	<readings>
+		<translation xml:lang="en" lang="en" source="htm">
+			<title>Reading</title>
+			<shorttitle>Reading</shorttitle>
+			<body><![CDATA[<p>Of these most illustrious Martyrs of the city of Edessa in Syria, Guria and Shamuna contested during the reign of Diocletian, in 288; after many tortures, they were cast into prison, then beheaded. Saint Habib, a deacon, contested in the days of Licinius, in the year 316, and was burned alive; he was buried with Saints Guria and Shamuna. The three have one common feast, and it is always together that they are portrayed in icons and invoked by the faithful.On account of a renowned miracle they worked, they are invoked for help in marital difficulties. A certain Goth had come with the Roman army to Edessa and was quartered in the house of a pious widow named Sophia. The Goth asked Sophia for the hand of her daughter, Euphemia; after resisting for a long time, Sophia at last agreed. When it was time for the army to return home, Sophia made the Goth vow by the power in the holy Martyrs Shamuna, Guria, and Habib, to keep Euphemia as the apple of his eye. As he was nearing his home, however, the treacherous man revealed to Euphemia that he already had a wife. Euphemia was compelled to serve the Goths wife, who dealt with her mercilessly. After extreme sufferings, which included being sealed alive in a tomb and left there to die, Euphemia was miraculously conveyed to Edessa, to the very shrine of the holy Martyrs whose surety they had taken, and was reunited with her mother through their holy prayers.</p>]]></body>
+			<copyright>Holy Transfiguration Monastery - Brookline, MA</copyright>
+		</translation>
+	</readings><hymns>		<hymn>
+			<type>apolytikion</type>
+			<title>Apolytikion of Martyrs Gouria, Shamuna, and Habib in the Plagal of the First Tone</title>
+			<shorttitle>Apolytikion of Martyrs Gouria, Shamuna, and Habib</shorttitle>
+			<tone>Plagal of the First Tone</tone>
+			<translation xml:lang="en" lang="en" source="htm">
+				<body>Since Thou hast given us the miracles of Thy holy Martyrs as an invincible battlement, by their entreaties, scatter the counsels of the heathen, O Christ our God, and strengthen the faith of Orthodox Christians, since Thou alone art good and the Friend of man.</body>
+				<copyright>Holy Transfiguration Monastery</copyright>
+			</translation>
+		</hymn>
+		<hymn>
+			<type>kontakion</type>
+			<title>Kontakion of Martyrs Gouria, Shamuna, and Habib in the Second Tone</title>
+			<shorttitle>Kontakion of Martyrs Gouria, Shamuna, and Habib</shorttitle>
+			<tone>Second Tone</tone>
+			<translation xml:lang="en" lang="en" source="htm">
+				<body>Ye gained from on high * much grace, O wise, all-lauded Saints; * and thus, ye protect * all them found in ordeals and trials; * for this cause, O Martyrs, did ye save a young woman from bitter death, * in that ye are in very truth * the glory of Edessa and joy of all.</body>
+				<copyright>Holy Transfiguration Monastery</copyright>
+			</translation>
+		</hymn>
+</hymns>
+</saintfeast>

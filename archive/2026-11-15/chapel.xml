@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlinechapel>
+	<feedtype>daily</feedtype>
+	<date>11/15/2026</date>
+	<formatteddate>Sunday, November 15, 2026</formatteddate>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<icon source='ths'>http://onlinechapel.goarch.org/images/small/mattevng.jpg</icon>
+	<fasting>Fast Day (Fish Allowed)</fasting>
+	<tone>Grave Tone</tone>
+	<eothinon>2</eothinon>
+	<readings>		<reading id="412">
+			<type>MG</type>
+			<typebb>mg</typebb>
+			<event>1898</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=MG&amp;code=412&amp;event=1898&amp;date=11/15/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=MG&amp;code=412&amp;event=1898&amp;date=11/15/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>Mark 16:1-8</title>
+				<shorttitle>Mark 16:1-8</shorttitle>
+				<clip>When the Sabbath was past, Mary Magdalene, and Mary the mother of James, and Salome, bought spices, so that they might go and anoint Jesus</clip>
+				<body>Full Orthros Gospel Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="186">
+			<type>E</type>
+			<typebb>epistle</typebb>
+			<event>2953</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=E&amp;code=186&amp;event=2953&amp;date=11/15/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=E&amp;code=186&amp;event=2953&amp;date=11/15/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>St. Paul's Letter to the Ephesians 2:14-22</title>
+				<shorttitle>St. Paul's Letter to the Ephesians 2:14-22</shorttitle>
+				<clip>Brethren, Christ is our peace, who has made us both one, and has broken down the diving wall of hostility,</clip>
+				<body>Epistle Full Reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+		<reading id="217">
+			<type>G</type>
+			<typebb>gospel</typebb>
+			<event>978</event>
+			<url>http://onlinechapel.goarch.org/lectionary.asp?type=G&amp;code=217&amp;event=978&amp;date=11/15/2026</url>
+			<publicurl>http://www.goarch.org/chapel/lectionary?type=G&amp;code=217&amp;event=978&amp;date=11/15/2026</publicurl>
+			<translation xml:lang="en" lang="en">
+				<title>Luke 10:25-37</title>
+				<shorttitle>Luke 10:25-37</shorttitle>
+				<clip>At that time, a lawyer stood up to put Jesus to the test, saying, "Teacher, what shall I do to inherit</clip>
+				<body>Gospel Full reading</body>
+				<language>en</language>
+			</translation>
+		</reading>
+</readings>
+	<lectionarytitle>8th Sunday of Luke</lectionarytitle>
+	<saintsfeasts>
+	<saintfeast>
+		<title>8th Sunday of Luke</title>
+		<id>978</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=978&amp;PCode=8LS&amp;D=S&amp;date=11/15/2026</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=978&amp;PCode=8LS&amp;D=S&amp;date=11/15/2026</publicurl>
+		<classification>5</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Nativity Fast Begins</title>
+		<id>2774</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=2774</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=2774</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Guria, Shamuna, and Habib, Martyrs and Confessors of Edessa</title>
+		<id>293</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=293</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=293</publicurl>
+		<classification>10</classification>
+		<moreinfo>1</moreinfo>
+	</saintfeast>
+	<saintfeast>
+		<title>Thomas II the New, Archbishop of Constantinople</title>
+		<id>768</id>
+		<url>http://onlinechapel.goarch.org/saints.asp?contentid=768</url>
+		<publicurl>http://www.goarch.org/chapel/saints?contentid=768</publicurl>
+		<classification>10</classification>
+		<moreinfo>0</moreinfo>
+	</saintfeast>
+	</saintsfeasts>
+</onlinechapel>

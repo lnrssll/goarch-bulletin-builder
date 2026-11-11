@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlinechapel>
+	<feedtype>reading</feedtype>
+	<id>186</id>
+	<type>Epistle</type>
+	<displaytitle>Epistle Reading</displaytitle>
+	<event>24th Sunday after Pentecost</event>
+	<prokeimenon></prokeimenon>
+	<icon>
+		<url>http://onlinechapel.goarch.org/images/clark/pet_paul.jpg</url>
+		<title>Icons</title>
+		<copyright>Greek Orthodox Archdiocese of America</copyright>
+	</icon>
+	<translation xml:lang="en">
+		<title>St. Paul's Letter to the Ephesians 2:14-22</title>
+		<shorttitle>Ephesians 2:14-22</shorttitle>
+	 <prokmode>7</prokmode>
+	 <prokpsalm>Psalm 28.11,1</prokpsalm>
+	 <prokprokeimenon>The Lord will give strength to his people.</prokprokeimenon>
+	 <prokverse>Verse: Bring to the Lord, O sons of God, bring to the Lord honor and glory.</prokverse>
+		<clip>Brethren, Christ is our peace, who has made us both one, and has broken down the diving wall of hostility, </clip>
+		<body><![CDATA[<p>Brethren, Christ is our peace, who has made us both one, and has broken down the dividing wall of hostility, by abolishing in his flesh the law of commandments and ordinances, that he might create in himself one new man in place of the two, so making peace, and might reconcile us both to God in one body through the cross, thereby bringing the hostility to an end. And he came and preached peace to you who were far off and peace to those who were near; for through him we both have access in one Spirit to the Father. So then you are no longer strangers and sojourners, but you are fellow citizens with the saints and members of the household of God, built upon the foundation of the apostles and prophets, Christ Jesus himself being the cornerstone, in whom the whole structure is joined together and grows into a holy temple in the Lord; in whom you also are built into it for a dwelling place of God in the Spirit.</p>]]></body>
+		<language>en</language>
+	</translation>
+	<translation xml:lang="el">
+		<title>&#928;&#961;&#8056;&#962; &#7960;&#966;&#949;&#963;&#943;&#959;&#965;&#962; 2:14-22</title>
+		<shorttitle>&#917;&#966;&#949;&#963;. 2:14-22</shorttitle>
+	 <prokmode>7</prokmode>
+	 <prokpsalm>&#936;&#913;&#923;&#924;&#927;&#921; 28.11,1</prokpsalm>
+	 <prokprokeimenon>&#922;&#973;&#961;&#953;&#959;&#962; &#7984;&#963;&#967;&#8058;&#957; &#964;&#8183; &#955;&#945;&#8183; &#945;&#8016;&#964;&#959;&#8166; &#948;&#974;&#963;&#949;&#953;.</prokprokeimenon>
+	 <prokverse>&#931;&#964;&#943;&#967;. &#7960;&#957;&#941;&#947;&#954;&#945;&#964;&#949; &#964;&#8183; &#922;&#965;&#961;&#943;&#8179; &#965;&#7985;&#959;&#8054; &#920;&#949;&#959;&#8166;, &#7952;&#957;&#941;&#947;&#954;&#945;&#964;&#949; &#964;&#8183; &#922;&#965;&#961;&#943;&#8179; &#948;&#972;&#958;&#945;&#957; &#954;&#945;&#8054; &#964;&#953;&#956;&#942;&#957;.</prokverse>
+		<clip>&#7944;&#948;&#949;&#955;&#966;&#959;&#943;, &#935;&#961;&#953;&#963;&#964;&#972;&#962; &#7952;&#963;&#964;&#953;&#957; &#7969; &#949;&#7984;&#961;&#942;&#957;&#951; &#7969;&#956;&#8182;&#957;</clip>
+		<body><![CDATA[<p>Ἀδελφοί, Χριστός ἐστιν ἡ εἰρήνη ἡμῶν, ὁ ποιήσας τὰ ἀμφότερα ἕν, καὶ τὸ μεσότοιχον τοῦ φραγμοῦ λύσας, τήν ἔχθραν ἐν τῇ σαρκί αὐτοῦ, τὸν νόμον τῶν ἐντολῶν ἐν δόγμασιν, καταργήσας· ἵνα τοὺς δύο κτίσῃ ἐν ἑαὐτῷ εἰς ἕνα καινὸν ἄνθρωπον, ποιῶν εἰρήνην, καὶ ἀποκαταλλάξῃ τοὺς ἀμφοτέρους ἐν ἑνὶ σώματι τῷ θεῷ διὰ τοῦ σταυροῦ, ἀποκτείνας τὴν ἔχθραν ἐν αὐτῷ· καὶ ἐλθὼν εὐηγγελίσατο εἰρήνην ὑμῖν τοῖς μακρὰν καὶ τοῖς ἐγγύς· ὅτι διʼ αὐτοῦ ἔχομεν τὴν προσαγωγὴν οἱ ἀμφότεροι ἐν ἑνὶ πνεύματι πρὸς τὸν πατέρα. Ἄρα οὖν οὐκέτι ἐστὲ ξένοι καὶ πάροικοι, ἀλλὰ συμπολῖται τῶν ἁγίων καὶ οἰκεῖοι τοῦ θεοῦ, ἐποικοδομηθέντες ἐπὶ τῷ θεμελίῳ τῶν ἀποστόλων καὶ προφητῶν, ὄντος ἀκρογωνιαίου αὐτοῦ Ἰησοῦ Χριστοῦ, ἐν ᾧ πᾶσα οἰκοδομὴ συναρμολογουμένη αὔξει εἰς ναὸν ἅγιον ἐν κυρίῳ, ἐν ᾧ καὶ ὑμεῖς συνοικοδομεῖσθε εἰς κατοικητήριον τοῦ θεοῦ ἐν πνεύματι.</p>]]></body>
+		<language>el</language>
+	</translation>
+	<translation xml:lang="ar">
+		<title>&#1585;&#1587;&#1575;&#1604;&#1577; &#1576;&#1608;&#1604;&#1587; &#1575;&#1604;&#1609; &#1571;&#1614;&#1601;&#1587;&#1587;  2: 14-22</title>
+		<shorttitle>&#1571;&#1614;&#1601;&#1587;&#1587; 2: 14-22</shorttitle>
+	 <prokmode>7</prokmode>
+	 <prokpsalm>&#1605;&#1586;&#1605;&#1608;&#1585; 28 :11 &#1548; 1</prokpsalm>
+	 <prokprokeimenon>&#1575;&#1604;&#1585;&#1576; &#1610;&#1593;&#1591;&#1610; &#1602;&#1608;&#1577; &#1604;&#1588;&#1593;&#1576;&#1607;</prokprokeimenon>
+	 <prokverse>Verse: &#1602;&#1583;&#1605;&#1608;&#1575; &#1604;&#1604;&#1585;&#1576; &#1610;&#1575; &#1571;&#1576;&#1606;&#1575;&#1569; &#1575;&#1604;&#1604;&#1607; &#1602;&#1583;&#1605;&#1608;&#1575; &#1604;&#1604;&#1585;&#1576; &#1605;&#1580;&#1583;&#1575;&#1611; &#1608;&#1603;&#1585;&#1575;&#1605;&#1577;</prokverse>
+		<clip>&#1610;&#1617;&#1615;&#1614;&#1575; &#1573;&#1616;&#1582;&#1618;&#1608;&#1614;&#1577;&#1548; &#1575;&#1604;&#1618;&#1605;&#1614;&#1587;&#1616;&#1610;&#1581;&#1615; &#1607;&#1615;&#1608;&#1614; &#1587;&#1614;&#1604;&#1575;&#1614;&#1605;&#1615;&#1606;&#1614;&#1575;&#1548; &#1575;&#1604;&#1617;&#1614;&#1584;&#1616;&#1610; &#1580;&#1614;&#1593;&#1614;&#1604;&#1614; &#1575;&#1604;&#1575;&#1579;&#1618;&#1606;&#1614;&#1610;&#1618;&#1606;&#1616; &#1608;&#1614;&#1575;&#1581;&#1616;&#1583;&#1575;&#1611;&#1548; &#1608;&#1614;&#1606;&#1614;&#1602;&#1614;&#1590;&#1614; &#1581;&#1614;&#1575;&#1574;&#1616;&#1591;&#1614; &#1575;&#1604;&#1587;&#1617;&#1616;&#1610;&#1614;&#1575;&#1580;&#1616;</clip>
+		<body><![CDATA[<p>يَُّا إِخْوَة، الْمَسِيحُ     هُوَ سَلاَمُنَا، الَّذِي جَعَلَ الاثْنَيْنِ وَاحِداً، وَنَقَضَ حَائِطَ السِّيَاجِ الْمُتَوَسِّطَ أَيِ الْعَدَاوَةَ. مُبْطِلاً بِجَسَدِهِ نَامُوسَ الْوَصَايَا فِي فَرَائِضَ، لِكَيْ يَخْلُقَ الاثْنَيْنِ فِي نَفْسِهِ إِنْسَاناً وَاحِداً جَدِيداً، صَانِعاً سَلاَماً، وَيُصَالِحَ الاثْنَيْنِ فِي جَسَدٍ وَاحِدٍ مَعَ اللهِ بِالصَّلِيبِ، قَاتِلاً الْعَدَاوَةَ بِهِ. فَجَاءَ وَبَشَّرَكُمْ بِسَلاَمٍ، أَنْتُمُ الْبَعِيدِينَ وَالْقَرِيبِينَ. لأَنَّ بِهِ لَنَا كِلَيْنَا قُدُوماً فِي رُوحٍ وَاحِدٍ إِلَى الآبِ. فَلَسْتُمْ إِذاً بَعْدُ غُرَبَاءَ وَنُزُلاً، بَلْ رَعِيَّةٌ مَعَ الْقِدِّيسِينَ وَأَهْلِ بَيْتِ اللهِ، مَبْنِيِّينَ عَلَى أَسَاسِ الرُّسُلِ وَالأَنْبِيَاءِ، وَيَسُوعُ الْمَسِيحُ نَفْسُهُ حَجَرُ الزَّاوِيَةِ، الَّذِي فِيهِ كُلُّ الْبِنَاءِ مُرَكَّباً مَعاً يَنْمُو هَيْكَلاً مُقَدَّساً فِي الرَّبِّ. الَّذِي فِيهِ أَنْتُمْ أَيْضاً مَبْنِيُّونَ مَعاً، مَسْكَناً لِلَّهِ فِي الرُّوحِ.</p>]]></body>
+		<language>ar</language>
+	</translation>
+</onlinechapel>

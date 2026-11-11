@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<saintfeast>
+	<title>Nativity Fast Begins</title>
+	<contentid>2774</contentid>
+	<displaydate>November 15</displaydate>
+	<date>11/15</date>
+	<month>11</month>
+	<day>15</day>
+	<language>en</language>
+	<typikon>Constantinopolitan</typikon>
+	<calendar>new</calendar>
+	<classification>10</classification>
+	<icons>
+		<icon id="1" source="x">
+			<filepath>small/allsaint.jpg</filepath>
+			<url>http://onlinechapel.goarch.org/images/small/allsaint.jpg</url>
+			<copyright></copyright>
+		</icon>
+	</icons>
+	<lectionary>
+	</lectionary>
+	<readings>
+		<translation xml:lang="en" lang="en" source="goa">
+			<title>Reading</title>
+			<shorttitle>Reading</shorttitle>
+			<body><![CDATA[<p>The Nativity Fast is one of <a href="https://www.goarch.org/-/the-calendar-of-the-orthodox-church">four main fast periods throughout the ecclesiastical year</a>. Beginning on November 15 and concluding on December 24, the Nativity Fast gives individuals the opportunity to prepare for <a href="https://www.goarch.org/nativity">the Feast of the Nativity of Our Lord and Savior in the Flesh on December 25</a>. By abstaining from certain food and drink, particularly from meat, fish, dairy products, olive oil, and wine, as well as focusing more deeply on prayer and almsgiving, we can find that the&nbsp;<a href="https://www.goarch.org/-/the-true-nature-of-fasting"><span>primary aim of fasting is to make us&nbsp;</span><em>conscious of our dependence upon God</em></a><span>.</span></p>]]></body>
+			<copyright>Greek Orthodox Archdiocese of America</copyright>
+		</translation>
+	</readings><hymns></hymns>
+</saintfeast>

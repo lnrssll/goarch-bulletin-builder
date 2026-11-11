@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlinechapel>
+	<feedtype>reading</feedtype>
+	<id>217</id>
+	<type>Gospel</type>
+	<displaytitle>Gospel Reading</displaytitle>
+	<event>8th Sunday of Luke</event>
+	<prokeimenon></prokeimenon>
+	<icon>
+		<url>http://onlinechapel.goarch.org/images/small/jclifegv.jpg</url>
+		<title>Icons</title>
+		<copyright>Greek Orthodox Archdiocese of America</copyright>
+	</icon>
+	<translation xml:lang="en">
+		<title>Luke 10:25-37</title>
+		<shorttitle>Lk. 10:25-37</shorttitle>
+		<clip>At that time, a lawyer stood up to put Jesus to the test, saying, "Teacher, what shall I do to inherit</clip>
+		<body><![CDATA[<p>At that time, a lawyer stood up to put Jesus to the test, saying, "Teacher, what shall I do to inherit eternal life?" He said to him, "What is written in the law? How do you read?" And he answered, "You shall love the Lord your God with all your heart, and with all your soul, and with all your strength, and with all your mind; and your neighbor as yourself." And he said to him, "You have answered right; do this, and you will live." </p> <p>But he, desiring to justify himself, said to Jesus, "And who is my neighbor?" Jesus replied, "A man was going down from Jerusalem to Jericho, and he fell among robbers, who stripped him and beat him, and departed, leaving him half dead. Now by chance a priest was going down that road; and when he saw him he passed by on the other side. So likewise a Levite, when he came to the place and saw him, passed by on the other side. But a Samaritan, as he journeyed, came to where he was; and when he saw him, he had compassion, and went to him and bound up his wounds, pouring on oil and wine; then he set him on his own beast and brought him to an inn, and took care of him. And the next day he took out two denarii and gave them to the innkeeper, saying, 'Take care of him; and whatever more you spend, I will repay you when I come back.' Which of these three, do you think, proved neighbor to the man who fell among the robbers?" He said, "The one who showed mercy on him." And Jesus said to him, "Go and do likewise."</p>]]></body>
+		<language>en</language>
+	</translation>
+	<translation xml:lang="el">
+		<title>&#922;&#945;&#964;&#8048; &#923;&#959;&#965;&#954;&#8118;&#957; 10:25-37</title>
+		<shorttitle>&#923;&#959;&#965;&#954;. 10:25-37</shorttitle>
+		<clip>&#932;&#8183; &#954;&#945;&#953;&#961;&#8183; &#7952;&#954;&#949;&#943;&#957;&#8179;, &#957;&#959;&#956;&#953;&#954;&#8057;&#962; &#964;&#953;&#962; &#7936;&#957;&#8051;&#963;&#964;&#951; &#7952;&#954;&#960;&#949;&#953;&#961;&#8049;&#950;&#969;&#957; &#945;&#8016;&#964;&#8056;&#957; &#954;&#945;&#8054; &#955;&#8051;&#947;&#969;&#957;</clip>
+		<body><![CDATA[<p>Τῷ καιρῷ ἐκείνῳ, νομικός τις ἀνέστη ἐκπειράζων αὐτὸν καὶ λέγων· διδάσκαλε, τί ποιήσας ζωὴν αἰώνιον κληρονομήσω; ὁ δὲ εἶπε πρὸς αὐτόν· ἐν τῷ νόμῳ τί γέγραπται; πῶς ἀναγινώσκεις; ὁ δὲ ἀποκριθεὶς εἶπεν· ἀγαπήσεις Κύριον τὸν Θεόν σου ἐξ ὅλης τῆς καρδίας σου καὶ ἐξ ὅλης τῆς ψυχῆς σου καὶ ἐξ ὅλης τῆς ἰσχύος σου καὶ ἐξ ὅλης τῆς διανοίας σου, καὶ τὸν πλησίον σου ὡς σεαυτόν· εἶπε δὲ αὐτῷ· ὀρθῶς ἀπεκρίθης· τοῦτο ποίει καὶ ζήσῃ. ὁ δὲ θέλων δικαιοῦν ἑαυτὸν εἶπε πρὸς τὸν ᾿Ιησοῦν· καὶ τίς ἐστί μου πλησίον; ὑπολαβὼν δὲ ὁ ᾿Ιησοῦς εἶπεν· ἄνθρωπός τις κατέβαινεν ἀπὸ ῾Ιερουσαλὴμ εἰς ῾Ιεριχώ, καὶ λῃσταῖς περιέπεσεν· οἳ καὶ ἐκδύσαντες αὐτὸν καὶ πληγὰς ἐπιθέντες ἀπῆλθον ἀφέντες ἡμιθανῆ τυγχάνοντα. κατὰ συγκυρίαν δὲ ἱερεύς τις κατέβαινεν ἐν τῇ ὁδῷ ἐκείνῃ, καὶ ἰδὼν αὐτὸν ἀντιπαρῆλθεν. ὁμοίως δὲ καὶ Λευΐτης γενόμενος κατὰ τὸν τόπον, ἐλθὼν καὶ ἰδὼν ἀντιπαρῆλθε. Σαμαρείτης δέ τις ὁδεύων ἦλθε κατ᾿ αὐτόν, καὶ ἰδὼν αὐτὸν ἐσπλαγχνίσθη, καὶ προσελθὼν κατέδησε τὰ τραύματα αὐτοῦ ἐπιχέων ἔλαιον καὶ οἶνον, ἐπιβιβάσας δὲ αὐτὸν ἐπὶ τὸ ἴδιον κτῆνος ἤγαγεν αὐτὸν εἰς πανδοχεῖον καὶ ἐπεμελήθη αὐτοῦ· καὶ ἐπὶ τὴν αὔριον ἐξελθών, ἐκβαλὼν δύο δηνάρια ἔδωκε τῷ πανδοχεῖ καὶ εἶπεν αὐτῷ· ἐπιμελήθητι αὐτοῦ, καὶ ὅ τι ἂν προσδαπανήσῃς, ἐγὼ ἐν τῷ ἐπανέρχεσθαί με ἀποδώσω σοι. τίς οὖν τούτων τῶν τριῶν πλησίον δοκεῖ σοι γεγονέναι τοῦ ἐμπεσόντος εἰς τοὺς λῃστάς; ὁ δὲ εἶπεν· ὁ ποιήσας τὸ ἔλεος μετ᾿ αὐτοῦ. εἶπεν οὖν αὐτῷ ὁ ᾿Ιησοῦς· πορεύου καὶ σὺ ποίει ὁμοίως.</p>]]></body>
+		<language>el</language>
+	</translation>
+	<translation xml:lang="ar">
+		<title>&#1604;&#1608;&#1602;&#1575; 10: 25-37</title>
+		<shorttitle>&#1604;&#1608;&#1602;&#1575; 10: 25-37</shorttitle>
+		<clip>&#1601;&#1610; &#1584;&#1604;&#1603; &#1575;&#1604;&#1586;&#1605;&#1575;&#1606; &#1583;&#1606;&#1575; &#1573;&#1604;&#1609; &#1610;&#1587;&#1608;&#1593; &#1606;&#1614;&#1575;&#1605;&#1615;&#1608;&#1587;&#1616;&#1610;&#1612;&#1617;</clip>
+		<body><![CDATA[<p><sup>25</sup> في ذلك الزمان دنا إلى يسوع نَامُوسِيٌّ قَامَ يُجَرِّبُهُ قَائِلاً: ((يَا مُعَلِّمُ وَقَالَ مَاذَا أَعْمَلُ لأَرِثَ الْحَيَاةَ الأَبَدِيَّةَ؟)) <sup>26</sup>فَقَالَ لَهُ: ((مَا هُوَ مَكْتُوبٌ فِي النَّامُوسِ. كَيْفَ تَقْرَأُ؟)) <sup>27</sup>فَأَجَابَ: ((تُحِبُّ الرَّبَّ إِلَهَكَ مِنْ كُلِّ قَلْبِكَ ، وَمِنْ كُلِّ نَفْسِكَ ، وَمِنْ كُلِّ قُدْرَتِكَ ، وَمِنْ كُلِّ فِكْرِكَ ، وَقَرِيبَكَ مِثْلَ نَفْسِكَ)). <sup>28</sup>فَقَالَ لَهُ: ((بِالصَّوَابِ أَجَبْتَ. اِفْعَلْ هَذَا فَتَحْيَا)). <sup>29</sup>وَأَمَّا هُوَ فَإِذْ أَرَادَ أَنْ يُبَرِّرَ نَفْسَهُ ،قَالَ لِيَسُوعَ: ((وَمَنْ هُوَ قَرِيبِي؟)) <sup>30</sup>فَأَجَابَ يَسُوعُ وَقَالَ : ((إِنْسَانٌ كَانَ نَازِلاً مِنْ أُورُشَلِيمَ إِلَى أَرِيحَا ، فَوَقَعَ بَيْنَ لُصُوصٍ ، فَعَرَّوْهُ وَجَرَّحُوهُ ، وَمَضَوْا وَتَرَكُوهُ بَيْنَ حَيٍّ وَمَيْتٍ. <sup>31</sup>فَعَرَضَ أَنَّ كَاهِناً نَزَلَ فِي تِلْكَ الطَّرِيقِ ، فَرَآهُ وَجَازَ مُقَابِلَهُ. <sup>32</sup>وَكَذَلِكَ لاَوِيٌّ أَيْضاً ، إِذْ صَارَ عِنْدَ الْمَكَانِ جَاءَ وَنَظَرَ وَجَازَ مُقَابِلَهُ. <sup>33</sup>وَلَكِنَّ سَامِرِيّاً مُسَافِراً جَاءَ إِلَيْهِ ، وَلَمَّا رَآهُ تَحَنَّنَ،<sup>34</sup>فَتَقَدَّمَ وَضَمَدَ جِرَاحَاتِهِ ، وَصَبَّ عَلَيْهَا زَيْتاً وَخَمْراً ، وَأَرْكَبَهُ عَلَى دَابَّتِهِ ، وَأَتَى بِهِ إِلَى فُنْدُقٍ وَاعْتَنَى بِهِ. <sup>35</sup>وَفِي الْغَدِ لَمَّا مَضَى أَخْرَجَ دِينَارَيْنِ وَأَعْطَاهُمَا لِصَاحِبِ الْفُنْدُقِ ، وَقَالَ لَهُ: اعْتَنِ بِهِ ، وَمَهْمَا أَنْفَقْتَ أَكْثَرَ فَعِنْدَ رُجُوعِي أُوفِيكَ. <sup>36</sup>فَأَيُّ هَؤُلاَءِ الثَّلاَثَةِ تَرَى صَارَ قَرِيباً لِلَّذِي وَقَعَ بَيْنَ اللُّصُوصِ؟)) <sup>37</sup>فَقَالَ: ((الَّذِي صَنَعَ مَعَهُ الرَّحْمَةَ)). فَقَالَ لَهُ يَسُوعُ: ((اذْهَبْ أَنْتَ أَيْضاً وَاصْنَعْ هَكَذَا)). </p><p> </p><p> </p>]]></body>
+		<language>ar</language>
+	</translation>
+</onlinechapel>

@@ -200,3 +200,14 @@ def test_a_settings_change_renders_again(site):
     parish.save({"today": "This Saturday"})
     os.utime(parish.SETTINGS_PATH, ns=(later, later))
     assert render.is_stale(DAY)
+
+
+def test_pictures_of_pages_no_longer_there_are_removed(site):
+    out_dir = build_from_snapshot(site, DAY.isoformat())
+    for number in (1, 3):
+        (out_dir / f"preview-{number}.png").write_bytes(b"old")
+
+    assert render.ensure_rendered(DAY) == render.BOOKLET_PAGES
+
+    assert [path.name for path in render.previews(DAY)] == ["preview-1.png", "preview-2.png"]
+    assert (out_dir / "preview-1.png").read_bytes().startswith(b"\x89PNG")

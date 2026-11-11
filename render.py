@@ -69,10 +69,12 @@ def render(run_date: date) -> None:
     bulletin = compile_document(run_date, "bulletin")
     booklet = compile_document(run_date, "booklet")
 
-    for old in previews(run_date):
-        old.unlink()
-    for number, png in enumerate([pages] if isinstance(pages, bytes) else pages, start=1):
+    pngs = [pages] if isinstance(pages, bytes) else pages
+    # replaced in place, so a picture asked for meanwhile (served without WORK_LOCK) is never missing
+    for number, png in enumerate(pngs, start=1):
         write_atomic(sunday_dir(run_date) / f"preview-{number}.png", png)
+    for old in previews(run_date)[len(pngs):]:
+        old.unlink()
     write_atomic(pdf_path(run_date, "bulletin"), bulletin)
     # last, because its mtime is what marks the render as current
     write_atomic(pdf_path(run_date, "booklet"), booklet)

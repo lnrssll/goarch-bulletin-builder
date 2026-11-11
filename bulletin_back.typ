@@ -1,8 +1,10 @@
-#import "inputs.typ": sunday_path, settings_path, parish
+#import "inputs.typ": sunday_path, settings_path, parish, text_field
 
 #set text(size: 9pt)
 
-#let upcoming_services = yaml(sunday_path + "manual.yaml").upcoming_services
+#let manual_data = yaml(sunday_path + "manual.yaml")
+#let upcoming_services = if type(manual_data) == dictionary { manual_data.at("upcoming_services", default: none) }
+#let upcoming_services = if upcoming_services == none { () } else { upcoming_services }
 
 // Name, church and city, then email and phone; empty fields are left out.
 #let contact_card(contact) = {
@@ -29,7 +31,7 @@
   #let mid = calc.ceil(upcoming_services.len() / 2)
   #for (i, service) in upcoming_services.enumerate() [
     #if i == mid { colbreak() }
-    #(service.date) - #(service.priest) \
+    #text_field(service, "date") - #text_field(service, "priest") \
   ]
 ]
 

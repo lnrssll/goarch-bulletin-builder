@@ -1,6 +1,10 @@
-#import "inputs.typ": sunday_path, settings_path, parish
+#import "inputs.typ": sunday_path, settings_path, parish, text_field
 
+// manual.yaml may be edited by hand, so every key is optional (as in manual.read)
 #let manual_data = yaml(sunday_path + "manual.yaml")
+#let manual_data = if type(manual_data) == dictionary { manual_data } else { (:) }
+#let dismissal_hymns = manual_data.at("dismissal_hymns", default: none)
+#let dismissal_hymns = if dismissal_hymns == none { () } else { dismissal_hymns }
 
 #let epistle_data = yaml(sunday_path + "epistle.yaml")
 #let gospel_data = yaml(sunday_path + "gospel.yaml")
@@ -34,12 +38,15 @@
 // Each title in full if it fits on one line next to the widest mode and page.
 #let hymn_cells(hymns, width) = {
   let inset = 5pt
-  let modes = hymns.map(it => if it.mode != none { emph[Mode #it.mode] })
-  let pages = hymns.map(it => emph(it.page))
+  let modes = hymns.map(it => {
+    let mode = text_field(it, "mode")
+    if mode != "" { emph[Mode #mode] }
+  })
+  let pages = hymns.map(it => emph(text_field(it, "page")))
   let widest(cells) = calc.max(0pt, ..cells.map(cell => measure(cell).width))
   let title_width = width - widest(modes) - widest(pages) - 6 * inset
   hymns.zip(modes, pages).map(((it, mode, page)) => {
-    let title = str(it.title)
+    let title = text_field(it, "title")
     if measure(title).width > title_width { title = short_title(title) }
     ([#title#metadata(title)<hymn-title>], mode, page)
   }).flatten()
@@ -83,7 +90,7 @@
       #std.layout(size => table(
         columns: 3,
         inset: 5pt,
-        ..hymn_cells(manual_data.dismissal_hymns, size.width)
+        ..hymn_cells(dismissal_hymns, size.width)
       ))
     ]
   ]

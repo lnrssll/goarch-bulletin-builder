@@ -75,6 +75,22 @@ def test_a_hymn_without_a_mode_renders(site):
     assert render.ensure_rendered(DAY) == render.BOOKLET_PAGES
 
 
+@pytest.mark.parametrize(
+    "text",
+    [
+        "dismissal_hymns:\n- title: Ordinary Kontakion\n  page: 225\nupcoming_services:\n- date: Today\n",
+        "upcoming_services: []\n",
+        "",
+    ],
+    ids=["page-as-number-and-missing-keys", "no-hymns", "empty"],
+)
+def test_a_hand_edited_manual_file_renders(site, text):
+    """manual.read accepts these, so the bulletin must too."""
+    out_dir = build_from_snapshot(site, DAY.isoformat())
+    (out_dir / manual.FILENAME).write_text(text)
+    assert render.ensure_rendered(DAY) == render.BOOKLET_PAGES
+
+
 def printed_hymn_titles(run_date: date) -> list[str]:
     parish.ensure()
     return json.loads(

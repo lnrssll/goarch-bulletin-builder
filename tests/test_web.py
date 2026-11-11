@@ -18,6 +18,7 @@ import parish
 import sunday
 import web
 from classes import ManualData, ManualHymnData, UpcomingServiceData
+from utils import ScrapeError
 from yaml_io import read_yaml
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -686,3 +687,8 @@ def test_without_a_password_only_this_computer_is_served(site, client, locked):
 def test_oversized_forms_are_refused(client):
     result = client.post(f"/sundays/{DAY}/readings", {"gospel_text": "x" * (web.MAX_BODY_BYTES + 1)})
     assert result.status == 413
+
+
+def test_an_unforeseen_download_error_is_explained_as_the_programs():
+    assert "expected content" in web.explain(ScrapeError("no Alleluia"))
+    assert "looks after the program" in web.explain(RuntimeError("bug"))

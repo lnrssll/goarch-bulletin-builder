@@ -405,6 +405,8 @@ def explain(error: Exception) -> str:
         return "goarch.org took too long to answer"
     if isinstance(error, httpx.HTTPError):
         return "couldn't connect to goarch.org"
+    if not isinstance(error, sunday.EXPECTED_FAILURES):
+        return "the program couldn't read what goarch.org sent, which needs whoever looks after the program"
     return (
         "the page didn't have the expected content (it may have been a temporary "
         "block page, or the website has changed)"

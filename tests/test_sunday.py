@@ -1,9 +1,11 @@
 import asyncio
+import dataclasses
 import shutil
 from datetime import date
 from pathlib import Path
 
 import httpx
+import pytest
 
 import manual
 import sunday
@@ -77,6 +79,40 @@ def test_what_a_failed_download_sent_is_kept_for_a_developer(tmp_path):
     assert (saved["Online Chapel"] / "chapel.xml").read_text() == "<onlinechapel>changed</onlinechapel>"
     assert saved["Online Chapel"].parent.parent == failed_root
     assert saved["Online Chapel"].parent.name.endswith(f"_for_{DAY.isoformat()}")
+
+
+def test_an_unforeseen_error_fails_only_its_own_source_and_keeps_its_pages(site, monkeypatch, capsys):
+    archive_root = site / "archive" / DAY.isoformat()
+    shutil.copytree(ROOT / "archive" / DAY.isoformat(), archive_root)
+    (archive_root / "dcs.html").unlink()
+
+    async def crashes(run_date, archive):
+        await archive.fetch("https://dcs.example/page", "dcs.html")
+        raise RuntimeError("a change nobody foresaw")
+
+    chant_stand = dataclasses.replace(sunday.SOURCES[1], scrape=crashes)
+    monkeypatch.setattr(sunday, "SOURCES", (sunday.SOURCES[0], chant_stand))
+    client = httpx.AsyncClient(transport=httpx.MockTransport(lambda request: httpx.Response(200, text="<html>new</html>")))
+    out_dir = site / "out"
+
+    fetched = asyncio.run(
+        sunday.fetch_readings(DAY, out_dir, archive_root, client, failed_root=site / "failed")
+    )
+
+    assert isinstance(fetched.failures[chant_stand], RuntimeError)
+    assert (out_dir / "feed.yaml").exists()
+    assert (fetched.saved[chant_stand] / "dcs.html").read_text() == "<html>new</html>"
+    assert not (archive_root / "dcs.html").exists()
+    assert "a change nobody foresaw" in capsys.readouterr().err
+
+
+def test_a_keyboard_interrupt_is_not_a_failed_source(site, monkeypatch):
+    async def interrupted(run_date, archive):
+        raise KeyboardInterrupt
+
+    monkeypatch.setattr(sunday, "SOURCES", (dataclasses.replace(sunday.SOURCES[0], scrape=interrupted), sunday.SOURCES[1]))
+    with pytest.raises(KeyboardInterrupt):
+        fetch(site / "out", ROOT / "archive" / DAY.isoformat())
 
 
 def test_only_the_latest_failures_are_kept(tmp_path):

@@ -18,7 +18,7 @@ A website that makes the Sunday bulletin: it downloads the readings from goarch.
 1. Open the web address and log in.
 2. Click **Open this Sunday**.
 3. **Readings:** click **Download the readings**. If goarch.org doesn't answer, try again later, or click **type them in yourself**.
-4. **Hymns and services:** fill in the Hymns of the Day and the upcoming services, then **Save**.
+4. **Hymns and services:** fill in the Hymns of the Day and the upcoming services, then **Save hymns and services**.
 5. **Print:** click **Download the booklet** and print it on both sides (flip on the long edge), then fold it.
 
 ## Once a month
@@ -42,7 +42,7 @@ If any of these lapse, the website stops working. Make sure each one renews auto
 | What you see | What to do |
 |---|---|
 | "Couldn't download the readings" | Try again in an hour. If it keeps happening, type the readings in yourself (the link is right there), and let a helper know. |
-| The booklet has 3 pages instead of 2 | Print it anyway, and let a helper know. |
+| The booklet has 3 pages instead of 2 | Do what the page suggests: under **Edit the readings**, choose a smaller text size at the bottom. If that doesn't help, print it anyway and let a helper know. |
 | Something looks wrong after changing Settings | On the Settings page, **Undo the last change**. |
 | Forgot the password | Only someone with access to the Railway account can see or change it (below). |
 | The website doesn't open at all | Check the bills above first: an unpaid server or an expired web address are the most likely causes. Then call a helper. |
